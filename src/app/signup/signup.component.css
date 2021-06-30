@@ -1,0 +1,32 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+  
+.example-container > * {
+    width: 100%;
+}
+
+.signup-card {
+    margin: 0 auto;
+    margin-top: 50px;
+    max-width: 400px;
+}
+
+.signup-title {
+    text-align: center;
+}
+
+.signup-list, mat-form-field {
+    width: 400px;
+}
+
+.signup-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-question {
+    margin-right: 20px;
+}

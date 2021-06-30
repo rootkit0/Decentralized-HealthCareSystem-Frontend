@@ -1,0 +1,32 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+  
+.example-container > * {
+    width: 100%;
+}
+
+.signin-card {
+    margin: 0 auto;
+    margin-top: 50px;
+    max-width: 400px;
+}
+
+.signin-title {
+    text-align: center;
+}
+
+.signin-list, mat-form-field {
+    width: 400px;
+}
+
+.signin-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signin-question {
+    margin-right: 20px;
+}
