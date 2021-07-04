@@ -9,8 +9,38 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.4.0/web3.min.js" integrity="sha512-VHTLMyjZ8NOooiTNlMoDFwI5oAkH6NbggI1MSabsysAZs0EAJjRoULS878AMQ79FZtFa8SQiR4emQc/SwXBgng==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body class="mat-typography">
   <app-root></app-root>
+  <script>
+    window.addEventListener('load', async () => {
+      //Modern dapp browsers...
+      if(window.ethereum) {
+          window.web3 = new Web3(ethereum);
+          try {
+              await ethereum.enable();
+              var accounts= await web3.eth.getAccounts();
+              console.log(accounts);
+          }
+          catch(error) {
+              console.log(error);
+          }
+      }
+      //Legacy dapp browsers...
+      else if(window.web3) {
+          window.web3 = new Web3(web3.currentProvider);
+          var accounts = web3.eth.getAccounts();
+          console.log(accounts);
+      }
+      //Non-dapp browsers...
+      else {
+          //External blockchain provider
+          window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8500"));
+          var accounts = web3.eth.getAccounts();
+          console.log(accounts);
+      }
+    });
+  </script>
 </body>
 </html>
