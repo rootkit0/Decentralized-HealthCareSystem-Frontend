@@ -1,4 +1,4 @@
-import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -7,18 +7,24 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
-  hide = true;
-  
+  private hide = true;
+  //Declare view fields
+  idCardNumber: string;
+  healthCardId: string;
+  password: string;
   //Icons
   faEye = faEye;
   
-  constructor() { }
+  constructor() {
+    this.idCardNumber = "";
+    this.healthCardId = "";
+    this.password = "";
+  }
 
   ngOnInit(): void {
   }
 
-  async onSubmit() {
-    console.log("hola");
+  onSubmit(): void {
   }
 
 }

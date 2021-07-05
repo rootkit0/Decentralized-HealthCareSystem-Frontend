@@ -63,6 +63,7 @@ export class BlockchainService {
     //External blockchain provider
     else {
       console.log("Non-Ethereum browser detected. You should consider trying MetaMask!");
+      //Connect to local ganache network
       this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8500"));
       try {
         this.userContract = new this.web3.eth.Contract(
@@ -84,8 +85,8 @@ export class BlockchainService {
     return await this.web3.eth.getAccounts();
   }
 
+  //User contract methods
   public async loginUser() {
     return await this.userContract.methods.login().call();
   }
-
 }

@@ -7,17 +7,25 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  hide = true;
-  
+  private hide = true;
+  //Declare view fields
+  idCardNumber: string;
+  healthCardId: string;
+  password: string;
+  repeatPassword: string;
   //Icons
   faEye = faEye;
   
-  constructor() { }
+  constructor() {
+    this.idCardNumber = "";
+    this.healthCardId = "";
+    this.password = "";
+    this.repeatPassword = "";
+  }
 
   ngOnInit(): void {
   }
 
   onSubmit(): void {
-    
   }
 }
