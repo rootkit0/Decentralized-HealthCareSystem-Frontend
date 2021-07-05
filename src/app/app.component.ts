@@ -18,11 +18,12 @@ export class AppComponent implements OnDestroy {
   faSignOutAlt = faSignOutAlt;
   faSignInAlt = faSignInAlt;
   faUserPlus = faUserPlus;
-
+  //Responsive stuff
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+    //Responsive stuff
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
