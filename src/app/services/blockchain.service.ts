@@ -86,7 +86,6 @@ export class BlockchainService {
   }
 
   //User contract methods
-  public async loginUser() {
-    return await this.userContract.methods.login().call();
-  }
+
+  //Healthcare contract methods
 }
