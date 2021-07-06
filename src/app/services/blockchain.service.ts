@@ -12,8 +12,8 @@ export class BlockchainService {
   private userContract: any;
   private healthcareContract: any;
   //Declare contracts deploy addresses
-  private userContractDeployedAt = "0x00";
-  private healthcareContractDeployedAt = "0x00";
+  private userContractDeployedAt = "0xBa8dEddA1D497e44C5037aD573a47c77FbA9bB6B";
+  private healthcareContractDeployedAt = "0x9aBDa1524Ac040DB1a5B17CDE86183009545F58c";
   
   constructor() {
     this.connectBlockchain();
@@ -45,7 +45,7 @@ export class BlockchainService {
     else {
       console.log("Non-Ethereum browser detected. You should consider trying MetaMask!");
       //Connect to local blockchain network
-      this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8500"));
+      this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
       try {
         this.deployContracts();
       }
@@ -66,8 +66,9 @@ export class BlockchainService {
     );
   }
 
-  public async getDefaultAccounts() {
-    return await this.web3.eth.getAccounts();
+  public async getDefaultAccount() {
+    var accounts = await this.web3.eth.getAccounts();
+    return accounts[0];
   }
 
   //User contract methods

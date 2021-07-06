@@ -7,7 +7,7 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
-  private hide = true;
+  hide = true;
   //Declare view fields
   idCardNumber: string;
   healthCardId: string;
