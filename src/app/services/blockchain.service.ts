@@ -11,10 +11,12 @@ export class BlockchainService {
   //Declare contracts
   private userContract: any;
   private healthcareContract: any;
+  //Declare default account
+  private defaultAccount: any;
   //Declare contracts deploy addresses
-  private userContractDeployedAt = "0xBa8dEddA1D497e44C5037aD573a47c77FbA9bB6B";
-  private healthcareContractDeployedAt = "0x9aBDa1524Ac040DB1a5B17CDE86183009545F58c";
-  
+  private userContractDeployedAt = "0x4E86300573d93aB54ADead693bEBd162EFe2f8Bd";
+  private healthcareContractDeployedAt = "0x3338875Fee83Ff2ad3655CBbe2e4D4e6FBa1A65C";
+
   constructor() {
     this.connectBlockchain();
   }
@@ -25,6 +27,7 @@ export class BlockchainService {
       this.web3 = new Web3(window.ethereum);
       try {
         await window.ethereum.enable();
+        await this.getDefaultAccount();
         this.deployContracts();
       }
       catch(error) {
@@ -35,6 +38,7 @@ export class BlockchainService {
     else if(typeof window.web3 !== "undefined") {
       this.web3 = new Web3(window.web3.currentProvider);
       try {
+        await this.getDefaultAccount();
         this.deployContracts();
       }
       catch(error) {
@@ -47,6 +51,7 @@ export class BlockchainService {
       //Connect to local blockchain network
       this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
       try {
+        await this.getDefaultAccount();
         this.deployContracts();
       }
       catch(error) {
@@ -55,7 +60,7 @@ export class BlockchainService {
     }
   }
 
-  public deployContracts() {
+  public async deployContracts() {
     this.userContract = new this.web3.eth.Contract(
       [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"string","name":"a","type":"string"},{"internalType":"string","name":"b","type":"string"}],"name":"compareStrings","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"pure","type":"function"},{"inputs":[],"name":"getUserRole","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isAdmin","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"loginUser","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"signupUser","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"oldPasswordHash","type":"string"},{"internalType":"string","name":"newPasswordHash","type":"string"}],"name":"updateUserPassword","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"userId","type":"address"},{"internalType":"string","name":"userRole","type":"string"}],"name":"updateUserRole","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}],
       this.userContractDeployedAt
@@ -67,41 +72,57 @@ export class BlockchainService {
   }
 
   public async getDefaultAccount() {
-    var accounts = await this.web3.eth.getAccounts();
-    return accounts[0];
+    await this.web3.eth.getAccounts().then(
+      data => {
+        this.defaultAccount = data[0];
+      }
+    );
   }
 
   //User contract methods
   public async signupUser(idCardNumber: string, healthCardId: string, passwordHash: string) {
-    return await this.userContract.methods.signupUser(idCardNumber, healthCardId, passwordHash).call();
+    var res: boolean = await this.userContract.methods.signupUser(idCardNumber, healthCardId, passwordHash).send({from: this.defaultAccount, gasPrice: "0"});
+    if(res) {
+      console.log("User registered!");
+    }
+    else {
+      console.log("Error registering user!");
+    }
   }
 
   public async loginUser(idCardNumber: string, healthCardId: string, passwordHash: string) {
-    return await this.userContract.methods.loginUser(idCardNumber, healthCardId, passwordHash).call();
+    var res: boolean = await this.userContract.methods.loginUser(idCardNumber, healthCardId, passwordHash).send({from: this.defaultAccount, gasPrice: "0"});
+    if(res) {
+      console.log("User logged in!");
+    }
+    else {
+      console.log("Error logging in user!");
+    }
   }
 
   public async updateUserPassword(idCardNumber: string, healthCardId: string, oldPasswordHash: string, newPasswordHash: string) {
-    return await this.userContract.methods.updateUserPassword(idCardNumber, healthCardId, oldPasswordHash, newPasswordHash).call();
+    var res: boolean = await this.userContract.methods.updateUserPassword(idCardNumber, healthCardId, oldPasswordHash, newPasswordHash).send({from: this.defaultAccount, gasPrice: "0"});
+    if(res) {
+      console.log("Password updated!");
+    }
+    else {
+      console.log("Error updating password!");
+    }
   }
 
   public async getUserRole() {
-    return await this.userContract.methods.getUserRole();
+    return await this.userContract.methods.getUserRole().call();
   }
 
   public async updateUserRole(userId: any, userRole: string) {
-    return await this.userContract.methods.updateUserRole(userId, userRole);
+    var res: boolean = await this.userContract.methods.updateUserRole(userId, userRole).send({from: this.defaultAccount, gasPrice: "0"});
+    if(res) {
+      console.log("Role updated!");
+    }
+    else {
+      console.log("Error updating user role!");
+    }
   }
 
   //Healthcare contract methods
-  public async createPatient(name: string, dateOfBirth: number, email: string, phone: string, homeAddress: string, gender: string) {
-    return await this.healthcareContract.methods.createPatient(name, dateOfBirth, email, phone, homeAddress, gender);
-  }
-
-  public async readPatient(patientAddress: any) {
-    return await this.healthcareContract.methods.readPatient(patientAddress);
-  }
-
-  public async updatePatient(patientAddress:any, name: string, dateOfBirth: number, email: string, phone: string, homeAddress: string, gender: string) {
-    return await this.healthcareContract.methods.updatePatient(patientAddress, name, dateOfBirth, email, phone, homeAddress, gender);
-  }
 }

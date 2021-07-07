@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
   selector: 'app-signin',
@@ -15,7 +16,7 @@ export class SigninComponent implements OnInit {
   //Icons
   faEye = faEye;
   
-  constructor() {
+  constructor(private blockchainService: BlockchainService) {
     this.idCardNumber = "";
     this.healthCardId = "";
     this.password = "";
@@ -25,6 +26,7 @@ export class SigninComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.blockchainService.loginUser(this.idCardNumber, this.healthCardId, this.password);
   }
 
 }

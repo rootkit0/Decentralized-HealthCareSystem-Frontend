@@ -8,7 +8,7 @@ import { BlockchainService } from '../services/blockchain.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(blockchainService: BlockchainService) {
+  constructor(private blockchainService: BlockchainService) {
     
   }
 
