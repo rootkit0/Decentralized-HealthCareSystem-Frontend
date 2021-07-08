@@ -15,7 +15,7 @@ export class AuthService {
     this.setToken(accessToken);
   }
 
-  private setToken(token: any) {
+  private setToken(token: any): void {
     localStorage.setItem('auth_token', token);
   }
 
@@ -23,7 +23,7 @@ export class AuthService {
     return localStorage.getItem('auth_token');
   }
 
-  public removeToken() {
+  public removeToken(): void {
     localStorage.removeItem('auth_token');
   }
 
@@ -42,7 +42,7 @@ export class AuthService {
     return false;
   }
 
-  public isSignedIn() {
-    this.validateToken();
+  public isAuthenticated(): boolean {
+    return this.validateToken();
   }
 }
