@@ -8,23 +8,36 @@ export class AuthService {
 
   constructor() { }
 
-  private generateToken() {
-    
+  public async generateToken(user: any) {
+    const accessToken = jwt.sign({user}, 'secret', {
+      expiresIn: 300
+    });
+    return accessToken;
   }
 
-  private setSession() {
-    
+  public setToken(token: any) {
+    localStorage.setItem('auth_token', token);
   }
 
-  private getExpiration() {
-
+  public getToken() {
+    return localStorage.getItem('auth_token');
   }
 
-  private isLoggedIn() {
-    
+  public removeToken() {
+    localStorage.removeItem('auth_token');
   }
 
-  private logout() {
+  public validateToken(): boolean {
+    const token = this.getToken();
+    if(token) {
+        if(jwt.verify(token, 'secret')) {
+          return true;
+        }
+    }
+    return false;
+  }
 
+  public isSignedIn() {
+    this.validateToken();
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
+import { AuthService } from './auth.service';
 declare let window: any;
 
 @Injectable({
@@ -14,10 +15,10 @@ export class BlockchainService {
   //Declare default account
   private defaultAccount: any;
   //Declare contracts deploy addresses
-  private userContractDeployedAt = "0x4E86300573d93aB54ADead693bEBd162EFe2f8Bd";
-  private healthcareContractDeployedAt = "0x3338875Fee83Ff2ad3655CBbe2e4D4e6FBa1A65C";
+  private userContractDeployedAt = "0x09F173f0E37c022e09E10D9F2Ad9D011F5Ff6638";
+  private healthcareContractDeployedAt = "0x9dFD86AF297f0D64eEaFbC4bBC91E3a896107321";
 
-  constructor() {
+  constructor(private authService: AuthService) {
     this.connectBlockchain();
   }
 
@@ -94,6 +95,8 @@ export class BlockchainService {
     var res: boolean = await this.userContract.methods.loginUser(idCardNumber, healthCardId, passwordHash).send({from: this.defaultAccount, gasPrice: "0"});
     if(res) {
       console.log("User logged in!");
+      let token = await this.authService.generateToken(idCardNumber);
+      console.log(token);
     }
     else {
       console.log("Error logging in user!");
