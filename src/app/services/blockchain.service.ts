@@ -113,8 +113,9 @@ export class BlockchainService {
     }
   }
 
-  public async getUserRole() {
-    return await this.userContract.methods.getUserRole().call();
+  public getUserRole(): string {
+    var res: string = this.userContract.methods.getUserRole().call();
+    return res;
   }
 
   public async updateUserRole(userId: any, userRole: string) {

@@ -5,10 +5,18 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SigninComponent } from './signin/signin.component';
+import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { MedicalRecordCreateComponent } from './medical-record/medical-record-create/medical-record-create.component';
+import { MedicalRecordEditComponent } from './medical-record/medical-record-edit/medical-record-edit.component';
+import { MedicalRecordDetailComponent } from './medical-record/medical-record-detail/medical-record-detail.component';
+import { MedicalRecordListComponent } from './medical-record/medical-record-list/medical-record-list.component';
+import { TreatmentCreateComponent } from './treatment/treatment-create/treatment-create.component';
+import { TreatmentEditComponent } from './treatment/treatment-edit/treatment-edit.component';
+import { TreatmentDetailComponent } from './treatment/treatment-detail/treatment-detail.component';
+import { TreatmentListComponent } from './treatment/treatment-list/treatment-list.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -19,14 +27,21 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-
 @NgModule({
   declarations: [
     AppComponent,
-    SigninComponent,
+    LoginComponent,
     SignupComponent,
     HomeComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    MedicalRecordCreateComponent,
+    MedicalRecordEditComponent,
+    MedicalRecordDetailComponent,
+    MedicalRecordListComponent,
+    TreatmentCreateComponent,
+    TreatmentEditComponent,
+    TreatmentDetailComponent,
+    TreatmentListComponent
   ],
   imports: [
     BrowserModule,

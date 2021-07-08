@@ -7,17 +7,17 @@
   <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav #snav class="sidenav" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list>
-        <mat-list-item routerLink="/profile">
-          <a><fa-icon [icon]="faUserCircle"></fa-icon> My profile</a>
-        </mat-list-item>
-        <mat-list-item routerLink="/signout">
-          <a><fa-icon [icon]="faSignOutAlt"></fa-icon> Sign out</a>
-        </mat-list-item>
-        <mat-list-item routerLink="/signin">
-          <a><fa-icon [icon]="faSignInAlt"></fa-icon> Sign in</a>
+        <mat-list-item routerLink="/login">
+          <a><fa-icon [icon]="faSignInAlt"></fa-icon> Log in</a>
         </mat-list-item>
         <mat-list-item routerLink="/signup">
           <a><fa-icon [icon]="faUserPlus"></fa-icon> Sign up</a>
+        </mat-list-item>
+        <mat-list-item routerLink="/user-profile">
+          <a><fa-icon [icon]="faUserCircle"></fa-icon> My profile</a>
+        </mat-list-item>
+        <mat-list-item routerLink="/logout">
+          <a><fa-icon [icon]="faSignOutAlt"></fa-icon> Log out</a>
         </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>

@@ -3,11 +3,11 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
-  selector: 'app-signin',
-  templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class SigninComponent implements OnInit {
+export class LoginComponent implements OnInit {
   hide = true;
   //Declare view fields
   idCardNumber: string;
