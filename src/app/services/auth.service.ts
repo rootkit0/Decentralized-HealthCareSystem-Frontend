@@ -12,14 +12,14 @@ export class AuthService {
     const accessToken = jwt.sign({user}, 'secret', {
       expiresIn: 300
     });
-    return accessToken;
+    this.setToken(accessToken);
   }
 
-  public setToken(token: any) {
+  private setToken(token: any) {
     localStorage.setItem('auth_token', token);
   }
 
-  public getToken() {
+  private getToken() {
     return localStorage.getItem('auth_token');
   }
 
@@ -27,11 +27,16 @@ export class AuthService {
     localStorage.removeItem('auth_token');
   }
 
-  public validateToken(): boolean {
+  private validateToken(): boolean {
     const token = this.getToken();
     if(token) {
-        if(jwt.verify(token, 'secret')) {
-          return true;
+        try {
+          if(jwt.verify(token, 'secret')) {
+            return true;
+          }
+        }
+        catch(error) {
+          console.log(error);
         }
     }
     return false;
