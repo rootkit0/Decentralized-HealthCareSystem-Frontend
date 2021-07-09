@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'signup', component: SignupComponent},
   { path: 'home', component: HomeComponent},
-  { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuardService]},
+  { path: 'user-profile', component: UserProfileComponent},
   { path: 'med-rec-create', component: MedicalRecordCreateComponent},
   { path: 'med-rec-detail', component: MedicalRecordDetailComponent},
   { path: 'med-rec-edit', component: MedicalRecordEditComponent},

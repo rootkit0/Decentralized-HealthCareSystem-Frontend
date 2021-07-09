@@ -1,0 +1,39 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+  
+.example-container > * {
+    width: 100%;
+}
+
+.user-profile-card {
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.user-profile-title {
+    text-align: center;
+    padding-top: 20px;
+    margin-bottom: -25px;
+}
+
+.user-profile-list, mat-form-field {
+    width: 500px;
+}
+
+.user-profile-list, mat-list-item {
+    margin-top: 20px;
+}
+
+.user-profile-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-profile-question {
+    margin-right: 20px;
+}
