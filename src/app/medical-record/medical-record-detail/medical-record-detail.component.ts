@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MedicalRecord } from 'src/app/models/medical-record';
 
 @Component({
   selector: 'app-medical-record-detail',
@@ -6,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./medical-record-detail.component.css']
 })
 export class MedicalRecordDetailComponent implements OnInit {
-
-  constructor() { }
+  medicalRecord: MedicalRecord;
+  
+  constructor() {
+    this.medicalRecord = new MedicalRecord;
+  }
 
   ngOnInit(): void {
   }

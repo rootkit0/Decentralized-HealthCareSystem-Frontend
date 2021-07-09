@@ -1,8 +1,8 @@
-<mat-card class="signin-card">
+<mat-card class="login-card">
     <mat-card-content>
-        <h2 class="signin-title">Sign in</h2>
+        <h2 class="login-title">Sign in</h2>
         <form (ngSubmit)="onSubmit()">
-            <mat-list class="signin-list">
+            <mat-list class="login-list">
                 <mat-list-item>
                     <mat-form-field>
                         <input matInput placeholder="ID Card Number" [(ngModel)]="idCardNumber" [ngModelOptions]="{standalone: true}">
@@ -19,11 +19,11 @@
                         <fa-icon [icon]="faEye" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</fa-icon>
                     </mat-form-field>
                 </mat-list-item>
-                <mat-list-item class="signin-button">
+                <mat-list-item class="login-button">
                     <button mat-raised-button color="primary">Sign in</button>
                 </mat-list-item>
-                <mat-list-item class="signin-button">
-                    <p class="signin-question">Still not registered?</p>
+                <mat-list-item class="login-button">
+                    <p class="login-question">Still not registered?</p>
                     <button mat-raised-button color="primary" routerLink="/signup">Sign up</button>
                 </mat-list-item>
             </mat-list>

@@ -8,7 +8,6 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { MedicalRecordCreateComponent } from './medical-record/medical-record-create/medical-record-create.component';
 import { MedicalRecordDetailComponent } from './medical-record/medical-record-detail/medical-record-detail.component';
 import { MedicalRecordEditComponent } from './medical-record/medical-record-edit/medical-record-edit.component';
-import { MedicalRecordListComponent } from './medical-record/medical-record-list/medical-record-list.component';
 import { TreatmentCreateComponent } from './treatment/treatment-create/treatment-create.component';
 import { TreatmentDetailComponent } from './treatment/treatment-detail/treatment-detail.component';
 import { TreatmentEditComponent } from './treatment/treatment-edit/treatment-edit.component';
@@ -22,7 +21,6 @@ const routes: Routes = [
   { path: 'med-rec-create', component: MedicalRecordCreateComponent},
   { path: 'med-rec-detail', component: MedicalRecordDetailComponent},
   { path: 'med-rec-edit', component: MedicalRecordEditComponent},
-  { path: 'med-rec-list', component: MedicalRecordListComponent},
   { path: 'treatment-create', component: TreatmentCreateComponent},
   { path: 'treatment-detail', component: TreatmentDetailComponent},
   { path: 'treatment-edit', component: TreatmentEditComponent},

@@ -12,7 +12,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MedicalRecordCreateComponent } from './medical-record/medical-record-create/medical-record-create.component';
 import { MedicalRecordEditComponent } from './medical-record/medical-record-edit/medical-record-edit.component';
 import { MedicalRecordDetailComponent } from './medical-record/medical-record-detail/medical-record-detail.component';
-import { MedicalRecordListComponent } from './medical-record/medical-record-list/medical-record-list.component';
 import { TreatmentCreateComponent } from './treatment/treatment-create/treatment-create.component';
 import { TreatmentEditComponent } from './treatment/treatment-edit/treatment-edit.component';
 import { TreatmentDetailComponent } from './treatment/treatment-detail/treatment-detail.component';
@@ -26,6 +25,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,6 @@ import { MatInputModule } from '@angular/material/input';
     MedicalRecordCreateComponent,
     MedicalRecordEditComponent,
     MedicalRecordDetailComponent,
-    MedicalRecordListComponent,
     TreatmentCreateComponent,
     TreatmentEditComponent,
     TreatmentDetailComponent,
@@ -55,7 +56,10 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

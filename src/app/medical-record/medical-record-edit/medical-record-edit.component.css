@@ -1,0 +1,39 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+  
+.example-container > * {
+    width: 100%;
+}
+
+.medical-record-card {
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.medical-record-title {
+    text-align: center;
+    padding-top: 20px;
+    margin-bottom: -25px;
+}
+
+.medical-record-list, mat-form-field {
+    width: 500px;
+}
+
+.medical-record-list, mat-list-item {
+    margin-top: 30px;
+}
+
+.medical-record-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.medical-record-question {
+    margin-right: 20px;
+}

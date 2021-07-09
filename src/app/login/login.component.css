@@ -7,26 +7,26 @@
     width: 100%;
 }
 
-.signin-card {
+.login-card {
     margin: 0 auto;
     margin-top: 50px;
     max-width: 400px;
 }
 
-.signin-title {
+.login-title {
     text-align: center;
 }
 
-.signin-list, mat-form-field {
+.login-list, mat-form-field {
     width: 400px;
 }
 
-.signin-button {
+.login-button {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.signin-question {
+.login-question {
     margin-right: 20px;
 }
