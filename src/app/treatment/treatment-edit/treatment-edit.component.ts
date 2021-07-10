@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Treatment } from 'src/app/models/treatment';
 
 @Component({
   selector: 'app-treatment-edit',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./treatment-edit.component.css']
 })
 export class TreatmentEditComponent implements OnInit {
-
+  treatment: Treatment = new Treatment();
+  
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onSubmit(): void {
+    
+  }
 }
