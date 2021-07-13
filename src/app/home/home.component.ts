@@ -7,9 +7,16 @@ import { BlockchainService } from '../services/blockchain.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  blockchainAccount: any;
 
   constructor(private blockchainService: BlockchainService) {
-    
+    this.getBlockchainAccount();
+    this.blockchainService.getDefaultAccount();
+  }
+
+  async getBlockchainAccount() {
+    await this.blockchainService.getDefaultAccount();
+    this.blockchainAccount = this.blockchainService.defaultAccount;
   }
 
   ngOnInit(): void {

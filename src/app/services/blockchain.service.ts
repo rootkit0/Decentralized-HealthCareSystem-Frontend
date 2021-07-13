@@ -13,7 +13,7 @@ export class BlockchainService {
   private userContract: any;
   private healthcareContract: any;
   //Declare default account
-  private defaultAccount: any;
+  public defaultAccount: any;
   //Declare contracts deploy addresses
   private userContractDeployedAt = "0x09F173f0E37c022e09E10D9F2Ad9D011F5Ff6638";
   private healthcareContractDeployedAt = "0x9dFD86AF297f0D64eEaFbC4bBC91E3a896107321";
@@ -61,7 +61,7 @@ export class BlockchainService {
     }
   }
 
-  public async deployContracts() {
+  private async deployContracts() {
     this.userContract = new this.web3.eth.Contract(
       [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"string","name":"a","type":"string"},{"internalType":"string","name":"b","type":"string"}],"name":"compareStrings","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"pure","type":"function"},{"inputs":[],"name":"getUserRole","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isAdmin","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"loginUser","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"signupUser","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"oldPasswordHash","type":"string"},{"internalType":"string","name":"newPasswordHash","type":"string"}],"name":"updateUserPassword","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"userId","type":"address"},{"internalType":"string","name":"userRole","type":"string"}],"name":"updateUserRole","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}],
       this.userContractDeployedAt
@@ -113,8 +113,8 @@ export class BlockchainService {
     }
   }
 
-  public getUserRole(): string {
-    var res: string = this.userContract.methods.getUserRole().call();
+  public async getUserRole() {
+    var res: string = await this.userContract.methods.getUserRole().call();
     return res;
   }
 
