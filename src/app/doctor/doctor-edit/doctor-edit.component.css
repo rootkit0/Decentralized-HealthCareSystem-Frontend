@@ -9,31 +9,31 @@
     width: 100%;
 }
 
-.medical-record-card {
+.user-profile-card {
     margin: 0 auto;
     max-width: 500px;
 }
 
-.medical-record-title {
+.user-profile-title {
     text-align: center;
     padding-top: 20px;
     margin-bottom: -25px;
 }
 
-.medical-record-list, mat-form-field {
+.user-profile-list, mat-form-field {
     width: 500px;
 }
 
-.medical-record-list, mat-list-item {
-    margin-top: 30px;
+.user-profile-list, mat-list-item {
+    margin-top: 20px;
 }
 
-.medical-record-button {
+.user-profile-button {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.medical-record-question {
+.user-profile-question {
     margin-right: 20px;
 }

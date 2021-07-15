@@ -9,7 +9,10 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { MedicalRecordCreateComponent } from './medical-record/medical-record-create/medical-record-create.component';
+import { PatientEditComponent } from './patient/patient-edit/patient-edit.component';
+import { PatientListComponent } from './patient/patient-list/patient-list.component';
+import { DoctorEditComponent } from './doctor/doctor-edit/doctor-edit.component';
+import { DoctorListComponent } from './doctor/doctor-list/doctor-list.component';
 import { MedicalRecordEditComponent } from './medical-record/medical-record-edit/medical-record-edit.component';
 import { MedicalRecordDetailComponent } from './medical-record/medical-record-detail/medical-record-detail.component';
 import { TreatmentCreateComponent } from './treatment/treatment-create/treatment-create.component';
@@ -38,13 +41,16 @@ import { MatNativeDateModule } from '@angular/material/core';
     SignupComponent,
     HomeComponent,
     UserProfileComponent,
-    MedicalRecordCreateComponent,
+    PatientEditComponent,
+    PatientListComponent,
+    DoctorEditComponent,
+    DoctorListComponent,
     MedicalRecordEditComponent,
     MedicalRecordDetailComponent,
     TreatmentCreateComponent,
     TreatmentEditComponent,
     TreatmentDetailComponent,
-    TreatmentListComponent
+    TreatmentListComponent    
   ],
   imports: [
     BrowserModule,
