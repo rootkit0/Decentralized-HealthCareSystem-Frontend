@@ -95,8 +95,7 @@ export class BlockchainService {
     var res: boolean = await this.userContract.methods.loginUser(idCardNumber, healthCardId, passwordHash).send({from: this.defaultAccount, gasPrice: "0"});
     if(res) {
       console.log("User logged in!");
-      let token = await this.authService.generateToken(idCardNumber);
-      console.log(token);
+      await this.authService.generateToken(idCardNumber);
     }
     else {
       console.log("Error logging in user!");

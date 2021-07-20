@@ -6,14 +6,25 @@
                 <mat-list-item>
                     <p>Dear citizen, this is the address associated with your browser: <b>{{ blockchainAccount }}</b></p>
                 </mat-list-item>
-                <mat-list-item>
-                    <p>Please check that it's correct, so you can access the system successfuly</p>
-                </mat-list-item>
-                <mat-list-item class="treatment-button">
-                    <button mat-raised-button color="primary">Log in!</button>
-                </mat-list-item>
+                <div *ngIf="!isAuthenticated">
+                    <mat-list-item>
+                        <p>Please check that it's correct, so you can access the system successfully!</p>
+                    </mat-list-item>
+                    <mat-list-item class="home-button">
+                        <button mat-raised-button color="primary" routerLink="/login">Log in</button>
+                        <button mat-raised-button color="primary" routerLink="/signup">Sign up</button>
+                    </mat-list-item>
+                </div>
+                <div *ngIf="isAuthenticated">
+                    <mat-list-item>
+                        <p>Welcome to the healthcare app, you can access your data!</p>
+                    </mat-list-item>
+                    <mat-list-item class="home-button">
+                        <button mat-raised-button color="primary" routerLink="/user-profile">My healthcare data</button>
+                        <button mat-raised-button color="primary" (clicked)="logout()">Log out</button>
+                    </mat-list-item>
+                </div>
             </mat-list>
         </mat-card-content>
     </mat-card>
 </div>
-    

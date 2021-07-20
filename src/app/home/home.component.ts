@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
@@ -8,15 +9,22 @@ import { BlockchainService } from '../services/blockchain.service';
 })
 export class HomeComponent implements OnInit {
   blockchainAccount: any;
+  isAuthenticated: boolean = false;
 
-  constructor(private blockchainService: BlockchainService) {
+  constructor(private blockchainService: BlockchainService, private authService: AuthService) {
     this.getBlockchainAccount();
     this.blockchainService.getDefaultAccount();
+    //Check authentication
+    this.isAuthenticated = this.authService.isAuthenticated();
   }
 
   async getBlockchainAccount() {
     await this.blockchainService.getDefaultAccount();
     this.blockchainAccount = this.blockchainService.defaultAccount;
+  }
+
+  logout(): void {
+    this.authService.removeToken();
   }
 
   ngOnInit(): void {

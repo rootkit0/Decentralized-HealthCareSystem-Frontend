@@ -27,3 +27,7 @@
 .home-list, mat-list-item {
     margin-top: 30px;
 }
+
+.home-button, button {
+    margin: 0 auto;
+}

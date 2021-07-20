@@ -49,7 +49,7 @@ export class AuthService {
   public async generateToken(user: any) {
     const accessToken = jwt.sign({user}, PRIV_KEY, {
       //5 minutes
-      expiresIn: 300
+      expiresIn: 60
     });
     this.setToken(accessToken);
   }

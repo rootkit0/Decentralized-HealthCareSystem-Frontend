@@ -1,8 +1,13 @@
 <div class="example-container">
     <mat-card class="user-profile-card">
-        <mat-card-content>
-            <!-- If user inject user-edit, if doctor inject doctor-edit 
-                    If admin show to access user-list or doctor-list -->
+        <mat-card-content *ngIf="userRole == 'patient'">
+            
+        </mat-card-content>
+        <mat-card-content *ngIf="userRole == 'doctor'">
+            
+        </mat-card-content>
+        <mat-card-content *ngIf="userRole == 'admin'">
+            
         </mat-card-content>
     </mat-card>
 </div>

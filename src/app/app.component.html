@@ -6,13 +6,15 @@
 
   <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav #snav class="sidenav" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-      <mat-nav-list>
+      <mat-nav-list *ngIf="!isAuthenticated">
         <mat-list-item routerLink="/login">
           <a><fa-icon [icon]="faSignInAlt"></fa-icon> Log in</a>
         </mat-list-item>
         <mat-list-item routerLink="/signup">
           <a><fa-icon [icon]="faUserPlus"></fa-icon> Sign up</a>
         </mat-list-item>
+      </mat-nav-list>
+      <mat-nav-list *ngIf="isAuthenticated">
         <mat-list-item routerLink="/user-profile">
           <a><fa-icon [icon]="faUserCircle"></fa-icon> Healthcare data</a>
         </mat-list-item>
