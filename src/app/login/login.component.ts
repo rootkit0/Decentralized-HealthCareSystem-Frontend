@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
@@ -16,7 +18,10 @@ export class LoginComponent implements OnInit {
   //Icons
   faEye = faEye;
   
-  constructor(private blockchainService: BlockchainService) {
+  constructor(private authService: AuthService, private blockchainService: BlockchainService, private router: Router) {
+    if(authService.isAuthenticated()) {
+      this.router.navigate(["/home"]);
+    }
     this.idCardNumber = "";
     this.healthCardId = "";
     this.password = "";
@@ -26,7 +31,16 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.blockchainService.loginUser(this.idCardNumber, this.healthCardId, this.password);
+    try {
+      this.blockchainService.loginUser(this.idCardNumber, this.healthCardId, this.password).then(
+        ret => {
+          this.router.navigate(["/user-profile"]);
+        }
+      );
+    }
+    catch(err) {
+      console.log(err);
+    }
   }
 
 }

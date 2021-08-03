@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as jwt from 'jsonwebtoken';
-import { BlockchainService } from './blockchain.service';
 
 //For obvious security reasons must store priv key in unaccessible site
 const PRIV_KEY = "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn\

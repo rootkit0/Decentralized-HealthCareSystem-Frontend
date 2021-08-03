@@ -36,4 +36,8 @@ export class AppComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
+
+  logout(): void {
+    this.authService.removeToken();
+  }
 }
