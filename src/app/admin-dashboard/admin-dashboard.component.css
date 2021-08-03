@@ -1,0 +1,27 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+  
+.example-container > * {
+    width: 100%;
+}
+
+.admin-dashboard-card {
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.admin-dashboard-title {
+    text-align: center;
+}
+
+.admin-dashboard-list, mat-form-field {
+    width: 500px;
+}
+
+.admin-dashboard-button, button {
+    margin: 0 auto;
+}

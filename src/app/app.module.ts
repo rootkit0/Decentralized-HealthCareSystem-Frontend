@@ -9,10 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { PatientEditComponent } from './patient/patient-edit/patient-edit.component';
 import { PatientListComponent } from './patient/patient-list/patient-list.component';
-import { DoctorEditComponent } from './doctor/doctor-edit/doctor-edit.component';
-import { DoctorListComponent } from './doctor/doctor-list/doctor-list.component';
 import { MedicalRecordEditComponent } from './medical-record/medical-record-edit/medical-record-edit.component';
 import { MedicalRecordDetailComponent } from './medical-record/medical-record-detail/medical-record-detail.component';
 import { TreatmentCreateComponent } from './treatment/treatment-create/treatment-create.component';
@@ -33,6 +30,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -41,16 +39,14 @@ import { MatNativeDateModule } from '@angular/material/core';
     SignupComponent,
     HomeComponent,
     UserProfileComponent,
-    PatientEditComponent,
     PatientListComponent,
-    DoctorEditComponent,
-    DoctorListComponent,
     MedicalRecordEditComponent,
     MedicalRecordDetailComponent,
     TreatmentCreateComponent,
     TreatmentEditComponent,
     TreatmentDetailComponent,
-    TreatmentListComponent    
+    TreatmentListComponent,
+    AdminDashboardComponent    
   ],
   imports: [
     BrowserModule,

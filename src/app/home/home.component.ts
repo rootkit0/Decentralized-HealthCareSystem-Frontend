@@ -13,7 +13,6 @@ export class HomeComponent implements OnInit {
 
   constructor(private blockchainService: BlockchainService, private authService: AuthService) {
     this.getBlockchainAccount();
-    this.blockchainService.getDefaultAccount();
     //Check authentication
     this.isAuthenticated = this.authService.isAuthenticated();
   }

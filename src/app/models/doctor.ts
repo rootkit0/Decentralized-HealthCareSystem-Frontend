@@ -1,4 +1,5 @@
 export class Doctor {
+    address: any;
     name!: string;
     email!: string;
     phone!: string;
