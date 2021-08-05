@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Doctor } from '../models/doctor';
 import { Patient } from '../models/patient';
 import { UserRoles } from '../models/user-roles';
+import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -14,7 +15,7 @@ export class AdminDashboardComponent implements OnInit {
   newRoleAddress: any;
   newRole: string = "";
   
-  constructor() {
+  constructor(private blockchainService: BlockchainService) {
     var doc = new Doctor();
     doc.name = "Name";
     doc.email = "example@gmail.com";
@@ -33,4 +34,15 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  updateUserRole(): void {
+    this.blockchainService.updateUserRole(this.newRoleAddress, this.newRole);
+  }
+
+  getPatients(): void {
+
+  }
+
+  getDoctors(): void {
+    
+  }
 }

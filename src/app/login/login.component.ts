@@ -12,9 +12,9 @@ import { BlockchainService } from '../services/blockchain.service';
 export class LoginComponent implements OnInit {
   hide = true;
   //Declare view fields
-  idCardNumber: string;
-  healthCardId: string;
-  password: string;
+  idCardNumber: string = "";
+  healthCardId: string = "";
+  password: string = "";
   //Icons
   faEye = faEye;
   
@@ -22,9 +22,6 @@ export class LoginComponent implements OnInit {
     if(authService.isAuthenticated()) {
       this.router.navigate(["/home"]);
     }
-    this.idCardNumber = "";
-    this.healthCardId = "";
-    this.password = "";
   }
 
   ngOnInit(): void {
@@ -35,6 +32,7 @@ export class LoginComponent implements OnInit {
       this.blockchainService.loginUser(this.idCardNumber, this.healthCardId, this.password).then(
         ret => {
           this.router.navigate(["/user-profile"]);
+          window.location.reload();
         }
       );
     }

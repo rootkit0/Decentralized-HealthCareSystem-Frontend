@@ -39,5 +39,6 @@ export class AppComponent implements OnDestroy {
 
   logout(): void {
     this.authService.removeToken();
+    window.location.reload();
   }
 }

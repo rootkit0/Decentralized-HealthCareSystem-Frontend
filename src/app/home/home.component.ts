@@ -17,13 +17,14 @@ export class HomeComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated();
   }
 
-  async getBlockchainAccount() {
+  private async getBlockchainAccount() {
     await this.blockchainService.getDefaultAccount();
     this.blockchainAccount = this.blockchainService.defaultAccount;
   }
 
   logout(): void {
     this.authService.removeToken();
+    window.location.reload();
   }
 
   ngOnInit(): void {

@@ -23,46 +23,46 @@ const routes: Routes = [
   { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuardService]},
   { path: 'patient-list', component: PatientListComponent, canActivate: [AuthGuardService],
     data: {
-      userRoles: [UserRoles.DOCTOR]
+      userRole: UserRoles.DOCTOR
     }
   },
   { path: 'medical-record-edit', component: MedicalRecordEditComponent, canActivate: [AuthGuardService],
     data: {
-      userRoles: [UserRoles.DOCTOR]
+      userRole: UserRoles.DOCTOR
     }
   },
   { path: 'medical-record-detail', component: MedicalRecordDetailComponent, canActivate: [AuthGuardService],
     data: {
-      userRoles: [UserRoles.DOCTOR]
+      userRole: UserRoles.PATIENT
     }
   },
   { path: 'treatment-create', component: TreatmentCreateComponent, canActivate: [AuthGuardService],
     data: {
-      userRoles: [UserRoles.DOCTOR]
+      userRole: UserRoles.DOCTOR
     }
   },
   { path: 'treatment-detail', component: TreatmentDetailComponent, canActivate: [AuthGuardService],
     data: {
-      userRoles: [UserRoles.DOCTOR]
+      userRole: UserRoles.PATIENT
     }
   },
   { path: 'treatment-edit', component: TreatmentEditComponent, canActivate: [AuthGuardService],
     data: {
-      userRoles: [UserRoles.DOCTOR]
+      userRole: UserRoles.DOCTOR
     }
   },
   { path: 'treatment-list', component: TreatmentListComponent, canActivate: [AuthGuardService],
     data: {
-      userRoles: [UserRoles.DOCTOR]
+      userRole: UserRoles.PATIENT
     }
   },
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuardService],
     data: {
-      UserRoles: [UserRoles.ADMIN]
+      userRole: UserRoles.ADMIN
     }
   },
   { path: '', redirectTo: 'home', pathMatch: 'full'},
-  { path: '**', component: LoginComponent }
+  { path: '**', component: HomeComponent }
 ];
 
 @NgModule({

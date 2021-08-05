@@ -1,7 +1,7 @@
 export class Patient {
     address: any;
     name!: string;
-    dateOfBirth!: Date;
+    dateOfBirth!: number;
     email!: string;
     phone!: string;
     homeAddress!: string;
