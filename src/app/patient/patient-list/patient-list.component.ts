@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Patient } from 'src/app/models/patient';
+import { BlockchainService } from 'src/app/services/blockchain.service';
 
 @Component({
   selector: 'app-patient-list',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./patient-list.component.css']
 })
 export class PatientListComponent implements OnInit {
+  doctorId: any;
+  patients: Patient[] = [];
 
-  constructor() { }
+  constructor(private blockchainService: BlockchainService) { }
 
   ngOnInit(): void {
   }
 
+  async getPatients() {
+    try {
+      await this.blockchainService.readDoctor(this.doctorId);
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
 }
