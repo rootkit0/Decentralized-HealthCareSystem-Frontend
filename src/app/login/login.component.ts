@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   faEye = faEye;
   
   constructor(private authService: AuthService, private blockchainService: BlockchainService, private router: Router) {
-    if(authService.isAuthenticated()) {
+    if(this.authService.isAuthenticated()) {
       this.router.navigate(["/home"]);
     }
   }
@@ -27,9 +27,9 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(): void {
+  async onSubmit() {
     try {
-      this.blockchainService.loginUser(this.idCardNumber, this.healthCardId, this.password).then(
+      await this.blockchainService.loginUser(this.idCardNumber, this.healthCardId, this.password).then(
         ret => {
           this.router.navigate(["/user-profile"]);
           window.location.reload();

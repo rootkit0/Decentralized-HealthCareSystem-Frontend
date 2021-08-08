@@ -21,7 +21,7 @@ export class SignupComponent implements OnInit {
   faEye = faEye;
   
   constructor(private authService: AuthService, private blockchainService: BlockchainService, private router: Router) {
-    if(authService.isAuthenticated()) {
+    if(this.authService.isAuthenticated()) {
       this.router.navigate(["/home"]);
     }
   }
@@ -31,8 +31,11 @@ export class SignupComponent implements OnInit {
 
   async onSubmit() {
     try {
-      //Sign up the new user
-      await this.blockchainService.signupUser(this.idCardNumber, this.healthCardId, this.password);
+      await this.blockchainService.signupUser(this.idCardNumber, this.healthCardId, this.password).then(
+        ret => {
+          this.router.navigate(["/login"]);
+        }
+      );
     }
     catch(err) {
       console.log(err);

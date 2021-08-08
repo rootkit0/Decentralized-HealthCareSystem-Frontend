@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Doctor } from '../models/doctor';
 import { Patient } from '../models/patient';
+import { UserRoles } from '../models/user-roles';
 import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
@@ -15,8 +16,9 @@ export class UserProfileComponent implements OnInit {
   doctor: Doctor = new Doctor();
 
   constructor(private blockchainService: BlockchainService) {
-    this.getUserRole();
     this.getBlockchainAccount();
+    this.getUserRole();
+    this.getUserData();
   }
 
   ngOnInit(): void {
@@ -34,6 +36,37 @@ export class UserProfileComponent implements OnInit {
   private async getBlockchainAccount() {
     await this.blockchainService.getDefaultAccount();
     this.blockchainAccount = this.blockchainService.defaultAccount;
+  }
+
+  private async getUserData() {
+    if(this.userRole == UserRoles.PATIENT) {
+      var patientJSON: any = await this.blockchainService.readPatient(this.blockchainAccount);
+      this.patient.address = patientJSON.address;
+      this.patient.name = patientJSON.name;
+      this.patient.dateOfBirth = patientJSON.dateOfBirth;
+      this.patient.email = patientJSON.email;
+      this.patient.phone = patientJSON.phone;
+      this.patient.homeAddress = patientJSON.homeAddress;
+      this.patient.city = patientJSON.city;
+      this.patient.postalCode = patientJSON.postalCode;
+      this.patient.assignedDoctor = patientJSON.assignedDoctor;
+    }
+    else if(this.userRole == UserRoles.DOCTOR) {
+      var doctorJSON: any = await this.blockchainService.readDoctor(this.blockchainAccount);
+      this.doctor.address = doctorJSON.address;
+      this.doctor.name = doctorJSON.name;
+      this.doctor.email = doctorJSON.email;
+      this.doctor.phone = doctorJSON.phone;
+      this.doctor.homeAddress = doctorJSON.homeAddress;
+      this.doctor.city = doctorJSON.city;
+      this.doctor.postalCode = doctorJSON.postalCode;
+      this.doctor.medicalSpeciality = doctorJSON.medicalSpeciality;
+      this.doctor.assignedHospital = doctorJSON.assignedHospital;
+      this.doctor.assignedPatients = doctorJSON.assignedPatients;
+    }
+    else {
+      console.log("You're admin!");
+    }
   }
 
   async updatePatient() {
