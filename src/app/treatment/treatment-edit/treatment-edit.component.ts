@@ -8,17 +8,34 @@ import { BlockchainService } from 'src/app/services/blockchain.service';
   styleUrls: ['./treatment-edit.component.css']
 })
 export class TreatmentEditComponent implements OnInit {
+  private blockchainAccount: any;
   treatmentId: number = 1;
   treatment: Treatment = new Treatment();
   
-  constructor(private blockchainService: BlockchainService) { }
+  constructor(private blockchainService: BlockchainService) {
+    this.getBlockchainAccount();
+    this.getData();
+  }
+
+  private async getBlockchainAccount() {
+    await this.blockchainService.getDefaultAccount();
+    this.blockchainAccount = this.blockchainService.defaultAccount;
+  }
 
   ngOnInit(): void {
   }
 
-  async getData() {
+  private async getData() {
     try {
-      console.log(await this.blockchainService.readTreatment(this.treatmentId));
+      var treatmentJSON: any = await this.blockchainService.readTreatment(this.treatmentId);
+      this.treatment.treatmentId = treatmentJSON.treatmentId;
+      this.treatment.patientId = treatmentJSON.patientId;
+      this.treatment.doctorId = treatmentJSON.doctorId;
+      this.treatment.diagnosis = treatmentJSON.diagnosis;
+      this.treatment.medicine = treatmentJSON.medicine;
+      this.treatment.fromDate = treatmentJSON.fromDate;
+      this.treatment.toDate = treatmentJSON.toDate;
+      this.treatment.bill = treatmentJSON.bill;
     }
     catch(err) {
       console.log(err);
