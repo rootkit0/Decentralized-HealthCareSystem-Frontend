@@ -253,4 +253,34 @@ export class BlockchainService {
       console.log(err);
     }
   }
+
+  public async getPatientAddresses() {
+    const userRole = await this.getUserRole();
+    try {
+      if(userRole == UserRoles.ADMIN) {
+        return await this.healthcareContract.methods.getPatientAddresses().call();
+      }
+      else {
+        return null;
+      }
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
+  public async getDoctorAddresses() {
+    const userRole = await this.getUserRole();
+    try {
+      if(userRole == UserRoles.ADMIN) {
+        return await this.healthcareContract.methods.getDoctorAddresses().call();
+      }
+      else {
+        return null;
+      }
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
 }
