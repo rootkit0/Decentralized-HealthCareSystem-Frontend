@@ -33,12 +33,10 @@ export class AdminDashboardComponent implements OnInit {
 
   private async getPatients() {
     try {
-      var patientAddresses: any[];
-      patientAddresses = await this.blockchainService.getPatientAddresses();
+      var patientAddresses: any[] = await this.blockchainService.getPatientAddresses();
       for(var patientAddress in patientAddresses) {
         //For each entry get patient data
-        var patientJSON: any;
-        patientJSON = await this.blockchainService.readPatient(patientAddress);
+        var patientJSON: any = await this.blockchainService.readPatient(patientAddress);
         //Parse obtained data to recognizable object
         var patient: Patient = new Patient();
         patient.address = patientJSON.address;

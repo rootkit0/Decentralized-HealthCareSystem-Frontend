@@ -8,17 +8,41 @@ import { BlockchainService } from 'src/app/services/blockchain.service';
   styleUrls: ['./patient-list.component.css']
 })
 export class PatientListComponent implements OnInit {
-  doctorId: any;
+  private blockchainAccount: any;
   patients: Patient[] = [];
 
-  constructor(private blockchainService: BlockchainService) { }
+  constructor(private blockchainService: BlockchainService) {
+    this.getBlockchainAccount();
+  }
+
+  private async getBlockchainAccount() {
+    await this.blockchainService.getDefaultAccount();
+    this.blockchainAccount = this.blockchainService.defaultAccount;
+  }
 
   ngOnInit(): void {
   }
 
-  async getPatients() {
+  private async getPatients() {
     try {
-      await this.blockchainService.readDoctor(this.doctorId);
+      var doctorJSON: any = await this.blockchainService.readDoctor(this.blockchainAccount);
+      var patientsAccounts: any[] = doctorJSON.assignedPatients;
+      for(var patientAccount in patientsAccounts) {
+        //For each entry get patient data
+        var patientJSON: any = await this.blockchainService.readPatient(patientAccount);
+        //Parse obtained data to recognizable object
+        var patient: Patient = new Patient();
+        patient.address = patientJSON.address;
+        patient.name = patientJSON.name;
+        patient.dateOfBirth = patientJSON.dateOfBirth;
+        patient.email = patientJSON.email;
+        patient.phone = patientJSON.phone;
+        patient.homeAddress = patientJSON.homeAddress;
+        patient.city = patientJSON.city;
+        patient.postalCode = patientJSON.postalCode;
+        patient.assignedDoctor = patientJSON.assignedDoctor;
+        this.patients.push(patient);
+      }
     }
     catch(err) {
       console.log(err);

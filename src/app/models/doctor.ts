@@ -8,5 +8,5 @@ export class Doctor {
     postalCode!: number;
     medicalSpeciality!: string;
     assignedHospital!: string;
-    assignedPatients!: string[];
+    assignedPatients!: any[];
 }
