@@ -4,7 +4,7 @@ export class Treatment {
     doctorId!: string;
     diagnosis!: string;
     medicine!: string;
-    fromDate!: Date;
-    toDate!: Date;
+    fromDate!: number;
+    toDate!: number;
     bill!: number;
 }
