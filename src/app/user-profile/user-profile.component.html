@@ -1,6 +1,7 @@
 <div class="example-container">
     <mat-card class="user-profile-card">
         <mat-card-content *ngIf="userRole == 'patient'">
+            <!-- ALSO PUT IDCARD / CIP IN NO EDITABLE INPUTS -->
             <h2 class="user-profile-title">My profile - Your role is: {{ userRole }}</h2>
             <form>
                 <mat-list class="user-profile-list">

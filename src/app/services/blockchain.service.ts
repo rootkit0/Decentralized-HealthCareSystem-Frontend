@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
+import { UserRoles } from '../models/user-roles';
 import { AuthService } from './auth.service';
 declare let window: any;
 
@@ -15,8 +16,8 @@ export class BlockchainService {
   //Declare default account
   public defaultAccount: any;
   //Declare contracts deploy addresses
-  private authContractDeployedAt = "0xfB72a9dE9A3e64C6B9cBE91c8D6e2e78d025E9f1";
-  private healthcareContractDeployedAt = "0xA8F1698BDFBf200646094F1357700a8Bca379568";
+  private authContractDeployedAt = "0xa4E720AdC6EFBA813E663e61Fd268bFb8323AaEE";
+  private healthcareContractDeployedAt = "0x588a32CADD0230d495D3e8f2dc25c8C4dDC4b1E4";
 
   constructor(private authService: AuthService) {
     this.connectBlockchain();
@@ -63,11 +64,11 @@ export class BlockchainService {
 
   private async deployContracts() {
     this.authContract = new this.web3.eth.Contract(
-      [ { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [ { "internalType": "string", "name": "a", "type": "string" }, { "internalType": "string", "name": "b", "type": "string" } ], "name": "compareStrings", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "pure", "type": "function" }, { "inputs": [], "name": "getUserRole", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "isAdmin", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "idCardNumber", "type": "string" }, { "internalType": "string", "name": "healthCardId", "type": "string" }, { "internalType": "string", "name": "passwordHash", "type": "string" } ], "name": "loginUser", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "idCardNumber", "type": "string" }, { "internalType": "string", "name": "healthCardId", "type": "string" }, { "internalType": "string", "name": "passwordHash", "type": "string" } ], "name": "signupUser", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "idCardNumber", "type": "string" }, { "internalType": "string", "name": "healthCardId", "type": "string" }, { "internalType": "string", "name": "oldPasswordHash", "type": "string" }, { "internalType": "string", "name": "newPasswordHash", "type": "string" } ], "name": "updateUserPassword", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "userId", "type": "address" }, { "internalType": "string", "name": "userRole", "type": "string" } ], "name": "updateUserRole", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" } ],
+      [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"string","name":"a","type":"string"},{"internalType":"string","name":"b","type":"string"}],"name":"compareStrings","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"pure","type":"function"},{"inputs":[],"name":"getUserRole","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isAdmin","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"loginUser","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"signupUser","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"userId","type":"address"},{"internalType":"string","name":"oldPasswordHash","type":"string"},{"internalType":"string","name":"newPasswordHash","type":"string"}],"name":"updateUserPassword","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"userId","type":"address"},{"internalType":"string","name":"userRole","type":"string"}],"name":"updateUserRole","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}],
       this.authContractDeployedAt
     );
     this.healthcareContract = new this.web3.eth.Contract(
-      [ { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [ { "internalType": "string", "name": "a", "type": "string" }, { "internalType": "string", "name": "b", "type": "string" } ], "name": "compareStrings", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "pure", "type": "function" }, { "inputs": [], "name": "createDoctor", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "createMedicalRecord", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "createPatient", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "patientId", "type": "address" }, { "internalType": "address", "name": "doctorId", "type": "address" }, { "internalType": "string", "name": "diagnosis", "type": "string" }, { "internalType": "string", "name": "medicine", "type": "string" }, { "internalType": "uint256", "name": "fromDate", "type": "uint256" }, { "internalType": "uint256", "name": "toDate", "type": "uint256" }, { "internalType": "uint256", "name": "bill", "type": "uint256" } ], "name": "createTreatment", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "", "type": "address" } ], "name": "doctorList", "outputs": [ { "internalType": "address", "name": "doctorId", "type": "address" }, { "internalType": "string", "name": "name", "type": "string" }, { "internalType": "string", "name": "email", "type": "string" }, { "internalType": "string", "name": "phone", "type": "string" }, { "internalType": "string", "name": "assignedHospital", "type": "string" }, { "internalType": "string", "name": "medicalSpeciality", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getDoctorAddresses", "outputs": [ { "internalType": "address[]", "name": "", "type": "address[]" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getPatientAddresses", "outputs": [ { "internalType": "address[]", "name": "", "type": "address[]" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "", "type": "address" } ], "name": "medicalRecordList", "outputs": [ { "internalType": "address", "name": "medicalRecordId", "type": "address" }, { "internalType": "string", "name": "medications", "type": "string" }, { "internalType": "string", "name": "allergies", "type": "string" }, { "internalType": "string", "name": "illnesses", "type": "string" }, { "internalType": "string", "name": "immunizations", "type": "string" }, { "internalType": "string", "name": "bloodType", "type": "string" }, { "internalType": "bool", "name": "hasInsurance", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "", "type": "address" } ], "name": "patientList", "outputs": [ { "internalType": "address", "name": "patientId", "type": "address" }, { "internalType": "string", "name": "name", "type": "string" }, { "internalType": "uint256", "name": "dateOfBirth", "type": "uint256" }, { "internalType": "string", "name": "email", "type": "string" }, { "internalType": "string", "name": "phone", "type": "string" }, { "internalType": "string", "name": "homeAddress", "type": "string" }, { "internalType": "string", "name": "gender", "type": "string" }, { "internalType": "address", "name": "assignedDoctorId", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "doctorAddress", "type": "address" } ], "name": "readDoctor", "outputs": [ { "components": [ { "internalType": "address", "name": "doctorId", "type": "address" }, { "internalType": "string", "name": "name", "type": "string" }, { "internalType": "string", "name": "email", "type": "string" }, { "internalType": "string", "name": "phone", "type": "string" }, { "internalType": "string", "name": "assignedHospital", "type": "string" }, { "internalType": "string", "name": "medicalSpeciality", "type": "string" }, { "internalType": "address[]", "name": "assignedPatientsIds", "type": "address[]" } ], "internalType": "struct HealthcareContract.Doctor", "name": "", "type": "tuple" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "medicalRecordId", "type": "address" } ], "name": "readMedicalRecord", "outputs": [ { "components": [ { "internalType": "address", "name": "medicalRecordId", "type": "address" }, { "internalType": "string", "name": "medications", "type": "string" }, { "internalType": "string", "name": "allergies", "type": "string" }, { "internalType": "string", "name": "illnesses", "type": "string" }, { "internalType": "string", "name": "immunizations", "type": "string" }, { "internalType": "string", "name": "bloodType", "type": "string" }, { "internalType": "bool", "name": "hasInsurance", "type": "bool" }, { "internalType": "uint256[]", "name": "treatmentsIds", "type": "uint256[]" } ], "internalType": "struct HealthcareContract.MedicalRecord", "name": "", "type": "tuple" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "patientAddress", "type": "address" } ], "name": "readPatient", "outputs": [ { "components": [ { "internalType": "address", "name": "patientId", "type": "address" }, { "internalType": "string", "name": "name", "type": "string" }, { "internalType": "uint256", "name": "dateOfBirth", "type": "uint256" }, { "internalType": "string", "name": "email", "type": "string" }, { "internalType": "string", "name": "phone", "type": "string" }, { "internalType": "string", "name": "homeAddress", "type": "string" }, { "internalType": "string", "name": "gender", "type": "string" }, { "internalType": "address", "name": "assignedDoctorId", "type": "address" } ], "internalType": "struct HealthcareContract.Patient", "name": "", "type": "tuple" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "_treatmentId", "type": "uint256" } ], "name": "readTreatment", "outputs": [ { "components": [ { "internalType": "uint256", "name": "treatmentId", "type": "uint256" }, { "internalType": "address", "name": "patientId", "type": "address" }, { "internalType": "address", "name": "doctorId", "type": "address" }, { "internalType": "string", "name": "diagnosis", "type": "string" }, { "internalType": "string", "name": "medicine", "type": "string" }, { "internalType": "uint256", "name": "fromDate", "type": "uint256" }, { "internalType": "uint256", "name": "toDate", "type": "uint256" }, { "internalType": "uint256", "name": "bill", "type": "uint256" } ], "internalType": "struct HealthcareContract.Treatment", "name": "", "type": "tuple" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "name": "treatmentList", "outputs": [ { "internalType": "uint256", "name": "treatmentId", "type": "uint256" }, { "internalType": "address", "name": "patientId", "type": "address" }, { "internalType": "address", "name": "doctorId", "type": "address" }, { "internalType": "string", "name": "diagnosis", "type": "string" }, { "internalType": "string", "name": "medicine", "type": "string" }, { "internalType": "uint256", "name": "fromDate", "type": "uint256" }, { "internalType": "uint256", "name": "toDate", "type": "uint256" }, { "internalType": "uint256", "name": "bill", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "doctorAddress", "type": "address" }, { "internalType": "string", "name": "name", "type": "string" }, { "internalType": "string", "name": "email", "type": "string" }, { "internalType": "string", "name": "phone", "type": "string" }, { "internalType": "string", "name": "assignedHospital", "type": "string" }, { "internalType": "string", "name": "medicalSpeciality", "type": "string" } ], "name": "updateDoctor", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "medicalRecordId", "type": "address" }, { "internalType": "string", "name": "medications", "type": "string" }, { "internalType": "string", "name": "allergies", "type": "string" }, { "internalType": "string", "name": "illnesses", "type": "string" }, { "internalType": "string", "name": "immunizations", "type": "string" }, { "internalType": "string", "name": "bloodType", "type": "string" }, { "internalType": "bool", "name": "hasInsurance", "type": "bool" }, { "internalType": "uint256[]", "name": "treatmentsIds", "type": "uint256[]" } ], "name": "updateMedicalRecord", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "patientAddress", "type": "address" }, { "internalType": "string", "name": "name", "type": "string" }, { "internalType": "uint256", "name": "dateOfBirth", "type": "uint256" }, { "internalType": "string", "name": "email", "type": "string" }, { "internalType": "string", "name": "phone", "type": "string" }, { "internalType": "string", "name": "homeAddress", "type": "string" }, { "internalType": "string", "name": "gender", "type": "string" } ], "name": "updatePatient", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "_treatmentId", "type": "uint256" }, { "internalType": "address", "name": "patientId", "type": "address" }, { "internalType": "address", "name": "doctorId", "type": "address" }, { "internalType": "string", "name": "diagnosis", "type": "string" }, { "internalType": "string", "name": "medicine", "type": "string" }, { "internalType": "uint256", "name": "fromDate", "type": "uint256" }, { "internalType": "uint256", "name": "toDate", "type": "uint256" }, { "internalType": "uint256", "name": "bill", "type": "uint256" } ], "name": "updateTreatment", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ],
+      [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"string","name":"a","type":"string"},{"internalType":"string","name":"b","type":"string"}],"name":"compareStrings","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"pure","type":"function"},{"inputs":[],"name":"createDoctor","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"createMedicalRecord","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"createPatient","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"patientId","type":"address"},{"internalType":"address","name":"doctorId","type":"address"},{"internalType":"string","name":"diagnosis","type":"string"},{"internalType":"string","name":"medicine","type":"string"},{"internalType":"uint256","name":"fromDate","type":"uint256"},{"internalType":"uint256","name":"toDate","type":"uint256"},{"internalType":"uint256","name":"bill","type":"uint256"}],"name":"createTreatment","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"doctorList","outputs":[{"internalType":"address","name":"doctorId","type":"address"},{"internalType":"string","name":"name","type":"string"},{"internalType":"string","name":"email","type":"string"},{"internalType":"string","name":"phone","type":"string"},{"internalType":"string","name":"assignedHospital","type":"string"},{"internalType":"string","name":"medicalSpeciality","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getDoctorAddresses","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getPatientAddresses","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"medicalRecordList","outputs":[{"internalType":"address","name":"medicalRecordId","type":"address"},{"internalType":"string","name":"medications","type":"string"},{"internalType":"string","name":"allergies","type":"string"},{"internalType":"string","name":"illnesses","type":"string"},{"internalType":"string","name":"immunizations","type":"string"},{"internalType":"string","name":"bloodType","type":"string"},{"internalType":"bool","name":"hasInsurance","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"patientList","outputs":[{"internalType":"address","name":"patientId","type":"address"},{"internalType":"string","name":"name","type":"string"},{"internalType":"uint256","name":"dateOfBirth","type":"uint256"},{"internalType":"string","name":"email","type":"string"},{"internalType":"string","name":"phone","type":"string"},{"internalType":"string","name":"homeAddress","type":"string"},{"internalType":"string","name":"gender","type":"string"},{"internalType":"address","name":"assignedDoctorId","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"doctorAddress","type":"address"}],"name":"readDoctor","outputs":[{"internalType":"string","name":"name","type":"string"},{"internalType":"string","name":"email","type":"string"},{"internalType":"string","name":"phone","type":"string"},{"internalType":"string","name":"assignedHospital","type":"string"},{"internalType":"string","name":"medicalSpeciality","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"medicalRecordId","type":"address"}],"name":"readMedicalRecord","outputs":[{"internalType":"string","name":"medications","type":"string"},{"internalType":"string","name":"allergies","type":"string"},{"internalType":"string","name":"illnesses","type":"string"},{"internalType":"string","name":"immunizations","type":"string"},{"internalType":"string","name":"bloodType","type":"string"},{"internalType":"bool","name":"hasInsurance","type":"bool"},{"internalType":"uint256[]","name":"treatmentsIds","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"patientAddress","type":"address"}],"name":"readPatient","outputs":[{"internalType":"string","name":"name","type":"string"},{"internalType":"uint256","name":"dateOfBirth","type":"uint256"},{"internalType":"string","name":"email","type":"string"},{"internalType":"string","name":"phone","type":"string"},{"internalType":"string","name":"homeAddress","type":"string"},{"internalType":"string","name":"gender","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_treatmentId","type":"uint256"}],"name":"readTreatment","outputs":[{"internalType":"address","name":"patientId","type":"address"},{"internalType":"address","name":"doctorId","type":"address"},{"internalType":"string","name":"diagnosis","type":"string"},{"internalType":"string","name":"medicine","type":"string"},{"internalType":"uint256","name":"fromDate","type":"uint256"},{"internalType":"uint256","name":"toDate","type":"uint256"},{"internalType":"uint256","name":"bill","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"treatmentList","outputs":[{"internalType":"uint256","name":"treatmentId","type":"uint256"},{"internalType":"address","name":"patientId","type":"address"},{"internalType":"address","name":"doctorId","type":"address"},{"internalType":"string","name":"diagnosis","type":"string"},{"internalType":"string","name":"medicine","type":"string"},{"internalType":"uint256","name":"fromDate","type":"uint256"},{"internalType":"uint256","name":"toDate","type":"uint256"},{"internalType":"uint256","name":"bill","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"doctorAddress","type":"address"},{"internalType":"string","name":"name","type":"string"},{"internalType":"string","name":"email","type":"string"},{"internalType":"string","name":"phone","type":"string"},{"internalType":"string","name":"assignedHospital","type":"string"},{"internalType":"string","name":"medicalSpeciality","type":"string"}],"name":"updateDoctor","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"medicalRecordId","type":"address"},{"internalType":"string","name":"medications","type":"string"},{"internalType":"string","name":"allergies","type":"string"},{"internalType":"string","name":"illnesses","type":"string"},{"internalType":"string","name":"immunizations","type":"string"},{"internalType":"string","name":"bloodType","type":"string"},{"internalType":"bool","name":"hasInsurance","type":"bool"},{"internalType":"uint256[]","name":"treatmentsIds","type":"uint256[]"}],"name":"updateMedicalRecord","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"patientAddress","type":"address"},{"internalType":"string","name":"name","type":"string"},{"internalType":"uint256","name":"dateOfBirth","type":"uint256"},{"internalType":"string","name":"email","type":"string"},{"internalType":"string","name":"phone","type":"string"},{"internalType":"string","name":"homeAddress","type":"string"},{"internalType":"string","name":"gender","type":"string"}],"name":"updatePatient","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_treatmentId","type":"uint256"},{"internalType":"address","name":"patientId","type":"address"},{"internalType":"address","name":"doctorId","type":"address"},{"internalType":"string","name":"diagnosis","type":"string"},{"internalType":"string","name":"medicine","type":"string"},{"internalType":"uint256","name":"fromDate","type":"uint256"},{"internalType":"uint256","name":"toDate","type":"uint256"},{"internalType":"uint256","name":"bill","type":"uint256"}],"name":"updateTreatment","outputs":[],"stateMutability":"nonpayable","type":"function"}],
       this.healthcareContractDeployedAt
     );
   }
@@ -85,6 +86,14 @@ export class BlockchainService {
     var res: boolean = await this.authContract.methods.signupUser(idCardNumber, healthCardId, passwordHash).send({from: this.defaultAccount, gasPrice: "0"});
     if(res) {
       console.log("User registered!");
+      const userRole = await this.getUserRole();
+      //Create patient/doctor depending on assigned role
+      if(userRole == UserRoles.PATIENT) {
+        await this.createPatient();
+      }
+      if(userRole == UserRoles.DOCTOR) {
+        await this.createDoctor();
+      }
     }
     else {
       console.log("Error registering user!");
@@ -102,8 +111,8 @@ export class BlockchainService {
     }
   }
 
-  public async updateUserPassword(idCardNumber: string, healthCardId: string, oldPasswordHash: string, newPasswordHash: string) {
-    var res: boolean = await this.authContract.methods.updateUserPassword(idCardNumber, healthCardId, oldPasswordHash, newPasswordHash).send({from: this.defaultAccount, gasPrice: "0"});
+  public async updateUserPassword(userId: any, oldPasswordHash: string, newPasswordHash: string) {
+    var res: boolean = await this.authContract.methods.updateUserPassword(userId, oldPasswordHash, newPasswordHash).send({from: this.defaultAccount, gasPrice: "0"});
     if(res) {
       console.log("Password updated!");
     }
@@ -120,6 +129,14 @@ export class BlockchainService {
     var res: boolean = await this.authContract.methods.updateUserRole(userId, userRole).send({from: this.defaultAccount, gasPrice: "0"});
     if(res) {
       console.log("Role updated!");
+      const userRole = await this.getUserRole();
+      //Create patient/doctor depending on assigned role
+      if(userRole == UserRoles.PATIENT) {
+        await this.createPatient();
+      }
+      if(userRole == UserRoles.DOCTOR) {
+        await this.createDoctor();
+      }
     }
     else {
       console.log("Error updating user role!");
@@ -128,7 +145,12 @@ export class BlockchainService {
 
   //Healthcare contract methods
   public async createPatient() {
-    await this.healthcareContract.methods.createPatient().call();  
+    try {
+      await this.healthcareContract.methods.createPatient().send({from: this.defaultAccount, gasPrice: "0"});  
+    }
+    catch(err) {
+      console.log(err);
+    }
   }
 
   public async readPatient(patientAddress: any) {
@@ -142,17 +164,21 @@ export class BlockchainService {
                               phone: string,
                               homeAddress: string,
                               gender: string) {
-    var res: boolean = await this.healthcareContract.methods.updatePatient(patientAddress, name, dateOfBirth, email, phone, homeAddress, gender).send({from: this.defaultAccount, gasPrice: "0"});
-    if(res) {
-      console.log("Patient updated!");
+    try {
+      await this.healthcareContract.methods.updatePatient(patientAddress, name, dateOfBirth, email, phone, homeAddress, gender).send({from: this.defaultAccount, gasPrice: "0"});  
     }
-    else {
-      console.log("Error updating patient data!");
+    catch(err) {
+      console.log(err);
     }
   }
 
   public async createDoctor() {
-    await this.healthcareContract.methods.createDoctor().call();
+    try {
+      await this.healthcareContract.methods.createDoctor().send({from: this.defaultAccount, gasPrice: "0"});  
+    }
+    catch(err) {
+      console.log(err);
+    }
   }
 
   public async readDoctor(doctorAddress: any) {
@@ -165,12 +191,11 @@ export class BlockchainService {
                               phone: string,
                               assignedHospital: string,
                               medicalSpeciality: string) {
-    var res: boolean = await this.healthcareContract.methods.updateDoctor(doctorAddress, name, email, phone, assignedHospital, medicalSpeciality).send({from: this.defaultAccount, gasPrice: "0"});;
-    if(res) {
-      console.log("Doctor updated!");
+    try {
+      await this.healthcareContract.methods.updateDoctor(doctorAddress, name, email, phone, assignedHospital, medicalSpeciality).send({from: this.defaultAccount, gasPrice: "0"});;  
     }
-    else {
-      console.log("Error updating doctor data!");
+    catch(err) {
+      console.log(err);
     }
   }
 
@@ -186,12 +211,11 @@ export class BlockchainService {
                                     bloodType: string,
                                     hasInsurance: boolean,
                                     treatmentsIds: number[]) {
-    var res: boolean = await this.healthcareContract.methods.updateMedicalRecord(medicalRecordAddress, medications, allergies, illnesses, immunizations, bloodType, hasInsurance, treatmentsIds).send({from: this.defaultAccount, gasPrice: "0"});
-    if(res) {
-      console.log("Medical record updated!");
+    try {
+      await this.healthcareContract.methods.updateMedicalRecord(medicalRecordAddress, medications, allergies, illnesses, immunizations, bloodType, hasInsurance, treatmentsIds).send({from: this.defaultAccount, gasPrice: "0"});  
     }
-    else {
-      console.log("Error updating medical record data!");
+    catch(err) {
+      console.log(err);
     }
   }
 
@@ -202,12 +226,11 @@ export class BlockchainService {
                                 fromDate: number,
                                 toDate: number,
                                 bill: number) {
-    var res: boolean = await this.healthcareContract.methods.createTreatment(patientAddress, doctorAddress, diagnosis, medicine, fromDate, toDate, bill).send({from: this.defaultAccount, gasPrice: "0"});
-    if(res) {
-      console.log("Treatment created!");
+    try {
+      await this.healthcareContract.methods.createTreatment(patientAddress, doctorAddress, diagnosis, medicine, fromDate, toDate, bill).send({from: this.defaultAccount, gasPrice: "0"});
     }
-    else {
-      console.log("Error creating new treatment!");
+    catch(err) {
+      console.log(err);
     }
   }
 
@@ -223,12 +246,11 @@ export class BlockchainService {
                                 fromDate: number,
                                 toDate: number,
                                 bill: number) {
-    var res: boolean = await this.healthcareContract.methods.updateTreatment(treatmentId, patientAddress, doctorAddress, diagnosis, medicine, fromDate, toDate, bill).send({from: this.defaultAccount, gasPrice: "0"});
-    if(res) {
-      console.log("Treatment updated!");
+    try {
+      await this.healthcareContract.methods.updateTreatment(treatmentId, patientAddress, doctorAddress, diagnosis, medicine, fromDate, toDate, bill).send({from: this.defaultAccount, gasPrice: "0"});
     }
-    else {
-      console.log("Error updating treatment data!");
+    catch(err) {
+      console.log(err);
     }
   }
 }
