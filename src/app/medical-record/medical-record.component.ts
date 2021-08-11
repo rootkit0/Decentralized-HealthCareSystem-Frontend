@@ -1,30 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { MedicalRecord } from 'src/app/models/medical-record';
-import { BlockchainService } from 'src/app/services/blockchain.service';
+import { MedicalRecord } from '../models/medical-record';
+import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
-  selector: 'app-medical-record-detail',
-  templateUrl: './medical-record-detail.component.html',
-  styleUrls: ['./medical-record-detail.component.css']
+  selector: 'app-medical-record',
+  templateUrl: './medical-record.component.html',
+  styleUrls: ['./medical-record.component.css']
 })
-export class MedicalRecordDetailComponent implements OnInit {
+export class MedicalRecordComponent implements OnInit {
   private blockchainAccount: any;
+  userRole: any;
   medicalRecord: MedicalRecord = new MedicalRecord();
+  bloodTypes = [
+    "A+","A-","B+","B-","O+","O-","AB+","AB-"
+  ];
   
   constructor(private blockchainService: BlockchainService) {
-    this.getBlockchainAccount();
     this.getData();
-  }
-
-  private async getBlockchainAccount() {
-    await this.blockchainService.getDefaultAccount();
-    this.blockchainAccount = this.blockchainService.defaultAccount;
   }
 
   ngOnInit(): void {
   }
 
   private async getData() {
+    //Get blockchain account
+    await this.blockchainService.getDefaultAccount();
+    this.blockchainAccount = this.blockchainService.defaultAccount;
+    //Get user role
+    this.userRole = await this.blockchainService.getUserRole();
+    //Get data
     var medicalRecordJSON: any = await this.blockchainService.readMedicalRecord(this.blockchainAccount);
     this.medicalRecord.medications = medicalRecordJSON.medications;
     this.medicalRecord.allergies = medicalRecordJSON.allergies;

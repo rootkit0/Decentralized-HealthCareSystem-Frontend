@@ -4,13 +4,10 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { PatientListComponent } from './patient/patient-list/patient-list.component';
-import { MedicalRecordEditComponent } from './medical-record/medical-record-edit/medical-record-edit.component';
-import { MedicalRecordDetailComponent } from './medical-record/medical-record-detail/medical-record-detail.component';
-import { TreatmentCreateComponent } from './treatment/treatment-create/treatment-create.component';
-import { TreatmentEditComponent } from './treatment/treatment-edit/treatment-edit.component';
-import { TreatmentDetailComponent } from './treatment/treatment-detail/treatment-detail.component';
-import { TreatmentListComponent } from './treatment/treatment-list/treatment-list.component';
+import { PatientListComponent } from './patient-list/patient-list.component';
+import { TreatmentListComponent } from './treatment-list/treatment-list.component';
+import { TreatmentComponent } from './treatment/treatment.component';
+import { MedicalRecordComponent } from './medical-record/medical-record.component';
 
 import { AuthGuardService } from './services/auth-guard.service';
 import { UserRoles } from './models/user-roles';
@@ -22,31 +19,6 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuardService]},
   { path: 'patient-list', component: PatientListComponent, canActivate: [AuthGuardService],
-    data: {
-      userRole: UserRoles.DOCTOR
-    }
-  },
-  { path: 'medical-record-edit', component: MedicalRecordEditComponent, canActivate: [AuthGuardService],
-    data: {
-      userRole: UserRoles.DOCTOR
-    }
-  },
-  { path: 'medical-record-detail', component: MedicalRecordDetailComponent, canActivate: [AuthGuardService],
-    data: {
-      userRole: UserRoles.PATIENT
-    }
-  },
-  { path: 'treatment-create', component: TreatmentCreateComponent, canActivate: [AuthGuardService],
-    data: {
-      userRole: UserRoles.DOCTOR
-    }
-  },
-  { path: 'treatment-detail', component: TreatmentDetailComponent, canActivate: [AuthGuardService],
-    data: {
-      userRole: UserRoles.PATIENT
-    }
-  },
-  { path: 'treatment-edit', component: TreatmentEditComponent, canActivate: [AuthGuardService],
     data: {
       userRole: UserRoles.DOCTOR
     }

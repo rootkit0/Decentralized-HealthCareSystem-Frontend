@@ -1,8 +1,8 @@
 <div class="example-container">
     <mat-card class="treatment-card">
-        <mat-card-content>
+        <mat-card-content *ngIf="userRole == 'patient'">
             <h2 class="treatment-title">Create treatment</h2>
-            <form (ngSubmit)="onSubmit()">
+            <form>
                 <mat-list class="treatment-list">
                     <mat-list-item>
                         <mat-form-field>

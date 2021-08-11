@@ -1,7 +1,7 @@
 export class Treatment {
     treatmentId!: number;
-    patientId!: string;
-    doctorId!: string;
+    patientId!: any;
+    doctorId!: any;
     diagnosis!: string;
     medicine!: string;
     fromDate!: number;

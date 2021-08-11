@@ -1,4 +1,5 @@
 export class MedicalRecord {
+    medicalRecordId: any;
     medications!: string;
     allergies!: string;
     illnesses!: string;

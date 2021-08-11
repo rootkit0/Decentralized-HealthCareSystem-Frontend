@@ -34,7 +34,7 @@
         <h2 class="admin-dashboard-title">Doctor list</h2>
         <mat-card *ngFor="let doctor of doctors" class="admin-dashboard-card">
             <mat-card-title>{{ doctor.name }}</mat-card-title>
-            <mat-card-subtitle>{{ doctor.address }}</mat-card-subtitle>
+            <mat-card-subtitle>{{ doctor.doctorId }}</mat-card-subtitle>
             <mat-card-content>
                 <mat-list>
                     <mat-list-item>
@@ -51,11 +51,11 @@
         <h2 class="admin-dashboard-title">Patient list</h2>
         <mat-card *ngFor="let patient of patients" class="admin-dashboard-card">
             <mat-card-title>{{ patient.name }}</mat-card-title>
-            <mat-card-subtitle>{{ patient.address }}</mat-card-subtitle>
+            <mat-card-subtitle>{{ patient.patientId }}</mat-card-subtitle>
             <mat-card-content>
                 <mat-list>
                     <mat-list-item>
-                        Assigned to doctor: {{ patient.assignedDoctor }}
+                        Assigned to doctor: {{ patient.assignedDoctorId }}
                     </mat-list-item>
                     <mat-list-item class="user-profile-button">
                         <button mat-raised-button color="primary">Show patient data!</button>

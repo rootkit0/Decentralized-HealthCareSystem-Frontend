@@ -1,12 +1,12 @@
 export class Doctor {
-    address: any;
+    doctorId: any;
     name!: string;
     email!: string;
     phone!: string;
     homeAddress!: string;
     city!: string;
-    postalCode!: number;
+    postalCode!: string;
     medicalSpeciality!: string;
     assignedHospital!: string;
-    assignedPatients!: any[];
+    assignedPatientsIds!: any[];
 }

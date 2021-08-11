@@ -9,13 +9,9 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { PatientListComponent } from './patient/patient-list/patient-list.component';
-import { MedicalRecordEditComponent } from './medical-record/medical-record-edit/medical-record-edit.component';
-import { MedicalRecordDetailComponent } from './medical-record/medical-record-detail/medical-record-detail.component';
-import { TreatmentCreateComponent } from './treatment/treatment-create/treatment-create.component';
-import { TreatmentEditComponent } from './treatment/treatment-edit/treatment-edit.component';
-import { TreatmentDetailComponent } from './treatment/treatment-detail/treatment-detail.component';
-import { TreatmentListComponent } from './treatment/treatment-list/treatment-list.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { MedicalRecordComponent } from './medical-record/medical-record.component';
+import { TreatmentComponent } from './treatment/treatment.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -30,7 +26,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -39,14 +34,9 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     SignupComponent,
     HomeComponent,
     UserProfileComponent,
-    PatientListComponent,
-    MedicalRecordEditComponent,
-    MedicalRecordDetailComponent,
-    TreatmentCreateComponent,
-    TreatmentEditComponent,
-    TreatmentDetailComponent,
-    TreatmentListComponent,
-    AdminDashboardComponent    
+    AdminDashboardComponent,
+    MedicalRecordComponent,
+    TreatmentComponent    
   ],
   imports: [
     BrowserModule,

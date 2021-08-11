@@ -39,7 +39,7 @@ export class AdminDashboardComponent implements OnInit {
         var patientJSON: any = await this.blockchainService.readPatient(patientAddress);
         //Parse obtained data to recognizable object
         var patient: Patient = new Patient();
-        patient.address = patientJSON.address;
+        patient.patientId = patientJSON.patientId;
         patient.name = patientJSON.name;
         patient.dateOfBirth = patientJSON.dateOfBirth;
         patient.email = patientJSON.email;
@@ -47,7 +47,7 @@ export class AdminDashboardComponent implements OnInit {
         patient.homeAddress = patientJSON.homeAddress;
         patient.city = patientJSON.city;
         patient.postalCode = patientJSON.postalCode;
-        patient.assignedDoctor = patientJSON.assignedDoctor;
+        patient.assignedDoctorId = patientJSON.assignedDoctorId;
         this.patients.push(patient);
       }
     }
@@ -66,7 +66,7 @@ export class AdminDashboardComponent implements OnInit {
         doctorJSON = await this.blockchainService.readDoctor(doctorAddress);
         //Parse obtained data to recognizable object
         var doctor: Doctor = new Doctor();
-        doctor.address = doctorJSON.address;
+        doctor.doctorId = doctorJSON.doctorId;
         doctor.name = doctorJSON.name;
         doctor.email = doctorJSON.email;
         doctor.phone = doctorJSON.phone;
@@ -75,7 +75,7 @@ export class AdminDashboardComponent implements OnInit {
         doctor.postalCode = doctorJSON.postalCode;
         doctor.medicalSpeciality = doctorJSON.medicalSpeciality;
         doctor.assignedHospital = doctorJSON.assignedHospital;
-        doctor.assignedPatients = doctorJSON.assignedPatients;
+        doctor.assignedPatientsIds = doctorJSON.assignedPatientsIds;
         this.doctors.push(doctor);
       }
     }
