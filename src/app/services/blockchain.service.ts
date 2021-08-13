@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
-import { UserRoles } from '../models/user-roles';
 import { AuthService } from './auth.service';
 declare let window: any;
 
@@ -16,8 +15,8 @@ export class BlockchainService {
   //Declare default account
   public defaultAccount: any;
   //Declare contracts deploy addresses
-  private authContractDeployedAt = "0xe77723f4fE929F3be30fc9c1B8203a1103a42adC";
-  private healthcareContractDeployedAt = "0x60De452b44D0cb71b162779442BBF023fFab0f36";
+  private authContractDeployedAt = "0x29a762103057243055F3211db8e3a570dfCD8f8b";
+  private healthcareContractDeployedAt = "0x9b31f18604FA69b730D11Dc6D4F0eA8dB53dc676";
 
   constructor(private authService: AuthService) {
     this.connectBlockchain();
@@ -64,7 +63,7 @@ export class BlockchainService {
 
   private async deployContracts() {
     this.authContract = new this.web3.eth.Contract(
-      [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"getUserRole","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isAdmin","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"loginUser","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"signupUser","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"oldPasswordHash","type":"string"},{"internalType":"string","name":"newPasswordHash","type":"string"}],"name":"updateUserPassword","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"userId","type":"string"},{"internalType":"string","name":"newUserRole","type":"string"}],"name":"updateUserRole","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}],
+      [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"authList","outputs":[{"internalType":"address","name":"userId","type":"address"},{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"},{"internalType":"string","name":"userRole","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"loginUser","outputs":[],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"userId","type":"string"}],"name":"readUserRole","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"signupUser","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"oldPasswordHash","type":"string"},{"internalType":"string","name":"newPasswordHash","type":"string"}],"name":"updateUserPassword","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"userId","type":"string"},{"internalType":"string","name":"newUserRole","type":"string"}],"name":"updateUserRole","outputs":[],"stateMutability":"nonpayable","type":"function"}],
       this.authContractDeployedAt
     );
     this.healthcareContract = new this.web3.eth.Contract(
@@ -83,62 +82,29 @@ export class BlockchainService {
 
   //Auth contract methods
   public async signupUser(idCardNumber: string, healthCardId: string, passwordHash: string) {
-    var res: boolean = await this.authContract.methods.signupUser(idCardNumber, healthCardId, passwordHash).send({from: this.defaultAccount, gasPrice: "0"});
-    if(res) {
-      console.log("User registered!");
-      const userRole = await this.getUserRole();
-      if(userRole == UserRoles.PATIENT) {
-        await this.createPatient();
-      }
-      if(userRole == UserRoles.DOCTOR) {
-        await this.createDoctor();
-      }
-    }
-    else {
-      console.log("Error registering user!");
-    }
+    await this.authContract.methods.signupUser(idCardNumber, healthCardId, passwordHash).send({from: this.defaultAccount, gasPrice: "0"});
   }
 
   public async loginUser(idCardNumber: string, healthCardId: string, passwordHash: string) {
-    var res: boolean = await this.authContract.methods.loginUser(idCardNumber, healthCardId, passwordHash).send({from: this.defaultAccount, gasPrice: "0"});
-    if(res) {
-      console.log("User logged in!");
-      await this.authService.generateToken(idCardNumber);
+    try {
+      await this.authContract.methods.loginUser(idCardNumber, healthCardId, passwordHash).send({from: this.defaultAccount, gasPrice: "0"});
+      await this.authService.generateToken(idCardNumber + healthCardId);
     }
-    else {
-      console.log("Error logging in user!");
+    catch(err) {
+      console.log(err);
     }
   }
 
   public async updateUserPassword(oldPasswordHash: string, newPasswordHash: string) {
-    var res: boolean = await this.authContract.methods.updateUserPassword(oldPasswordHash, newPasswordHash).send({from: this.defaultAccount, gasPrice: "0"});
-    if(res) {
-      console.log("Password updated!");
-    }
-    else {
-      console.log("Error updating password!");
-    }
+    await this.authContract.methods.updateUserPassword(oldPasswordHash, newPasswordHash).send({from: this.defaultAccount, gasPrice: "0"});
   }
 
   public async getUserRole() {
-    return await this.authContract.methods.getUserRole().call();
+    return await this.authContract.methods.readUserRole(this.defaultAccount).call();
   }
 
-  public async updateUserRole(userId: any, userRole: string) {
-    var res: boolean = await this.authContract.methods.updateUserRole(userId, userRole).send({from: this.defaultAccount, gasPrice: "0"});
-    if(res) {
-      console.log("Role updated!");
-      const userRole = await this.getUserRole();
-      if(userRole == UserRoles.PATIENT) {
-        await this.createPatient();
-      }
-      if(userRole == UserRoles.DOCTOR) {
-        await this.createDoctor();
-      }
-    }
-    else {
-      console.log("Error updating user role!");
-    }
+  public async updateUserRole(userId: string, userRole: string) {
+    await this.authContract.methods.updateUserRole(userId, userRole).send({from: this.defaultAccount, gasPrice: "0"});
   }
 
   //Healthcare contract methods
@@ -208,21 +174,5 @@ export class BlockchainService {
 
   public async readTreatment(treatmentId: number) {
     return await this.healthcareContract.methods.readTreatment(treatmentId).call();
-  }
-
-  public async getPatientAddresses() {
-    const userRole = await this.getUserRole();
-    if(userRole == UserRoles.ADMIN) {
-      return await this.healthcareContract.methods.getPatientAddresses().call();
-    }
-    return null;
-  }
-
-  public async getDoctorAddresses() {
-    const userRole = await this.getUserRole();
-    if(userRole == UserRoles.ADMIN) {
-      return await this.healthcareContract.methods.getDoctorAddresses().call();
-    }
-    return null;
   }
 }

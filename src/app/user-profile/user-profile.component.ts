@@ -61,7 +61,7 @@ export class UserProfileComponent implements OnInit {
 
   async updatePatient() {
     try {
-      await this.blockchainService.updatePatient(this.patient.patientId, this.patient.name, this.patient.dateOfBirth, this.patient.email, this.patient.phone, this.patient.homeAddress, this.patient.city, this.patient.postalCode);
+      await this.blockchainService.updatePatient(this.blockchainAccount, this.patient.name, this.patient.dateOfBirth, this.patient.email, this.patient.phone, this.patient.homeAddress, this.patient.city, this.patient.postalCode);
     }
     catch(err) {
       console.log(err);
@@ -70,7 +70,7 @@ export class UserProfileComponent implements OnInit {
 
   async updateDoctor() {
     try {
-      await this.blockchainService.updateDoctor(this.doctor.doctorId, this.doctor.name, this.doctor.email, this.doctor.phone, this.doctor.homeAddress, this.doctor.city, this.doctor.postalCode, this.doctor.medicalSpeciality, this.doctor.assignedHospital);
+      await this.blockchainService.updateDoctor(this.blockchainAccount, this.doctor.name, this.doctor.email, this.doctor.phone, this.doctor.homeAddress, this.doctor.city, this.doctor.postalCode, this.doctor.medicalSpeciality, this.doctor.assignedHospital);
     }
     catch(err) {
       console.log(err);

@@ -2,11 +2,11 @@
     <h2 class="patient-list-title">Assigned patients</h2>
     <mat-card *ngFor="let patient of patients" class="patient-list-card">
         <mat-card-title>{{ patient.name }}</mat-card-title>
-        <mat-card-subtitle>{{ patient.address }}</mat-card-subtitle>
+        <mat-card-subtitle>{{ patient.patientId }}</mat-card-subtitle>
         <mat-card-content>
             <mat-list>
                 <mat-list-item>
-                    Assigned to doctor: {{ patient.assignedDoctor }}
+                    Assigned to doctor: {{ patient.assignedDoctorId }}
                 </mat-list-item>
                 <mat-list-item class="user-profile-button">
                     <button mat-raised-button color="primary">Show patient data!</button>

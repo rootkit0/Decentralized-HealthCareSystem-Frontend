@@ -33,7 +33,7 @@ export class AdminDashboardComponent implements OnInit {
 
   private async getPatients() {
     try {
-      var patientAddresses: any[] = await this.blockchainService.getPatientAddresses();
+      var patientAddresses: any[] = [];
       for(var patientAddress in patientAddresses) {
         //For each entry get patient data
         var patientJSON: any = await this.blockchainService.readPatient(patientAddress);
@@ -58,8 +58,7 @@ export class AdminDashboardComponent implements OnInit {
 
   async getDoctors() {
     try {
-      var doctorAddresses: any[];
-      doctorAddresses = await this.blockchainService.getDoctorAddresses();
+      var doctorAddresses: any[] = [];
       for(var doctorAddress in doctorAddresses) {
         //For each entry get doctor data
         var doctorJSON: any;

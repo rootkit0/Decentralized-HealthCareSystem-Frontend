@@ -2,7 +2,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnDestroy } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
-import { faBars, faSignInAlt, faSignOutAlt, faUserCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSignInAlt, faSignOutAlt, faUserCircle, faUserPlus, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -11,7 +11,6 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnDestroy {
-  title = 'HealthCareSystem-Blockchain';
   isAuthenticated: boolean = false;
 
   //Icons
@@ -20,6 +19,7 @@ export class AppComponent implements OnDestroy {
   faSignOutAlt = faSignOutAlt;
   faSignInAlt = faSignInAlt;
   faUserPlus = faUserPlus;
+  faHeart = faHeart;
   //Responsive stuff
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
