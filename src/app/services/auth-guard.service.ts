@@ -27,13 +27,13 @@ export class AuthGuardService implements CanActivate {
   private async checkPermission(allowedUserRole: UserRoles) {
     //Check that user is authenticated
     if(!this.authService.isAuthenticated()) {
-      this.router.navigate(['login']);
+      this.router.navigate(['/login']);
       return false;
     }
     //Check user role
     else {
       try {
-        this.userRole = await this.blockchainService.getUserRole();
+        this.userRole = await this.blockchainService.readUserRole();
         if(this.userRole == UserRoles.ADMIN || !allowedUserRole) {
           return true;
         }

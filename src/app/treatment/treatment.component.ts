@@ -24,7 +24,7 @@ export class TreatmentComponent implements OnInit {
     await this.blockchainService.getDefaultAccount();
     this.blockchainAccount = this.blockchainService.defaultAccount;
     //Get user role
-    this.userRole = await this.blockchainService.getUserRole();
+    this.userRole = await this.blockchainService.readUserRole();
     //Get data
     var treatmentJSON: any = await this.blockchainService.readTreatment(1);
     this.treatment.treatmentId = treatmentJSON.treatmentId;

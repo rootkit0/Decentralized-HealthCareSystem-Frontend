@@ -27,7 +27,7 @@ export class UserProfileComponent implements OnInit {
     await this.blockchainService.getDefaultAccount();
     this.blockchainAccount = this.blockchainService.defaultAccount;
     //Get user role
-    this.userRole = await this.blockchainService.getUserRole();
+    this.userRole = await this.blockchainService.readUserRole();
     //Get data
     if(this.userRole == UserRoles.PATIENT) {
       var patientJSON: any = await this.blockchainService.readPatient(this.blockchainAccount);

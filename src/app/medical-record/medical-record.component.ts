@@ -27,7 +27,7 @@ export class MedicalRecordComponent implements OnInit {
     await this.blockchainService.getDefaultAccount();
     this.blockchainAccount = this.blockchainService.defaultAccount;
     //Get user role
-    this.userRole = await this.blockchainService.getUserRole();
+    this.userRole = await this.blockchainService.readUserRole();
     //Get data
     var medicalRecordJSON: any = await this.blockchainService.readMedicalRecord(this.blockchainAccount);
     this.medicalRecord.medications = medicalRecordJSON.medications;

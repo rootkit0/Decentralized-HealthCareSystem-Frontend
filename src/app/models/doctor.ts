@@ -1,5 +1,5 @@
 export class Doctor {
-    doctorId: any;
+    doctorId!: string;
     name!: string;
     email!: string;
     phone!: string;

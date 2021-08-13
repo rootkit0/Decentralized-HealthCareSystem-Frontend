@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as jwt from 'jsonwebtoken';
 
 //For obvious security reasons must store priv key in unaccessible site
-const PRIV_KEY = "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn\
+const PRIV_KEY = "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAAB\
 NhAAAAAwEAAQAAAYEA5HOAflcEMFhctmx6MkEcEcNWiH+pPJiqk5Dp5jIkqpNGENPlqIB5\
 8USK9gN51dsEn6UU6i1LB++wnBLId1Bvu0fs9s/DDGS6RRLF3JvM8aEpMXFfzNArs64Xxq\
 z0JWxwYW6yxlEm8EHSmANUSnzrxojMD1p8SvSrWoVGd2t3n1o5xz8e/fQLtW14p4szIXM4\
