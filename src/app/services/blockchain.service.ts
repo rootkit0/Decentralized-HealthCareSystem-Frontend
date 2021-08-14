@@ -10,13 +10,12 @@ declare let window: any;
 })
 export class BlockchainService {
   private web3!: Web3;
-
   //Declare contracts
   private authContract: any;
   private healthcareContract: any;
   //Declare contracts deploy addresses
-  private authContractDeployedAt = "0xD528D82E03A4677fd3fD99B97b7E14006A73b574";
-  private healthcareContractDeployedAt = "0x93d122475A7220DC8d3210E657c88569a8E89cF3";
+  private authContractDeployedAt = "0xeb9F1DEE3839B2AF95B122b8d63199CAD705Fe90";
+  private healthcareContractDeployedAt = "0x2Bb120fdF294A145099CF49Bfc975d39bD0e0414";
 
   constructor(private authService: AuthService, private router: Router) {
     this.connectBlockchain();
@@ -70,7 +69,7 @@ export class BlockchainService {
   }
 
   public async getDefaultAccount() {
-    var ret;
+    var ret: any;
     await this.web3.eth.getAccounts().then(
       data => {
         ret = data[0];
@@ -82,7 +81,8 @@ export class BlockchainService {
   //Auth contract methods
   public async signupUser(idCardNumber: string, healthCardId: string, passwordHash: string) {
     try {
-      var res: boolean = await this.authContract.methods.signupUser(idCardNumber, healthCardId, passwordHash).send({from: this.getDefaultAccount(), gasPrice: "0"});
+      var defaultAccount: any = await this.getDefaultAccount();
+      var res: boolean = await this.authContract.methods.signupUser(idCardNumber, healthCardId, passwordHash).send({from: defaultAccount, gasPrice: "0"});
       if(res) {
         //Create user instance depending on role
         const userRole = await this.readUserRole();
@@ -102,7 +102,8 @@ export class BlockchainService {
 
   public async loginUser(idCardNumber: string, healthCardId: string, passwordHash: string) {
     try {
-      var res: boolean = await this.authContract.methods.loginUser(idCardNumber, healthCardId, passwordHash).send({from: this.getDefaultAccount(), gasPrice: "0"});
+      var defaultAccount: any = await this.getDefaultAccount();
+      var res: boolean = await this.authContract.methods.loginUser(idCardNumber, healthCardId, passwordHash).send({from: defaultAccount, gasPrice: "0"});
       if(res) {
         //Generate auth token if success
         this.authService.generateToken(idCardNumber + healthCardId);
@@ -117,7 +118,8 @@ export class BlockchainService {
 
   public async updateUserPassword(oldPasswordHash: string, newPasswordHash: string) {
     try {
-      var res: boolean = await this.authContract.methods.updateUserPassword(oldPasswordHash, newPasswordHash).send({from: this.getDefaultAccount(), gasPrice: "0"});
+      var defaultAccount: any = await this.getDefaultAccount();
+      var res: boolean = await this.authContract.methods.updateUserPassword(oldPasswordHash, newPasswordHash).send({from: defaultAccount, gasPrice: "0"});
       if(res) {
         //Deauth user
         this.authService.removeToken();
@@ -132,7 +134,8 @@ export class BlockchainService {
 
   public async updateUserRole(userId: string, userRole: string) {
     try {
-      var res: boolean = await this.authContract.methods.updateUserRole(userId, userRole).send({from: this.getDefaultAccount(), gasPrice: "0"});
+      var defaultAccount: any = await this.getDefaultAccount();
+      var res: boolean = await this.authContract.methods.updateUserRole(userId, userRole).send({from: defaultAccount, gasPrice: "0"});
       if(res) {
         //Create user instance depending on new role
         const userRole = await this.readUserRole();
@@ -150,7 +153,8 @@ export class BlockchainService {
   }
 
   public async readUserRole() {
-    return await this.authContract.methods.readUserRole(this.getDefaultAccount()).call();
+    var defaultAccount: any = await this.getDefaultAccount();
+    return await this.authContract.methods.readUserRole(defaultAccount).call();
   }
 
   public async readUserRoleById(userId: string) {
@@ -160,7 +164,8 @@ export class BlockchainService {
   //Healthcare contract methods
   public async createPatient() {
     try {
-      await this.healthcareContract.methods.createPatient().send({from: this.getDefaultAccount(), gasPrice: "0"});
+      var defaultAccount: any = await this.getDefaultAccount();
+      await this.healthcareContract.methods.createPatient().send({from: defaultAccount, gasPrice: "0"});
     }
     catch(err) {
       console.log(err);
@@ -180,7 +185,8 @@ export class BlockchainService {
                               city: string,
                               postalCode: string) {
     try {
-      await this.healthcareContract.methods.updatePatient(patientId, name, dateOfBirth, email, phone, homeAddress, city, postalCode).send({from: this.getDefaultAccount(), gasPrice: "0"});  
+      var defaultAccount: any = await this.getDefaultAccount();
+      await this.healthcareContract.methods.updatePatient(patientId, name, dateOfBirth, email, phone, homeAddress, city, postalCode).send({from: defaultAccount, gasPrice: "0"});  
     }
     catch(err) {
       console.log(err);
@@ -189,7 +195,8 @@ export class BlockchainService {
 
   public async createDoctor() {
     try {
-      await this.healthcareContract.methods.createDoctor().send({from: this.getDefaultAccount(), gasPrice: "0"});
+      var defaultAccount: any = await this.getDefaultAccount();
+      await this.healthcareContract.methods.createDoctor().send({from: defaultAccount, gasPrice: "0"});
     }
     catch(err) {
       console.log(err);
@@ -210,7 +217,8 @@ export class BlockchainService {
                               medicalSpeciality: string,
                               assignedHospital: string) {
     try {
-      await this.healthcareContract.methods.updateDoctor(doctorId, name, email, phone, homeAddress, city, postalCode, medicalSpeciality, assignedHospital).send({from: this.getDefaultAccount(), gasPrice: "0"});
+      var defaultAccount: any = await this.getDefaultAccount();
+      await this.healthcareContract.methods.updateDoctor(doctorId, name, email, phone, homeAddress, city, postalCode, medicalSpeciality, assignedHospital).send({from: defaultAccount, gasPrice: "0"});
     }
     catch(err) {
       console.log(err);
@@ -230,7 +238,8 @@ export class BlockchainService {
                                     hasInsurance: boolean,
                                     treatmentsIds: number[]) {
       try {
-        await this.healthcareContract.methods.updateMedicalRecord(medicalRecordId, medications, allergies, illnesses, immunizations, bloodType, hasInsurance, treatmentsIds).send({from: this.getDefaultAccount(), gasPrice: "0"});  
+        var defaultAccount: any = await this.getDefaultAccount();
+        await this.healthcareContract.methods.updateMedicalRecord(medicalRecordId, medications, allergies, illnesses, immunizations, bloodType, hasInsurance, treatmentsIds).send({from: defaultAccount, gasPrice: "0"});  
       }
       catch(err) {
         console.log(err);
@@ -245,7 +254,8 @@ export class BlockchainService {
                                 toDate: number,
                                 bill: number) {
     try {
-      await this.healthcareContract.methods.createTreatment(patientId, doctorId, diagnosis, medicine, fromDate, toDate, bill).send({from: this.getDefaultAccount(), gasPrice: "0"});
+      var defaultAccount: any = await this.getDefaultAccount();
+      await this.healthcareContract.methods.createTreatment(patientId, doctorId, diagnosis, medicine, fromDate, toDate, bill).send({from: defaultAccount, gasPrice: "0"});
     }
     catch(err) {
       console.log(err);
@@ -265,7 +275,8 @@ export class BlockchainService {
                                 toDate: number,
                                 bill: number) {
     try {
-      await this.healthcareContract.methods.updateTreatment(treatmentId, patientId, doctorId, diagnosis, medicine, fromDate, toDate, bill).send({from: this.getDefaultAccount(), gasPrice: "0"});
+      var defaultAccount: any = await this.getDefaultAccount();
+      await this.healthcareContract.methods.updateTreatment(treatmentId, patientId, doctorId, diagnosis, medicine, fromDate, toDate, bill).send({from: defaultAccount, gasPrice: "0"});
     }
     catch(err) {
       console.log(err);

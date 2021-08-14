@@ -42,11 +42,15 @@ export class TreatmentComponent implements OnInit {
     this.treatment.bill = treatmentJSON.bill;
   }
 
+  updateTreatment() {
+    this.blockchainService.updateTreatment(this.treatment.treatmentId, this.treatment.patientId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
+  }
+
   createTreatment() {
     this.blockchainService.createTreatment(this.treatment.patientId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
   }
 
-  updateTreatment() {
-    this.blockchainService.updateTreatment(this.treatment.treatmentId, this.treatment.patientId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
+  clearData() {
+    this.treatment = new Treatment();
   }
 }

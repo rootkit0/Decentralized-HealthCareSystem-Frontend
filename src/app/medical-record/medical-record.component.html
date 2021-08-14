@@ -33,7 +33,7 @@
                         <mat-checkbox disabled [(ngModel)]="medicalRecord.hasInsurance" [ngModelOptions]="{standalone: true}">Have insurance?</mat-checkbox>
                     </mat-list-item>
                     <mat-list-item class="medical-record-last-item">
-                        <button mat-raised-button color="primary" routerLink="treatment-list/{{ paramAccount }}">Update password</button>
+                        <button mat-raised-button color="primary" routerLink="treatment-list/{{ paramAccount }}">View treatments!</button>
                     </mat-list-item>
                 </mat-list>
             </form>
@@ -75,7 +75,7 @@
                         <mat-checkbox [(ngModel)]="medicalRecord.hasInsurance" [ngModelOptions]="{standalone: true}">Have insurance?</mat-checkbox>
                     </mat-list-item>
                     <mat-list-item>
-                        <button mat-raised-button color="primary" routerLink="treatment-list/{{ paramAccount }}">Update password</button>
+                        <button mat-raised-button color="primary" routerLink="treatment-list/{{ paramAccount }}">View treatments!</button>
                     </mat-list-item>
                     <mat-list-item class="medical-record-button">
                         <button mat-raised-button color="primary" (click)="updateMedicalRecord()">Edit record!</button>
