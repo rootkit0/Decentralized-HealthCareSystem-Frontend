@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Treatment } from '../models/treatment';
 import { BlockchainService } from '../services/blockchain.service';
 
@@ -8,24 +9,29 @@ import { BlockchainService } from '../services/blockchain.service';
   styleUrls: ['./treatment.component.css']
 })
 export class TreatmentComponent implements OnInit {
-  private blockchainAccount: any;
+  treatmentId: number = 0;
   userRole: any;
   treatment: Treatment = new Treatment();
   
-  constructor(private blockchainService: BlockchainService) {
-    this.getData();
-  }
+  constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
   ngOnInit(): void {
+    this.treatmentId = this.activatedRoute.snapshot.params.id;
+    if(this.verifyRolePermission()) {
+      this.getData();
+    }
+  }
+
+  private async verifyRolePermission() {
+    //Testing purposes
+    return true;
   }
 
   private async getData() {
-    //Get blockchain account
-    this.blockchainAccount = await this.blockchainService.getDefaultAccount();
     //Get user role
     this.userRole = await this.blockchainService.readUserRole();
     //Get data
-    var treatmentJSON: any = await this.blockchainService.readTreatment(1);
+    var treatmentJSON: any = await this.blockchainService.readTreatment(this.treatmentId);
     this.treatment.treatmentId = treatmentJSON.treatmentId;
     this.treatment.patientId = treatmentJSON.patientId;
     this.treatment.doctorId = treatmentJSON.doctorId;
@@ -36,4 +42,11 @@ export class TreatmentComponent implements OnInit {
     this.treatment.bill = treatmentJSON.bill;
   }
 
+  createTreatment() {
+    this.blockchainService.createTreatment(this.treatment.patientId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
+  }
+
+  updateTreatment() {
+    this.blockchainService.updateTreatment(this.treatment.treatmentId, this.treatment.patientId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Patient } from 'src/app/models/patient';
 import { BlockchainService } from 'src/app/services/blockchain.service';
 
@@ -8,18 +9,18 @@ import { BlockchainService } from 'src/app/services/blockchain.service';
   styleUrls: ['./patient-list.component.css']
 })
 export class PatientListComponent implements OnInit {
-  private blockchainAccount: any;
+  paramAccount: any;
   patients: Patient[] = [];
 
-  constructor(private blockchainService: BlockchainService) {
+  constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
+
+  ngOnInit(): void {
+    this.paramAccount = this.activatedRoute.snapshot.params.id;
     this.getData();
   }
 
   private async getData() {
-    //Get blockchain account
-    this.blockchainAccount = await this.blockchainService.getDefaultAccount();
-    //Get data
-    var doctorJSON: any = await this.blockchainService.readDoctor(this.blockchainAccount);
+    var doctorJSON: any = await this.blockchainService.readDoctor(this.paramAccount);
     var patientsAccounts: any[] = doctorJSON.assignedPatients;
     for(var patientAccount in patientsAccounts) {
       //For each entry get patient data
@@ -37,8 +38,5 @@ export class PatientListComponent implements OnInit {
       patient.assignedDoctorId = patientJSON.assignedDoctorId;
       this.patients.push(patient);
     }
-  }
-
-  ngOnInit(): void {
   }
 }

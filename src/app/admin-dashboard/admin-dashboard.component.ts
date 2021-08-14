@@ -56,7 +56,7 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  async getDoctors() {
+  private async getDoctors() {
     try {
       var doctorAddresses: any[] = [];
       for(var doctorAddress in doctorAddresses) {
