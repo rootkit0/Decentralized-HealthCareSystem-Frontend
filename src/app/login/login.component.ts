@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
@@ -27,18 +27,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async onSubmit() {
-    try {
-      await this.blockchainService.loginUser(this.idCardNumber, this.healthCardId, this.password).then(
-        ret => {
-          this.router.navigate(["/user-profile"]);
-          window.location.reload();
-        }
-      );
-    }
-    catch(err) {
-      console.log(err);
-    }
+  logIn() {
+    this.blockchainService.loginUser(this.idCardNumber, this.healthCardId, this.password);
   }
-
 }

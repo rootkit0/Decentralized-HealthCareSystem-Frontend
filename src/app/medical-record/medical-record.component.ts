@@ -24,8 +24,7 @@ export class MedicalRecordComponent implements OnInit {
 
   private async getData() {
     //Get blockchain account
-    await this.blockchainService.getDefaultAccount();
-    this.blockchainAccount = this.blockchainService.defaultAccount;
+    this.blockchainAccount = await this.blockchainService.getDefaultAccount();
     //Get user role
     this.userRole = await this.blockchainService.readUserRole();
     //Get data

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
 
@@ -10,24 +11,32 @@ import { BlockchainService } from '../services/blockchain.service';
 export class HomeComponent implements OnInit {
   blockchainAccount: any;
   isAuthenticated: boolean = false;
+  userRole: any;
 
-  constructor(private blockchainService: BlockchainService, private authService: AuthService) {
+  constructor(private authService: AuthService, private blockchainService: BlockchainService, private router: Router) {
+    //Get blockchain account
     this.getBlockchainAccount();
-    //Check authentication
+    //Check authentication and get user role
     this.isAuthenticated = this.authService.isAuthenticated();
-  }
-
-  private async getBlockchainAccount() {
-    await this.blockchainService.getDefaultAccount();
-    this.blockchainAccount = this.blockchainService.defaultAccount;
-  }
-
-  logout(): void {
-    this.authService.removeToken();
-    window.location.reload();
+    if(this.isAuthenticated) {
+      this.getUserRole();
+    }
   }
 
   ngOnInit(): void {
   }
 
+  private async getBlockchainAccount() {
+    this.blockchainAccount = await this.blockchainService.getDefaultAccount();
+  }
+
+  private async getUserRole() {
+    this.userRole = await this.blockchainService.readUserRole();
+  }
+
+  logout(): void {
+    this.authService.removeToken();
+    this.router.navigate(["/login"]);
+    window.location.reload();
+  }
 }

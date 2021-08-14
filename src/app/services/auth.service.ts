@@ -72,6 +72,7 @@ export class AuthService {
           if(jwt.verify(token, PRIV_KEY)) {
             return true;
           }
+          this.removeToken();
         }
         catch(error) {
           console.log(error);

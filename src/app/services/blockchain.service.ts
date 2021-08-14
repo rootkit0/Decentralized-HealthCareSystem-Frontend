@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
+import { UserRoles } from '../models/user-roles';
 import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 declare let window: any;
 
 @Injectable({
@@ -9,16 +11,14 @@ declare let window: any;
 export class BlockchainService {
   private web3!: Web3;
 
-  //Declare default account
-  public defaultAccount: any;
   //Declare contracts
   private authContract: any;
   private healthcareContract: any;
   //Declare contracts deploy addresses
-  private authContractDeployedAt = "0x29a762103057243055F3211db8e3a570dfCD8f8b";
-  private healthcareContractDeployedAt = "0x9b31f18604FA69b730D11Dc6D4F0eA8dB53dc676";
+  private authContractDeployedAt = "0xD528D82E03A4677fd3fD99B97b7E14006A73b574";
+  private healthcareContractDeployedAt = "0x93d122475A7220DC8d3210E657c88569a8E89cF3";
 
-  constructor() {
+  constructor(private authService: AuthService, private router: Router) {
     this.connectBlockchain();
   }
 
@@ -28,7 +28,6 @@ export class BlockchainService {
       this.web3 = new Web3(window.ethereum);
       try {
         await window.ethereum.enable();
-        await this.getDefaultAccount();
         this.deployContracts();
       }
       catch(error) {
@@ -39,7 +38,6 @@ export class BlockchainService {
     else if(typeof window.web3 !== "undefined") {
       this.web3 = new Web3(window.web3.currentProvider);
       try {
-        await this.getDefaultAccount();
         this.deployContracts();
       }
       catch(error) {
@@ -52,7 +50,6 @@ export class BlockchainService {
       //Try to connect to local blockchain network
       this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
       try {
-        await this.getDefaultAccount();
         this.deployContracts();
       }
       catch(error) {
@@ -63,7 +60,7 @@ export class BlockchainService {
 
   private async deployContracts() {
     this.authContract = new this.web3.eth.Contract(
-      [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"authList","outputs":[{"internalType":"address","name":"userId","type":"address"},{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"},{"internalType":"string","name":"userRole","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"loginUser","outputs":[],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"userId","type":"string"}],"name":"readUserRole","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"signupUser","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"oldPasswordHash","type":"string"},{"internalType":"string","name":"newPasswordHash","type":"string"}],"name":"updateUserPassword","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"userId","type":"string"},{"internalType":"string","name":"newUserRole","type":"string"}],"name":"updateUserRole","outputs":[],"stateMutability":"nonpayable","type":"function"}],
+      [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"authList","outputs":[{"internalType":"address","name":"userId","type":"address"},{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"},{"internalType":"string","name":"userRole","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"loginUser","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"userId","type":"string"}],"name":"readUserRole","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"idCardNumber","type":"string"},{"internalType":"string","name":"healthCardId","type":"string"},{"internalType":"string","name":"passwordHash","type":"string"}],"name":"signupUser","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"oldPasswordHash","type":"string"},{"internalType":"string","name":"newPasswordHash","type":"string"}],"name":"updateUserPassword","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"userId","type":"string"},{"internalType":"string","name":"newUserRole","type":"string"}],"name":"updateUserRole","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}],
       this.authContractDeployedAt
     );
     this.healthcareContract = new this.web3.eth.Contract(
@@ -73,17 +70,30 @@ export class BlockchainService {
   }
 
   public async getDefaultAccount() {
+    var ret;
     await this.web3.eth.getAccounts().then(
       data => {
-        this.defaultAccount = data[0];
+        ret = data[0];
       }
     );
+    return ret;
   }
 
   //Auth contract methods
   public async signupUser(idCardNumber: string, healthCardId: string, passwordHash: string) {
     try {
-      await this.authContract.methods.signupUser(idCardNumber, healthCardId, passwordHash).send({from: this.defaultAccount, gasPrice: "0"});
+      var res: boolean = await this.authContract.methods.signupUser(idCardNumber, healthCardId, passwordHash).send({from: this.getDefaultAccount(), gasPrice: "0"});
+      if(res) {
+        //Create user instance depending on role
+        const userRole = await this.readUserRole();
+        if(userRole == UserRoles.PATIENT) {
+          await this.createPatient();
+        }
+        if(userRole == UserRoles.DOCTOR) {
+          await this.createDoctor();
+        }
+        this.router.navigate(["/login"]);
+      }
     }
     catch(err) {
       console.log(err);
@@ -92,7 +102,13 @@ export class BlockchainService {
 
   public async loginUser(idCardNumber: string, healthCardId: string, passwordHash: string) {
     try {
-      await this.authContract.methods.loginUser(idCardNumber, healthCardId, passwordHash).send({from: this.defaultAccount, gasPrice: "0"});
+      var res: boolean = await this.authContract.methods.loginUser(idCardNumber, healthCardId, passwordHash).send({from: this.getDefaultAccount(), gasPrice: "0"});
+      if(res) {
+        //Generate auth token if success
+        this.authService.generateToken(idCardNumber + healthCardId);
+        this.router.navigate(["/user-profile"]);
+        window.location.reload();
+      }
     }
     catch(err) {
       console.log(err);
@@ -101,7 +117,13 @@ export class BlockchainService {
 
   public async updateUserPassword(oldPasswordHash: string, newPasswordHash: string) {
     try {
-      await this.authContract.methods.updateUserPassword(oldPasswordHash, newPasswordHash).send({from: this.defaultAccount, gasPrice: "0"});
+      var res: boolean = await this.authContract.methods.updateUserPassword(oldPasswordHash, newPasswordHash).send({from: this.getDefaultAccount(), gasPrice: "0"});
+      if(res) {
+        //Deauth user
+        this.authService.removeToken();
+        this.router.navigate(["/login"]);
+        window.location.reload();
+      }
     }
     catch(err) {
       console.log(err);
@@ -110,7 +132,17 @@ export class BlockchainService {
 
   public async updateUserRole(userId: string, userRole: string) {
     try {
-      await this.authContract.methods.updateUserRole(userId, userRole).send({from: this.defaultAccount, gasPrice: "0"});
+      var res: boolean = await this.authContract.methods.updateUserRole(userId, userRole).send({from: this.getDefaultAccount(), gasPrice: "0"});
+      if(res) {
+        //Create user instance depending on new role
+        const userRole = await this.readUserRole();
+        if(userRole == UserRoles.PATIENT) {
+          await this.createPatient();
+        }
+        if(userRole == UserRoles.DOCTOR) {
+          await this.createDoctor();
+        }
+      }
     }
     catch(err) {
       console.log(err);
@@ -118,13 +150,13 @@ export class BlockchainService {
   }
 
   public async readUserRole() {
-    return await this.authContract.methods.readUserRole(this.defaultAccount).call();
+    return await this.authContract.methods.readUserRole(this.getDefaultAccount()).call();
   }
 
   //Healthcare contract methods
   public async createPatient() {
     try {
-      await this.healthcareContract.methods.createPatient().send({from: this.defaultAccount, gasPrice: "0"});
+      await this.healthcareContract.methods.createPatient().send({from: this.getDefaultAccount(), gasPrice: "0"});
     }
     catch(err) {
       console.log(err);
@@ -144,7 +176,7 @@ export class BlockchainService {
                               city: string,
                               postalCode: string) {
     try {
-      await this.healthcareContract.methods.updatePatient(patientId, name, dateOfBirth, email, phone, homeAddress, city, postalCode).send({from: this.defaultAccount, gasPrice: "0"});  
+      await this.healthcareContract.methods.updatePatient(patientId, name, dateOfBirth, email, phone, homeAddress, city, postalCode).send({from: this.getDefaultAccount(), gasPrice: "0"});  
     }
     catch(err) {
       console.log(err);
@@ -153,7 +185,7 @@ export class BlockchainService {
 
   public async createDoctor() {
     try {
-      await this.healthcareContract.methods.createDoctor().send({from: this.defaultAccount, gasPrice: "0"});
+      await this.healthcareContract.methods.createDoctor().send({from: this.getDefaultAccount(), gasPrice: "0"});
     }
     catch(err) {
       console.log(err);
@@ -174,7 +206,7 @@ export class BlockchainService {
                               medicalSpeciality: string,
                               assignedHospital: string) {
     try {
-      await this.healthcareContract.methods.updateDoctor(doctorId, name, email, phone, homeAddress, city, postalCode, medicalSpeciality, assignedHospital).send({from: this.defaultAccount, gasPrice: "0"});
+      await this.healthcareContract.methods.updateDoctor(doctorId, name, email, phone, homeAddress, city, postalCode, medicalSpeciality, assignedHospital).send({from: this.getDefaultAccount(), gasPrice: "0"});
     }
     catch(err) {
       console.log(err);
@@ -194,7 +226,7 @@ export class BlockchainService {
                                     hasInsurance: boolean,
                                     treatmentsIds: number[]) {
       try {
-        await this.healthcareContract.methods.updateMedicalRecord(medicalRecordId, medications, allergies, illnesses, immunizations, bloodType, hasInsurance, treatmentsIds).send({from: this.defaultAccount, gasPrice: "0"});  
+        await this.healthcareContract.methods.updateMedicalRecord(medicalRecordId, medications, allergies, illnesses, immunizations, bloodType, hasInsurance, treatmentsIds).send({from: this.getDefaultAccount(), gasPrice: "0"});  
       }
       catch(err) {
         console.log(err);
@@ -209,7 +241,7 @@ export class BlockchainService {
                                 toDate: number,
                                 bill: number) {
     try {
-      await this.healthcareContract.methods.createTreatment(patientId, doctorId, diagnosis, medicine, fromDate, toDate, bill).send({from: this.defaultAccount, gasPrice: "0"});
+      await this.healthcareContract.methods.createTreatment(patientId, doctorId, diagnosis, medicine, fromDate, toDate, bill).send({from: this.getDefaultAccount(), gasPrice: "0"});
     }
     catch(err) {
       console.log(err);
@@ -229,7 +261,7 @@ export class BlockchainService {
                                 toDate: number,
                                 bill: number) {
     try {
-      await this.healthcareContract.methods.updateTreatment(treatmentId, patientId, doctorId, diagnosis, medicine, fromDate, toDate, bill).send({from: this.defaultAccount, gasPrice: "0"});
+      await this.healthcareContract.methods.updateTreatment(treatmentId, patientId, doctorId, diagnosis, medicine, fromDate, toDate, bill).send({from: this.getDefaultAccount(), gasPrice: "0"});
     }
     catch(err) {
       console.log(err);

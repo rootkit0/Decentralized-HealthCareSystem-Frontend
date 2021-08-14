@@ -10,7 +10,7 @@ import { BlockchainService } from '../services/blockchain.service';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  private blockchainAccount: any;
+  blockchainAccount: any;
   userRole: any;
   patient: Patient = new Patient();
   doctor: Doctor = new Doctor();
@@ -24,8 +24,7 @@ export class UserProfileComponent implements OnInit {
 
   private async getData() {
     //Get blockchain account
-    await this.blockchainService.getDefaultAccount();
-    this.blockchainAccount = this.blockchainService.defaultAccount;
+    this.blockchainAccount = await this.blockchainService.getDefaultAccount();
     //Get user role
     this.userRole = await this.blockchainService.readUserRole();
     //Get data
@@ -54,26 +53,13 @@ export class UserProfileComponent implements OnInit {
       this.doctor.assignedHospital = doctorJSON.assignedHospital;
       this.doctor.assignedPatientsIds = doctorJSON.assignedPatientsIds;
     }
-    else {
-      console.log("You're admin!");
-    }
   }
 
-  async updatePatient() {
-    try {
-      await this.blockchainService.updatePatient(this.blockchainAccount, this.patient.name, this.patient.dateOfBirth, this.patient.email, this.patient.phone, this.patient.homeAddress, this.patient.city, this.patient.postalCode);
-    }
-    catch(err) {
-      console.log(err);
-    }
+  updatePatient() {
+    this.blockchainService.updatePatient(this.blockchainAccount, this.patient.name, this.patient.dateOfBirth, this.patient.email, this.patient.phone, this.patient.homeAddress, this.patient.city, this.patient.postalCode);
   }
 
-  async updateDoctor() {
-    try {
-      await this.blockchainService.updateDoctor(this.blockchainAccount, this.doctor.name, this.doctor.email, this.doctor.phone, this.doctor.homeAddress, this.doctor.city, this.doctor.postalCode, this.doctor.medicalSpeciality, this.doctor.assignedHospital);
-    }
-    catch(err) {
-      console.log(err);
-    }
+  updateDoctor() {
+    this.blockchainService.updateDoctor(this.blockchainAccount, this.doctor.name, this.doctor.email, this.doctor.phone, this.doctor.homeAddress, this.doctor.city, this.doctor.postalCode, this.doctor.medicalSpeciality, this.doctor.assignedHospital);
   }
 }

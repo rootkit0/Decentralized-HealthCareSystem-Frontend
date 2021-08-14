@@ -1,32 +1,30 @@
 <mat-card class="login-card">
     <mat-card-content>
-        <h2 class="login-title">Sign in</h2>
-        <form (ngSubmit)="onSubmit()">
-            <mat-list class="login-list">
-                <mat-list-item>
-                    <mat-form-field>
-                        <input matInput placeholder="ID Card Number" [(ngModel)]="idCardNumber" [ngModelOptions]="{standalone: true}">
-                    </mat-form-field>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-form-field>
-                        <input matInput placeholder="HealthCard ID" [(ngModel)]="healthCardId" [ngModelOptions]="{standalone: true}">
-                    </mat-form-field>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-form-field>
-                        <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
-                        <fa-icon [icon]="faEye" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</fa-icon>
-                    </mat-form-field>
-                </mat-list-item>
-                <mat-list-item class="login-button">
-                    <button mat-raised-button color="primary">Sign in</button>
-                </mat-list-item>
-                <mat-list-item class="login-button">
-                    <p class="login-question">Still not registered?</p>
-                    <button mat-raised-button color="primary" routerLink="/signup">Sign up</button>
-                </mat-list-item>
-            </mat-list>
-        </form>
+        <h2 class="login-title">Log in</h2>
+        <mat-list class="login-list">
+            <mat-list-item>
+                <mat-form-field>
+                    <input matInput placeholder="ID Card Number" [(ngModel)]="idCardNumber" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-form-field>
+                    <input matInput placeholder="HealthCard ID" [(ngModel)]="healthCardId" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-form-field>
+                    <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
+                    <fa-icon [icon]="faEye" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</fa-icon>
+                </mat-form-field>
+            </mat-list-item>
+            <mat-list-item class="login-button">
+                <button mat-raised-button color="primary" (click)="logIn()">Log in</button>
+            </mat-list-item>
+            <mat-list-item class="login-button">
+                <p class="login-question">Still not registered?</p>
+                <button mat-raised-button color="primary" routerLink="/signup">Sign up</button>
+            </mat-list-item>
+        </mat-list>
     </mat-card-content>
 </mat-card>

@@ -17,8 +17,7 @@ export class PatientListComponent implements OnInit {
 
   private async getData() {
     //Get blockchain account
-    await this.blockchainService.getDefaultAccount();
-    this.blockchainAccount = this.blockchainService.defaultAccount;
+    this.blockchainAccount = await this.blockchainService.getDefaultAccount();
     //Get data
     var doctorJSON: any = await this.blockchainService.readDoctor(this.blockchainAccount);
     var patientsAccounts: any[] = doctorJSON.assignedPatients;

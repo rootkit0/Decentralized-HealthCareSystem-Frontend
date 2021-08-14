@@ -27,12 +27,12 @@ const routes: Routes = [
   },
   { path: 'medical-record/:id', component: MedicalRecordComponent, canActivate: [AuthGuardService]},
   { path: 'treatment/:id', component: TreatmentComponent, canActivate: [AuthGuardService]},
+  { path: 'treatment-list/:id', component: TreatmentListComponent, canActivate: [AuthGuardService]},
   { path: 'patient-list/:id', component: PatientListComponent, canActivate: [AuthGuardService],
     data: {
       userRole: UserRoles.DOCTOR
     }
   },
-  { path: 'treatment-list/:id', component: TreatmentListComponent, canActivate: [AuthGuardService]},
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: '**', component: HomeComponent }
 ];
