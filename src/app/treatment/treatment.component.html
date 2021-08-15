@@ -79,12 +79,11 @@
                             <mat-datepicker #picker2></mat-datepicker>
                         </mat-form-field>
                     </mat-list-item>
-                    <mat-list-item *ngIf="treatmentId == 'create'" class="treatment-button">
-                        <button mat-raised-button color="primary" (click)="createTreatment()">Create treatment!</button>
-                        <button mat-raised-button color="primary" (click)="clearData()">Clear data!</button>
-                    </mat-list-item>
-                    <mat-list-item *ngIf="treatmentId != 'create'" class="treatment-button">
+                    <mat-list-item class="treatment-button">
                         <button mat-raised-button color="primary" (click)="updateTreatment()">Edit treatment!</button>
+                    </mat-list-item>
+                    <mat-list-item class="treatment-button">
+                        <button mat-raised-button color="primary" (click)="createTreatment()">Create treatment!</button>
                         <button mat-raised-button color="primary" (click)="clearData()">Clear data!</button>
                     </mat-list-item>
                 </mat-list>

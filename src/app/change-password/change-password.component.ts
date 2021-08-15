@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BlockchainService } from '../services/blockchain.service';
 
@@ -11,7 +12,7 @@ export class ChangePasswordComponent implements OnInit {
   newPassword: string = "";
   repeatNewPassword: string = "";
 
-  constructor(private blockchainService: BlockchainService) { }
+  constructor(private blockchainService: BlockchainService, private location: Location) { }
 
   ngOnInit(): void {
   }
@@ -53,5 +54,9 @@ export class ChangePasswordComponent implements OnInit {
     if(this.validatePwdStrength()) {
       this.blockchainService.updateUserPassword(this.oldPassword, this.newPassword);
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

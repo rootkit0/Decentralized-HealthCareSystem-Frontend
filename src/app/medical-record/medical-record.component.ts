@@ -39,6 +39,7 @@ export class MedicalRecordComponent implements OnInit {
   private async getData() {
     //Get data
     var medicalRecordJSON: any = await this.blockchainService.readMedicalRecord(this.paramAccount);
+    this.medicalRecord.medicalRecordId = this.paramAccount;
     this.medicalRecord.medications = medicalRecordJSON.medications;
     this.medicalRecord.allergies = medicalRecordJSON.allergies;
     this.medicalRecord.illnesses = medicalRecordJSON.illnesses;

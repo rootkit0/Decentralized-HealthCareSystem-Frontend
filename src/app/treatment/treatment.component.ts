@@ -17,6 +17,7 @@ export class TreatmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.treatmentId = this.activatedRoute.snapshot.params.id;
+    console.log(this.treatmentId);
     if(this.verifyRolePermission()) {
       this.getData();
     }

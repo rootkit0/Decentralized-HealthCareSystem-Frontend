@@ -21,13 +21,14 @@ export class PatientListComponent implements OnInit {
 
   private async getData() {
     var doctorJSON: any = await this.blockchainService.readDoctor(this.paramAccount);
-    var patientsAccounts: any[] = doctorJSON.assignedPatients;
-    for(var patientAccount in patientsAccounts) {
+    var patientsAccounts: any[] = doctorJSON.assignedPatientsIds;
+    console.log(doctorJSON);
+    for(var patientAccount of patientsAccounts) {
       //For each entry get patient data
       var patientJSON: any = await this.blockchainService.readPatient(patientAccount);
       //Parse obtained data to recognizable object
       var patient: Patient = new Patient();
-      patient.patientId = patientJSON.patientId;
+      patient.patientId = patientAccount;
       patient.name = patientJSON.name;
       patient.dateOfBirth = patientJSON.dateOfBirth;
       patient.email = patientJSON.email;
