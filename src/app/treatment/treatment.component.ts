@@ -9,7 +9,7 @@ import { BlockchainService } from '../services/blockchain.service';
   styleUrls: ['./treatment.component.css']
 })
 export class TreatmentComponent implements OnInit {
-  treatmentId: number = 0;
+  treatmentId: any;
   userRole: any;
   treatment: Treatment = new Treatment();
   

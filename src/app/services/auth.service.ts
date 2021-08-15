@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import * as jwt from 'jsonwebtoken';
 
 //For obvious security reasons must store priv key in unaccessible site
@@ -44,7 +45,7 @@ syO6sDAOf4sT+05QAAABB4YXZpZXJAdW5kZWZpbmVkAQ";
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   public async generateToken(user: any) {
     const accessToken = jwt.sign({user}, PRIV_KEY, {
@@ -72,7 +73,6 @@ export class AuthService {
           if(jwt.verify(token, PRIV_KEY)) {
             return true;
           }
-          this.removeToken();
         }
         catch(error) {
           console.log(error);

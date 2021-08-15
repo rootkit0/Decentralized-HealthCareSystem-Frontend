@@ -27,7 +27,9 @@ export class AuthGuardService implements CanActivate {
   private async checkPermission(allowedUserRole: UserRoles) {
     //Check that user is authenticated
     if(!this.authService.isAuthenticated()) {
-      this.router.navigate(['/login']);
+      this.authService.removeToken();
+      this.router.navigate(["/login"]);
+      window.location.reload();
       return false;
     }
     //Check user role

@@ -41,7 +41,7 @@
                         Doctor specialized in {{ doctor.medicalSpeciality }}, working at {{ doctor.assignedHospital}}
                     </mat-list-item>
                     <mat-list-item class="user-profile-button">
-                        <button mat-raised-button color="primary">Show doctor data!</button>
+                        <button mat-raised-button color="primary" routerLink="/medical-record/{{ doctor.doctorId }}">Show doctor data!</button>
                     </mat-list-item>
                 </mat-list>
             </mat-card-content>
@@ -58,7 +58,7 @@
                         Assigned to doctor: {{ patient.assignedDoctorId }}
                     </mat-list-item>
                     <mat-list-item class="user-profile-button">
-                        <button mat-raised-button color="primary">Show patient data!</button>
+                        <button mat-raised-button color="primary" routerLink="/medical-record/{{ patient.patientId }}">Show patient data!</button>
                     </mat-list-item>
                 </mat-list>
             </mat-card-content>

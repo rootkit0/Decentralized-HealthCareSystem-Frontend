@@ -21,9 +21,14 @@ export class MedicalRecordComponent implements OnInit {
 
   ngOnInit(): void {
     this.paramAccount = this.activatedRoute.snapshot.params.id;
+    this.getUserRole();
     if(this.verifyRolePermission()) {
       this.getData();
     }
+  }
+
+  private async getUserRole() {
+    this.userRole = await this.blockchainService.readUserRole();
   }
 
   private async verifyRolePermission() {

@@ -21,7 +21,7 @@
                     </mat-list-item>
                     <mat-list-item class="home-button" *ngIf="userRole == 'patient' || userRole == 'doctor'">
                         <button mat-raised-button color="primary" routerLink="/user-profile">My profile</button>
-                        <button mat-raised-button color="primary" routerLink="/medical-record">Medical record</button>
+                        <button mat-raised-button color="primary" routerLink="/medical-record/{{ blockchainAccount }}">Medical record</button>
                         <button mat-raised-button color="primary" (click)="logout()">Log out</button>
                     </mat-list-item>
                     <mat-list-item class="home-button" *ngIf="userRole == 'admin'">

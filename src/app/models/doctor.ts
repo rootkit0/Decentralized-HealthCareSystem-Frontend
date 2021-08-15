@@ -9,4 +9,17 @@ export class Doctor {
     medicalSpeciality!: string;
     assignedHospital!: string;
     assignedPatientsIds!: any[];
+
+    constructor() {
+        this.doctorId = "";
+        this.name = "";
+        this.email = "";
+        this.phone = "";
+        this.homeAddress = "";
+        this.city = "";
+        this.postalCode = "";
+        this.medicalSpeciality = "";
+        this.assignedHospital = "";
+        this.assignedPatientsIds = [];
+    }
 }

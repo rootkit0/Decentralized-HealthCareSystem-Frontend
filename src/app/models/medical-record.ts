@@ -7,4 +7,15 @@ export class MedicalRecord {
     bloodType!: string;
     hasInsurance!: boolean;
     treatmentsIds!: number[];
+    
+    constructor() {
+        this.medicalRecordId = "";
+        this.medications = "";
+        this.allergies = "";
+        this.illnesses = "";
+        this.immunizations = "";
+        this.bloodType = "";
+        this.hasInsurance = false;
+        this.treatmentsIds = [];
+    }
 }

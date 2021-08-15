@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Doctor } from '../models/doctor';
 import { Patient } from '../models/patient';
 import { UserRoles } from '../models/user-roles';
+import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
 
 @Component({

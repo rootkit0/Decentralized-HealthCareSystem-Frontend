@@ -26,14 +26,14 @@ export class AdminDashboardComponent implements OnInit {
     this.blockchainService.updateUserRole(this.newRoleAddress, this.newRole);
   }
 
-  private getPatients() {
-    var patientAddresses: any[] = [];
-    for(var patientAddress in patientAddresses) {
+  private async getPatients() {
+    var patientAddresses: any[] = await this.blockchainService.getPatientAddresses();
+    for(var patientAddress of patientAddresses) {
       //For each entry get patient data
-      var patientJSON: any = this.blockchainService.readPatient(patientAddress);
+      var patientJSON: any = await this.blockchainService.readPatient(patientAddress);
       //Parse obtained data to recognizable object
       var patient: Patient = new Patient();
-      patient.patientId = patientJSON.patientId;
+      patient.patientId = patientAddress;
       patient.name = patientJSON.name;
       patient.dateOfBirth = patientJSON.dateOfBirth;
       patient.email = patientJSON.email;
@@ -46,14 +46,14 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  private getDoctors() {
-    var doctorAddresses: any[] = [];
-    for(var doctorAddress in doctorAddresses) {
+  private async getDoctors() {
+    var doctorAddresses: any[] = await this.blockchainService.getDoctorAddresses();
+    for(var doctorAddress of doctorAddresses) {
       //For each entry get doctor data
-      var doctorJSON: any = this.blockchainService.readDoctor(doctorAddress);
+      var doctorJSON: any = await this.blockchainService.readDoctor(doctorAddress);
       //Parse obtained data to recognizable object
       var doctor: Doctor = new Doctor();
-      doctor.doctorId = doctorJSON.doctorId;
+      doctor.doctorId = doctorAddress;
       doctor.name = doctorJSON.name;
       doctor.email = doctorJSON.email;
       doctor.phone = doctorJSON.phone;

@@ -18,7 +18,7 @@
         <mat-list-item routerLink="/user-profile">
           <a><fa-icon [icon]="faUserCircle"></fa-icon> My profile</a>
         </mat-list-item>
-        <mat-list-item routerLink="/medical-record">
+        <mat-list-item routerLink="/medical-record/{{ blockchainAccount }}">
           <a><fa-icon [icon]="faUserCircle"></fa-icon> Medical record</a>
         </mat-list-item>
         <mat-list-item (click)="logout()">
