@@ -74,12 +74,12 @@
                     <mat-list-item>
                         <mat-checkbox [(ngModel)]="medicalRecord.hasInsurance" [ngModelOptions]="{standalone: true}">Have insurance?</mat-checkbox>
                     </mat-list-item>
-                    <mat-list-item class="medical-record-button">
+                    <mat-list-item class="medical-record-button-edit">
+                      <button mat-raised-button color="primary" (click)="updateMedicalRecord()">Edit record!</button>
+                    </mat-list-item>
+                    <mat-list-item class="medical-record-button-treatment">
                         <button mat-raised-button color="primary" routerLink="/treatment-list/{{ paramAccount }}">View treatments!</button>
                         <button mat-raised-button color="primary" routerLink="/treatment/{{ paramAccount }}">New treatment!</button>
-                    </mat-list-item>
-                    <mat-list-item class="medical-record-button medical-record-last-item">
-                        <button mat-raised-button color="primary" (click)="updateMedicalRecord()">Edit record!</button>
                     </mat-list-item>
                 </mat-list>
             </form>

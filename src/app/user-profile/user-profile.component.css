@@ -34,6 +34,14 @@
     align-items: center;
 }
 
-.user-profile-question {
-    margin-right: 20px;
+.user-profile-button, button {
+    margin-right: 10px;
+}
+
+.user-profile-button-patients {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }

@@ -28,17 +28,25 @@
     margin-top: 30px;
 }
 
-.medical-record-button {
+.medical-record-question {
+    margin-right: 20px;
+}
+
+.medical-record-button-edit {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.medical-record-question {
-    margin-right: 20px;
+.medical-record-button-treatment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+
 }
 
-.medical-record-last-item {
-    margin-bottom: 25px;
-    margin-top: 10px;
+.medical-record-button-treatment, button {
+    margin-right: 10px;
 }
