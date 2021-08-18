@@ -107,9 +107,10 @@
         </mat-card-content>
         <mat-card-content *ngIf="userRole == 'admin'">
             <h2 class="user-profile-title">My profile - Your role is: {{ userRole }}</h2>
-            <mat-list>
+            <mat-list class="user-profile-list">
                 <mat-list-item class="user-profile-button">
                     <button mat-raised-button color="primary" routerLink="/admin-dashboard">Administrator dashboard</button>
+                    <button mat-raised-button color="primary" routerLink="/change-password">Change password</button>
                 </mat-list-item>
             </mat-list>
         </mat-card-content>

@@ -2,7 +2,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnDestroy } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
-import { faBars, faSignInAlt, faSignOutAlt, faUserCircle, faUserPlus, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSignInAlt, faSignOutAlt, faUserCircle, faUserPlus, faHeart, faFileMedical } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
 import { BlockchainService } from './services/blockchain.service';
@@ -15,6 +15,7 @@ import { BlockchainService } from './services/blockchain.service';
 export class AppComponent implements OnDestroy {
   isAuthenticated: boolean = false;
   blockchainAccount: any;
+  userRole: any;
   //Icons
   faBars = faBars;
   faUserCircle = faUserCircle;
@@ -22,6 +23,7 @@ export class AppComponent implements OnDestroy {
   faSignInAlt = faSignInAlt;
   faUserPlus = faUserPlus;
   faHeart = faHeart;
+  faFileMedical = faFileMedical;
   //Responsive stuff
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
@@ -34,15 +36,18 @@ export class AppComponent implements OnDestroy {
     //Check authentication
     this.isAuthenticated = this.authService.isAuthenticated();
     //Get blockchain account
-    this.getBlockchainAccount();
+    this.getData();
   }
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  private async getBlockchainAccount() {
+  private async getData() {
+    //Get blockchain account
     this.blockchainAccount = await this.blockchainService.getDefaultAccount();
+    //Get user role
+    this.userRole = await this.blockchainService.readUserRole();
   }
 
   logout(): void {

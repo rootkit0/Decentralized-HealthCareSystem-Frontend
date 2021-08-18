@@ -14,8 +14,8 @@ export class BlockchainService {
   private authContract: any;
   private healthcareContract: any;
   //Declare contracts deploy addresses
-  private authContractDeployedAt = "0x6294DE9152Cb0fd53a5A81FeEfA207c755f8CC8a";
-  private healthcareContractDeployedAt = "0xF46B506aEb77167aCEc89D3303A795a4a7F44Ee4";
+  private authContractDeployedAt = "0xeb9F1DEE3839B2AF95B122b8d63199CAD705Fe90";
+  private healthcareContractDeployedAt = "0x2Bb120fdF294A145099CF49Bfc975d39bD0e0414";
 
   constructor(private authService: AuthService, private router: Router) {
     this.connectBlockchain();
