@@ -12,13 +12,17 @@ export class TreatmentComponent implements OnInit {
   treatmentId: any;
   userRole: any;
   treatment: Treatment = new Treatment();
+  createTreatmentView: boolean = false;
   
   constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
   ngOnInit(): void {
     this.treatmentId = this.activatedRoute.snapshot.params.id;
-    console.log(this.treatmentId);
-    if(this.verifyRolePermission()) {
+    if (this.verifyRolePermission()) {
+      //Given parameter is an account then activate create view
+      if (this.treatmentId.startsWith("0x") && this.treatmentId.length == 42) {
+        this.createTreatmentView = true;
+      }
       this.getData();
     }
   }
@@ -31,24 +35,32 @@ export class TreatmentComponent implements OnInit {
   private async getData() {
     //Get user role
     this.userRole = await this.blockchainService.readUserRole();
-    //Get data
-    var treatmentJSON: any = await this.blockchainService.readTreatment(this.treatmentId);
-    this.treatment.treatmentId = treatmentJSON.treatmentId;
-    this.treatment.patientId = treatmentJSON.patientId;
-    this.treatment.doctorId = treatmentJSON.doctorId;
-    this.treatment.diagnosis = treatmentJSON.diagnosis;
-    this.treatment.medicine = treatmentJSON.medicine;
-    this.treatment.fromDate = treatmentJSON.fromDate;
-    this.treatment.toDate = treatmentJSON.toDate;
-    this.treatment.bill = treatmentJSON.bill;
+    //Set treatmentId from param
+    if (!this.createTreatmentView) {
+      this.treatment.treatmentId = this.treatmentId;
+      this.treatment.patientId = treatmentJSON.patientId;
+      //Get data
+      var treatmentJSON: any = await this.blockchainService.readTreatment(this.treatmentId);;
+      this.treatment.diagnosis = treatmentJSON.diagnosis;
+      this.treatment.medicine = treatmentJSON.medicine;
+      this.treatment.fromDate = treatmentJSON.fromDate;
+      this.treatment.toDate = treatmentJSON.toDate;
+      this.treatment.bill = treatmentJSON.bill;
+    }
+    //Set patientId from param
+    else {
+      this.treatment.patientId = this.treatmentId;
+    }
+    //Set doctorId to who is editing actually
+    this.treatment.doctorId = await this.blockchainService.getDefaultAccount();
   }
 
   updateTreatment() {
-    this.blockchainService.updateTreatment(this.treatment.treatmentId, this.treatment.patientId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
+    this.blockchainService.updateTreatment(this.treatmentId, this.treatment.patientId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
   }
 
   createTreatment() {
-    this.blockchainService.createTreatment(this.treatment.patientId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
+    this.blockchainService.createTreatment(this.treatmentId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
   }
 
   clearData() {
