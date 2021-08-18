@@ -10,6 +10,12 @@
 }
 
 .treatment-list-card {
-    margin: 0 auto;
+    margin: 10px auto;
     max-width: 500px;
+}
+
+.treatment-list-title {
+  padding: 10px;
+  text-align: center;
+  font-size: 25px;
 }

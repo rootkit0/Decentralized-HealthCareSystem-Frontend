@@ -15,7 +15,14 @@
 }
 
 .admin-dashboard-title {
+    padding-top: 10px;
     text-align: center;
+}
+
+.admin-dashboard-list-title {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 25px;
 }
 
 .admin-dashboard-list, mat-form-field {

@@ -1,7 +1,7 @@
 <div class="example-container">
     <h2 class="treatment-list-title">Treatment list</h2>
     <mat-card *ngFor="let treatment of treatments" class="treatment-list-card">
-        <mat-card-title>{{ treatment.treatmentId }}</mat-card-title>
+        <mat-card-title>Treatment ID: {{ treatment.treatmentId }}</mat-card-title>
         <mat-card-subtitle>Doctor: {{ treatment.doctorId }}</mat-card-subtitle>
         <mat-card-content>
             <mat-list>
@@ -9,7 +9,7 @@
                     Diagnosis: {{ treatment.diagnosis }}
                 </mat-list-item>
                 <mat-list-item>
-                    Medicines: {{ treatment.diagnosis }}
+                    Prescription drugs: {{ treatment.medicine }}
                 </mat-list-item>
                 <mat-list-item class="user-profile-button">
                     <button mat-raised-button color="primary" routerLink="/treatment/{{ treatment.treatmentId }}">Show treatment data!</button>

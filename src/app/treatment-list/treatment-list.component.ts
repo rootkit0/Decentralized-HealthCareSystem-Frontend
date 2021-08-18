@@ -27,13 +27,13 @@ export class TreatmentListComponent implements OnInit {
   private async getData() {
     var medicalRecordJSON: any = await this.blockchainService.readMedicalRecord(this.paramAccount);
     var treatmentsIds: number[] = medicalRecordJSON.treatmentsIds;
-    for(var treatmentId in treatmentsIds) {
+    for(var treatmentId of treatmentsIds) {
       //For each treatmentid get treatment data
       var tmp: number = +treatmentId;
       var treatmentJSON: any = await this.blockchainService.readTreatment(tmp);
       //Parse obtained data to recognizable object
       var treatment: Treatment = new Treatment();
-      treatment.treatmentId = treatmentJSON.treatmentId;
+      treatment.treatmentId = tmp;
       treatment.patientId = treatmentJSON.patientId;
       treatment.doctorId = treatmentJSON.doctorId;
       treatment.diagnosis = treatmentJSON.diagnosis;

@@ -13,6 +13,8 @@ export class TreatmentComponent implements OnInit {
   userRole: any;
   treatment: Treatment = new Treatment();
   createTreatmentView: boolean = false;
+  fromDate: Date = new Date();
+  toDate: Date = new Date();
   
   constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
@@ -35,20 +37,23 @@ export class TreatmentComponent implements OnInit {
   private async getData() {
     //Get user role
     this.userRole = await this.blockchainService.readUserRole();
-    //Set treatmentId from param
     if (!this.createTreatmentView) {
+      //Set treatmentId from param
       this.treatment.treatmentId = this.treatmentId;
-      this.treatment.patientId = treatmentJSON.patientId;
       //Get data
       var treatmentJSON: any = await this.blockchainService.readTreatment(this.treatmentId);;
+      this.treatment.patientId = treatmentJSON.patientId;
       this.treatment.diagnosis = treatmentJSON.diagnosis;
       this.treatment.medicine = treatmentJSON.medicine;
       this.treatment.fromDate = treatmentJSON.fromDate;
       this.treatment.toDate = treatmentJSON.toDate;
       this.treatment.bill = treatmentJSON.bill;
+      //Number to datetime
+      this.fromDate.setTime(this.treatment.fromDate);
+      this.toDate.setTime(this.treatment.toDate);
     }
-    //Set patientId from param
     else {
+      //Set patientId from param
       this.treatment.patientId = this.treatmentId;
     }
     //Set doctorId to who is editing actually
@@ -56,10 +61,16 @@ export class TreatmentComponent implements OnInit {
   }
 
   updateTreatment() {
+    //Datetime to number
+    this.treatment.fromDate = this.fromDate.getTime();
+    this.treatment.toDate = this.toDate.getTime();
     this.blockchainService.updateTreatment(this.treatmentId, this.treatment.patientId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
   }
 
   createTreatment() {
+    //Datetime to number
+    this.treatment.fromDate = this.fromDate.getTime();
+    this.treatment.toDate = this.toDate.getTime();
     this.blockchainService.createTreatment(this.treatmentId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
   }
 

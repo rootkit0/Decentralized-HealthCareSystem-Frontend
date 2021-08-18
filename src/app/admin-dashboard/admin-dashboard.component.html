@@ -1,9 +1,8 @@
 <div class="example-container">
     <h2 class="admin-dashboard-title">Administrator dashboard</h2>
     <div>
-        <h2 class="admin-dashboard-title">Change user role</h2>
         <mat-card class="admin-dashboard-card">
-            <mat-card-title></mat-card-title>
+            <mat-card-title class="admin-dashboard-title">Change user role</mat-card-title>
             <mat-card-content>
                 <form>
                     <mat-list>
@@ -31,7 +30,7 @@
         </mat-card>
     </div>
     <div>
-        <h2 class="admin-dashboard-title">Doctor list</h2>
+        <h2 class="admin-dashboard-list-title">Doctor list</h2>
         <mat-card *ngFor="let doctor of doctors" class="admin-dashboard-card">
             <mat-card-title>{{ doctor.name }}</mat-card-title>
             <mat-card-subtitle>{{ doctor.doctorId }}</mat-card-subtitle>
@@ -48,7 +47,7 @@
         </mat-card>
     </div>
     <div>
-        <h2 class="admin-dashboard-title">Patient list</h2>
+        <h2 class="admin-dashboard-list-title">Patient list</h2>
         <mat-card *ngFor="let patient of patients" class="admin-dashboard-card">
             <mat-card-title>{{ patient.name }}</mat-card-title>
             <mat-card-subtitle>{{ patient.patientId }}</mat-card-subtitle>
