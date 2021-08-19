@@ -24,8 +24,13 @@ export class MedicalVisitComponent implements OnInit {
         //Given parameter is an account then activate create view
         if (this.medicalVisitId.startsWith("0x") && this.medicalVisitId.length == 42) {
           this.createMedicalVisitView = true;
+          //Set patient ID
+          this.medicalVisit.patientId = this.medicalVisitId;
+          //Set doctor ID
+          this.getAssignedDoctor();
         }
         else {
+          this.medicalVisit.medicalVisitId = this.medicalVisitId;
           this.getData();
         }
       }
@@ -33,6 +38,11 @@ export class MedicalVisitComponent implements OnInit {
 
     verifyRolePermission(): boolean {
       return true;
+    }
+
+    private async getAssignedDoctor() {
+      var patientJSON: any = await this.blockchainService.readPatient(this.medicalVisitId);
+      this.medicalVisit.doctorId = patientJSON.assignedDoctorId;
     }
 
     async getData() {
