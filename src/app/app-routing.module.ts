@@ -10,6 +10,8 @@ import { MedicalRecordComponent } from './medical-record/medical-record.componen
 import { TreatmentComponent } from './treatment/treatment.component';
 import { TreatmentListComponent } from './treatment-list/treatment-list.component';
 import { PatientListComponent } from './patient-list/patient-list.component';
+import { MedicalVisitComponent } from './medical-visit/medical-visit.component';
+import { MedicalVisitListComponent } from './medical-visit-list/medical-visit-list.component';
 
 import { AuthGuardService } from './services/auth-guard.service';
 import { UserRoles } from './models/user-roles';
@@ -33,6 +35,8 @@ const routes: Routes = [
       userRole: UserRoles.DOCTOR
     }
   },
+  { path: 'medical-visit/:id', component: MedicalVisitComponent, canActivate: [AuthGuardService] },
+  { path: 'medical-visit-list/:id', component: MedicalVisitListComponent, canActivate: [AuthGuardService] },
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: '**', component: HomeComponent }
 ];

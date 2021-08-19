@@ -15,6 +15,8 @@ import { MedicalRecordComponent } from './medical-record/medical-record.componen
 import { TreatmentComponent } from './treatment/treatment.component';
 import { TreatmentListComponent } from './treatment-list/treatment-list.component';
 import { PatientListComponent } from './patient-list/patient-list.component';
+import { MedicalVisitComponent } from './medical-visit/medical-visit.component';
+import { MedicalVisitListComponent } from './medical-visit-list/medical-visit-list.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -42,7 +44,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MedicalRecordComponent,
     TreatmentComponent,
     TreatmentListComponent,
-    PatientListComponent
+    PatientListComponent,
+    MedicalVisitComponent,
+    MedicalVisitListComponent
   ],
   imports: [
     BrowserModule,
