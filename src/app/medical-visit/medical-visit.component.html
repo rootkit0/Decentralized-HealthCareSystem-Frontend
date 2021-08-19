@@ -1,8 +1,7 @@
 <div class="example-container">
   <mat-card class="medical-visit-card">
-    <mat-card-content>
-      <h2 *ngIf="createMedicalVisitView" class="medical-visit-title">Create medical-visit</h2>
-      <h2 *ngIf="!createMedicalVisitView" class="medical-visit-title">Edit medical-visit</h2>
+    <mat-card-content *ngIf="createMedicalVisitView">
+      <h2 class="medical-visit-title">Create medical visit</h2>
       <mat-list class="medical-visit-list">
         <mat-list-item>
           <mat-form-field>
@@ -31,13 +30,47 @@
             <textarea matInput placeholder="Symptoms" [(ngModel)]="medicalVisit.symptoms" [ngModelOptions]="{standalone: true}"></textarea>
           </mat-form-field>
         </mat-list-item>
+        <mat-list-item>
+          <mat-checkbox [(ngModel)]="medicalVisit.urgency" [ngModelOptions]="{standalone: true}">Is urgent?</mat-checkbox>
+        </mat-list-item>
         <mat-list-item *ngIf="createMedicalVisitView" class="medical-visit-button">
           <button mat-raised-button color="primary">Create medical visit!</button>
           <button mat-raised-button color="primary">Clear data!</button>
         </mat-list-item>
-        <mat-list-item *ngIf="!createMedicalVisitView" class="medical-visit-button">
-          <button mat-raised-button color="primary">Edit medical visit!</button>
-          <button mat-raised-button color="primary">Clear data!</button>
+      </mat-list>
+    </mat-card-content>
+    <mat-card-content *ngIf="!createMedicalVisitView">
+      <h2 class="medical-visit-title">My medical visit</h2>
+      <mat-list class="medical-visit-list">
+        <mat-list-item>
+          <mat-form-field>
+            <input disabled matInput placeholder="Patient ID" [(ngModel)]="medicalVisit.patientId" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-form-field>
+            <input disabled matInput placeholder="Doctor ID" [(ngModel)]="medicalVisit.doctorId" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-form-field>
+            <input disabled matInput [(ngModel)]="medicalVisitDate" [matDatepicker]="picker" placeholder="Choose medical visit date" [ngModelOptions]="{standalone: true}">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-form-field>
+            <input disabled matInput placeholder="Choose medical visit hour" [(ngModel)]="medicalVisit.hourVisit" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-form-field>
+            <textarea disabled matInput placeholder="Symptoms" [(ngModel)]="medicalVisit.symptoms" [ngModelOptions]="{standalone: true}"></textarea>
+          </mat-form-field>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-checkbox disabled [(ngModel)]="medicalVisit.urgency" [ngModelOptions]="{standalone: true}">Is urgent?</mat-checkbox>
         </mat-list-item>
       </mat-list>
     </mat-card-content>

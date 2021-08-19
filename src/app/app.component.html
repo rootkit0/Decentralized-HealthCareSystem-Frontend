@@ -21,7 +21,7 @@
         <mat-list-item *ngIf="userRole != 'admin'" routerLink="/medical-record/{{ blockchainAccount }}">
           <a><fa-icon [icon]="faHeart"></fa-icon> Medical record</a>
         </mat-list-item>
-        <mat-list-item *ngIf="userRole == 'patient' || userRole == 'doctor'" routerLink="/medical-visit/{{ blockchainAccount }}">
+        <mat-list-item *ngIf="userRole == 'patient'" routerLink="/medical-visit/{{ blockchainAccount }}">
           <a><fa-icon [icon]="faFileMedical"></fa-icon> Request medical visit</a>
         </mat-list-item>
         <mat-list-item *ngIf="userRole == 'patient' || userRole == 'doctor'" routerLink="/medical-visit-list/{{ blockchainAccount }}">

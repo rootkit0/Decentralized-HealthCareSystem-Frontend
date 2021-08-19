@@ -25,6 +25,22 @@ export class MedicalVisitListComponent implements OnInit {
   }
 
   private async getData() {
-
+    var medicalRecordJSON: any = await this.blockchainService.readMedicalRecord(this.paramAccount);
+    var medicalVisitsIds: number[] = medicalRecordJSON.medicalVisitsIds;
+    for (var medicalVisitId of medicalVisitsIds) {
+      //For each treatmentid get treatment data
+      var tmp: number = +medicalVisitId;
+      var medicalVisitJSON: any = await this.blockchainService.readMedicalVisit(tmp);
+      //Parse obtained data to recognizable object
+      var medicalVisit: MedicalVisit = new MedicalVisit();
+      medicalVisit.medicalVisitId = tmp;
+      medicalVisit.patientId = medicalVisitJSON.patientId;
+      medicalVisit.doctorId = medicalVisitJSON.doctorId;
+      medicalVisit.dateVisit = medicalVisitJSON.dateVisit;
+      medicalVisit.hourVisit = medicalVisitJSON.hourVisit;
+      medicalVisit.symptoms = medicalVisitJSON.symptoms;
+      medicalVisit.urgency = medicalVisitJSON.urgency;
+      this.medicalVisits.push(medicalVisit);
+    }
   }
 }

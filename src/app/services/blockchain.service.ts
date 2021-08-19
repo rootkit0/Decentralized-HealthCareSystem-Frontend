@@ -283,6 +283,25 @@ export class BlockchainService {
     }
   }
 
+  public async createMedicalVisit(  patientId: string,
+                                    doctorId: string,
+                                    dateVisit: number,
+                                    hourVisit: number,
+                                    symptoms: string,
+                                    urgency: boolean) {
+    try {
+      var defaultAccount: any = await this.getDefaultAccount();
+      await this.healthcareContract.methods.createMedicalVisit(patientId, doctorId, dateVisit, hourVisit, symptoms, urgency).send({ from: defaultAccount, gasPrice: "0" });
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
+  public async readMedicalVisit(medicalVisitId: number) {
+    return await this.healthcareContract.methods.readTreatment(medicalVisitId).call();
+  }
+
   public async getPatientAddresses() {
     const userRole = await this.readUserRole();
     if(userRole == UserRoles.ADMIN) {
