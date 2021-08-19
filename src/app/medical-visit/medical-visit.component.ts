@@ -36,7 +36,21 @@ export class MedicalVisitComponent implements OnInit {
     }
 
     async getData() {
-      //Get user role
-      this.userRole = await this.blockchainService.readUserRole();
-    }
+      //Get data
+      var medicalVisitJSON: any = await this.blockchainService.readMedicalVisit(this.medicalVisitId);;
+      this.medicalVisit.patientId = medicalVisitJSON.patientId;
+      this.medicalVisit.doctorId = medicalVisitJSON.doctorId;
+      this.medicalVisit.dateVisit = medicalVisitJSON.dateVisit;
+      this.medicalVisit.hourVisit = medicalVisitJSON.hourVisit;
+      this.medicalVisit.symptoms = medicalVisitJSON.symptoms;
+      this.medicalVisit.urgency = medicalVisitJSON.urgency;
+      //Number to datetime
+      this.medicalVisitDate.setTime(this.medicalVisit.dateVisit);
+  }
+
+  async createMedicalVisit() {
+    //Datetime to number
+    this.medicalVisit.dateVisit = this.medicalVisitDate.getTime();
+    this.blockchainService.createMedicalVisit(this.medicalVisit.patientId, this.medicalVisit.doctorId, this.medicalVisit.dateVisit, this.medicalVisit.hourVisit, this.medicalVisit.symptoms, this.medicalVisit.urgency);
+  }
 }
