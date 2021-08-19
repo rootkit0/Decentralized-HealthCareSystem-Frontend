@@ -1,0 +1,40 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.example-container > * {
+  width: 100%;
+}
+
+.medical-visit-card {
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.medical-visit-title {
+  text-align: center;
+  padding-top: 20px;
+  margin-bottom: -25px;
+}
+
+.medical-visit-list, mat-form-field {
+  width: 500px;
+}
+
+.medical-visit-list, mat-list-item {
+  margin-top: 30px;
+}
+
+.medical-visit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.medical-visit-button, button {
+  margin-right: 10px;
+}

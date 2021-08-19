@@ -19,12 +19,12 @@
           <a><fa-icon [icon]="faUserCircle"></fa-icon> My profile</a>
         </mat-list-item>
         <mat-list-item *ngIf="userRole != 'admin'" routerLink="/medical-record/{{ blockchainAccount }}">
-          <a><fa-icon [icon]="faUserCircle"></fa-icon> Medical record</a>
+          <a><fa-icon [icon]="faHeart"></fa-icon> Medical record</a>
         </mat-list-item>
-        <mat-list-item *ngIf="userRole == 'patient'">
-          <a><fa-icon [icon]="faFileMedical"></fa-icon> Request a medical visit</a>
+        <mat-list-item *ngIf="userRole == 'patient' || userRole == 'doctor'" routerLink="/medical-visit/{{ blockchainAccount }}">
+          <a><fa-icon [icon]="faFileMedical"></fa-icon> Request medical visit</a>
         </mat-list-item>
-        <mat-list-item *ngIf="userRole == 'patient' || userRole == 'doctor'">
+        <mat-list-item *ngIf="userRole == 'patient' || userRole == 'doctor'" routerLink="/medical-visit-list/{{ blockchainAccount }}">
           <a><fa-icon [icon]="faBookMedical"></fa-icon> My visits</a>
         </mat-list-item>
         <mat-list-item (click)="logout()">

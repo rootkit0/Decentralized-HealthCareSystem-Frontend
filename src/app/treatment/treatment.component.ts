@@ -10,9 +10,9 @@ import { BlockchainService } from '../services/blockchain.service';
 })
 export class TreatmentComponent implements OnInit {
   treatmentId: any;
+  createTreatmentView: boolean = false;
   userRole: any;
   treatment: Treatment = new Treatment();
-  createTreatmentView: boolean = false;
   fromDate: Date = new Date();
   toDate: Date = new Date();
   
@@ -25,7 +25,9 @@ export class TreatmentComponent implements OnInit {
       if (this.treatmentId.startsWith("0x") && this.treatmentId.length == 42) {
         this.createTreatmentView = true;
       }
-      this.getData();
+      else {
+        this.getData();
+      }
     }
   }
 

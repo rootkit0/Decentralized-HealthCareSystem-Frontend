@@ -1,1 +1,17 @@
-<p>medical-visit-list works!</p>
+<div class="example-container">
+  <h2 class="medical-visit-list-title">Medical visits</h2>
+  <mat-card *ngFor="let medicalVisit of medicalVisits" class="medical-visit-list-card">
+    <mat-card-title>Medical visit ID: {{ medicalVisit.medicalVisitId }}</mat-card-title>
+    <mat-card-subtitle>Date: {{ medicalVisit.dateVisit }}</mat-card-subtitle>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item>
+          Symptoms: {{ medicalVisit.symptoms }}
+        </mat-list-item>
+        <mat-list-item class="medical-visit-list-button">
+          <button mat-raised-button color="primary" routerLink="/medical-visit/{{ medicalVisit.medicalVisitId }}">Show medical visit!</button>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

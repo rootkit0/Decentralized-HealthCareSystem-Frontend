@@ -32,8 +32,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 
-.treatment-question {
-    margin-right: 20px;
+.treatment-button, button {
+  margin-right: 10px;
 }

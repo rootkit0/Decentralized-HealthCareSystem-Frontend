@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MedicalVisit } from '../models/medical-visit';
+import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
   selector: 'app-medical-visit-list',
@@ -6,10 +9,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./medical-visit-list.component.css']
 })
 export class MedicalVisitListComponent implements OnInit {
-
-  constructor() { }
+  paramAccount: any;
+  medicalVisits: MedicalVisit[] = [];
+  constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
   ngOnInit(): void {
+    this.paramAccount = this.activatedRoute.snapshot.params.id;
+    if (this.verifyRolePermission()) {
+      this.getData();
+    }
   }
 
+  private async verifyRolePermission() {
+    return true;
+  }
+
+  private async getData() {
+
+  }
 }
