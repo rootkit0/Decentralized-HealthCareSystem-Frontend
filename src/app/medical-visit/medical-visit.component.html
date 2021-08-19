@@ -34,8 +34,8 @@
           <mat-checkbox [(ngModel)]="medicalVisit.urgency" [ngModelOptions]="{standalone: true}">Is urgent?</mat-checkbox>
         </mat-list-item>
         <mat-list-item *ngIf="createMedicalVisitView" class="medical-visit-button">
-          <button mat-raised-button color="primary">Create medical visit!</button>
-          <button mat-raised-button color="primary">Clear data!</button>
+          <button mat-raised-button color="primary" (click)="createMedicalVisit()">Create medical visit!</button>
+          <button mat-raised-button color="primary" (click)="clearData()">Clear data!</button>
         </mat-list-item>
       </mat-list>
     </mat-card-content>

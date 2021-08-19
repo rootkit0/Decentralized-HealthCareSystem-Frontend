@@ -20,7 +20,7 @@ export class MedicalVisitListComponent implements OnInit {
     }
   }
 
-  private async verifyRolePermission() {
+  private verifyRolePermission(): boolean {
     return true;
   }
 

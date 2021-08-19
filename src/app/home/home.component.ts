@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit {
 
   private async getUserRole() {
     this.userRole = await this.blockchainService.readUserRole();
-    console.log(this.userRole);
   }
 
   logout(): void {
