@@ -2,7 +2,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnDestroy } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
-import { faBars, faSignInAlt, faSignOutAlt, faUserCircle, faUserPlus, faHeart, faFileMedical } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSignInAlt, faSignOutAlt, faUserCircle, faUserPlus, faHeart, faFileMedical, faBookMedical } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
 import { BlockchainService } from './services/blockchain.service';
@@ -24,6 +24,7 @@ export class AppComponent implements OnDestroy {
   faUserPlus = faUserPlus;
   faHeart = faHeart;
   faFileMedical = faFileMedical;
+  faBookMedical = faBookMedical;
   //Responsive stuff
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;

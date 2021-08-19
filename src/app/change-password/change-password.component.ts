@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BlockchainService } from '../services/blockchain.service';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-change-password',
@@ -8,9 +9,15 @@ import { BlockchainService } from '../services/blockchain.service';
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit {
+  hide = true;
+  hideRepeat = true;
+  hideOldPw = true;
+  //Declare view fields
   oldPassword: string = "";
   newPassword: string = "";
   repeatNewPassword: string = "";
+  //Icons
+  faEye = faEye;
 
   constructor(private blockchainService: BlockchainService, private location: Location) { }
 

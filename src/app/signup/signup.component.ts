@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { UserRoles } from '../models/user-roles';
 import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
 

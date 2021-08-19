@@ -24,8 +24,8 @@
         <mat-list-item *ngIf="userRole == 'patient'">
           <a><fa-icon [icon]="faFileMedical"></fa-icon> Request a medical visit</a>
         </mat-list-item>
-        <mat-list-item *ngIf="userRole == 'doctor'">
-          <a><fa-icon [icon]="faFileMedical"></fa-icon> My visits</a>
+        <mat-list-item *ngIf="userRole == 'patient' || userRole == 'doctor'">
+          <a><fa-icon [icon]="faBookMedical"></fa-icon> My visits</a>
         </mat-list-item>
         <mat-list-item (click)="logout()">
           <a><fa-icon [icon]="faSignOutAlt"></fa-icon> Log out</a>
