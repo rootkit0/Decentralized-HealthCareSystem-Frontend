@@ -11,7 +11,9 @@
                     </mat-list-item>
                     <mat-list-item>
                         <mat-form-field>
-                            <input matInput placeholder="Date of birth" [(ngModel)]="patient.dateOfBirth" [ngModelOptions]="{standalone: true}">
+                            <input matInput [value]="dateOfBirth.value" [matDatepicker]="picker" placeholder="Date of birth">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                     </mat-list-item>
                     <mat-list-item>

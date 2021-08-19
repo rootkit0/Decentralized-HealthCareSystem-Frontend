@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MedicalVisit } from '../models/medical-visit';
-import { UserRoles } from '../models/user-roles';
 import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class MedicalVisitComponent implements OnInit {
   userRole: any;
   medicalVisit: MedicalVisit = new MedicalVisit();
   medicalVisitDate: Date = new Date();
+  medicalVisitDateFormControl = new FormControl();
 
   constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
@@ -56,6 +57,8 @@ export class MedicalVisitComponent implements OnInit {
     this.medicalVisit.urgency = medicalVisitJSON.urgency;
     //Number to datetime
     this.medicalVisitDate.setTime(this.medicalVisit.dateVisit);
+    //Set date to formcontrol
+    this.medicalVisitDateFormControl = new FormControl(new Date(this.medicalVisitDate));
   }
 
   async createMedicalVisit() {

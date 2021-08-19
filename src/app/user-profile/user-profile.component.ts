@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Doctor } from '../models/doctor';
 import { Patient } from '../models/patient';
 import { UserRoles } from '../models/user-roles';
-import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class UserProfileComponent implements OnInit {
   userRole: any;
   patient: Patient = new Patient();
   doctor: Doctor = new Doctor();
+  dateOfBirth = new FormControl();
 
   constructor(private blockchainService: BlockchainService) {
     this.getData();

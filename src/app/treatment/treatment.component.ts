@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Treatment } from '../models/treatment';
 import { BlockchainService } from '../services/blockchain.service';
@@ -15,11 +16,14 @@ export class TreatmentComponent implements OnInit {
   treatment: Treatment = new Treatment();
   fromDate: Date = new Date();
   toDate: Date = new Date();
+  fromDateFormControl = new FormControl();
+  toDateFormControl = new FormControl();
   
   constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
   ngOnInit(): void {
     this.treatmentId = this.activatedRoute.snapshot.params.id;
+    this.getUserRole();
     if (this.verifyRolePermission()) {
       //Given parameter is an account then activate create view
       if (this.treatmentId.startsWith("0x") && this.treatmentId.length == 42) {
@@ -36,9 +40,12 @@ export class TreatmentComponent implements OnInit {
     return true;
   }
 
-  private async getData() {
+  private async getUserRole() {
     //Get user role
     this.userRole = await this.blockchainService.readUserRole();
+  }
+
+  private async getData() {
     if (!this.createTreatmentView) {
       //Set treatmentId from param
       this.treatment.treatmentId = this.treatmentId;
@@ -50,9 +57,12 @@ export class TreatmentComponent implements OnInit {
       this.treatment.fromDate = treatmentJSON.fromDate;
       this.treatment.toDate = treatmentJSON.toDate;
       this.treatment.bill = treatmentJSON.bill;
-      //Number to datetime
+      //Set dates
       this.fromDate.setTime(this.treatment.fromDate);
       this.toDate.setTime(this.treatment.toDate);
+      //Set the form controls datetime
+      this.fromDateFormControl = new FormControl(this.fromDate);
+      this.toDateFormControl = new FormControl(this.toDate);
     }
     else {
       //Set patientId from param
