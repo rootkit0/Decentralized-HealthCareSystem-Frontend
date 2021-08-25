@@ -286,7 +286,7 @@ export class BlockchainService {
   public async createMedicalVisit(  patientId: string,
                                     doctorId: string,
                                     dateVisit: number,
-                                    hourVisit: number,
+                                    hourVisit: string,
                                     symptoms: string,
                                     urgency: boolean) {
     try {
