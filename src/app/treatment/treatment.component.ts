@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +13,7 @@ import { BlockchainService } from '../services/blockchain.service';
 export class TreatmentComponent implements OnInit {
   treatmentId: any;
   createTreatmentView: boolean = false;
+  blockchainAccount: any;
   userRole: any;
   treatment: Treatment = new Treatment();
   fromDate: Date = new Date();
@@ -25,46 +25,60 @@ export class TreatmentComponent implements OnInit {
 
   async ngOnInit() {
     this.treatmentId = this.activatedRoute.snapshot.params.id;
-    await this.getUserRole();
-    //Given parameter is an account then activate create view
-    if (this.treatmentId.startsWith("0x") && this.treatmentId.length == 42) {
-      if(this.userRole == UserRoles.DOCTOR || this.userRole == UserRoles.ADMIN) {
+    this.blockchainAccount = await this.blockchainService.getDefaultAccount();
+    this.userRole = await this.blockchainService.readUserRole();
+    //Given parameter is an account
+    if(this.treatmentId.startsWith("0x") && this.treatmentId.length == 42) {
+      if(await this.verifyRolePermission(true)) {
         this.createTreatmentView = true;
+        //Fill patient and doctor accounts
+        this.treatment.patientId = this.treatmentId;
+        this.treatment.doctorId = this.blockchainAccount;
       }
     }
+    //Given parameter is an id
     else {
-      this.getData();
+      if(await this.verifyRolePermission(false)) {
+        this.getData();
+      }
     }
   }
 
-  private async getUserRole() {
-    //Get user role
-    this.userRole = await this.blockchainService.readUserRole();
+  private async verifyRolePermission(paramAccount: boolean) {
+    if(this.userRole == UserRoles.DOCTOR || this.userRole == UserRoles.ADMIN) {
+      return true;
+    }
+    else {
+      if(paramAccount) {
+        //Patients can't create treatments
+        return false;
+      }
+      else {
+        //Patients can only read it's treatments
+        var medicalRecordJSON: any = await this.blockchainService.readMedicalRecord(this.blockchainAccount);
+        var treatmentsIds: number[] = medicalRecordJSON.treatmentsIds;
+        if(treatmentsIds.includes(this.treatmentId)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private async getData() {
-    if (!this.createTreatmentView) {
-      //Set treatmentId from param
-      this.treatment.treatmentId = this.treatmentId;
-      //Get data
-      var treatmentJSON: any = await this.blockchainService.readTreatment(this.treatmentId);;
-      this.treatment.patientId = treatmentJSON.patientId;
-      this.treatment.diagnosis = treatmentJSON.diagnosis;
-      this.treatment.medicine = treatmentJSON.medicine;
-      //Set dates
-      this.fromDate.setTime(treatmentJSON.fromDate);
-      this.toDate.setTime(treatmentJSON.toDate);
-      //Set form controls
-      this.fromDateFormControl.setValue(this.fromDate);
-      this.toDateFormControl.setValue(this.toDate);
-      this.treatment.bill = treatmentJSON.bill;
-    }
-    else {
-      //Set patientId from param
-      this.treatment.patientId = this.treatmentId;
-    }
-    //Set doctorId to who is editing actually
-    this.treatment.doctorId = await this.blockchainService.getDefaultAccount();
+    var treatmentJSON: any = await this.blockchainService.readTreatment(this.treatmentId);;
+    this.treatment.treatmentId = this.treatmentId;
+    this.treatment.patientId = treatmentJSON.patientId;
+    this.treatment.doctorId = treatmentJSON.doctorId;
+    this.treatment.diagnosis = treatmentJSON.diagnosis;
+    this.treatment.medicine = treatmentJSON.medicine;
+    //Set dates
+    this.fromDate.setTime(treatmentJSON.fromDate);
+    this.toDate.setTime(treatmentJSON.toDate);
+    //Set form controls
+    this.fromDateFormControl.setValue(this.fromDate);
+    this.toDateFormControl.setValue(this.toDate);
+    this.treatment.bill = treatmentJSON.bill;
   }
 
   updateTreatment() {

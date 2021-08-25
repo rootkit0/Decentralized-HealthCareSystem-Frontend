@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MedicalVisit } from '../models/medical-visit';
+import { UserRoles } from '../models/user-roles';
 import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
@@ -12,6 +13,7 @@ import { BlockchainService } from '../services/blockchain.service';
 export class MedicalVisitComponent implements OnInit {
   medicalVisitId: any;
   createMedicalVisitView: boolean = false;
+  blockchainAccount: any;
   userRole: any;
   medicalVisit: MedicalVisit = new MedicalVisit();
   medicalVisitDate: Date = new Date();
@@ -19,20 +21,48 @@ export class MedicalVisitComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.medicalVisitId = this.activatedRoute.snapshot.params.id;
-    //Given parameter is an account then activate create view
+    this.blockchainAccount = await this.blockchainService.getDefaultAccount();
+    this.userRole = await this.blockchainService.readUserRole();
+    //Given parameter is an account
     if (this.medicalVisitId.startsWith("0x") && this.medicalVisitId.length == 42) {
-      this.createMedicalVisitView = true;
-      //Set patient ID
-      this.medicalVisit.patientId = this.medicalVisitId;
-      //Set doctor ID
-      this.getAssignedDoctor();
+      if(await this.verifyRolePermission(true)) {
+        this.createMedicalVisitView = true;
+        //Fill patient and doctor accounts
+        this.medicalVisit.patientId = this.medicalVisitId;
+        this.getAssignedDoctor();
+      }
+    }
+    //Given parameter is an id
+    else {
+      if(await this.verifyRolePermission(false)) {
+        this.getData();
+      }
+    }
+  }
+
+  private async verifyRolePermission(paramAccount: boolean) {
+    if(this.userRole == UserRoles.DOCTOR || this.userRole == UserRoles.ADMIN) {
+      return true;
     }
     else {
-      this.medicalVisit.medicalVisitId = this.medicalVisitId;
-      this.getData();
+      if(paramAccount) {
+        //Patients can only create visits for himself
+        if(this.medicalVisitId == this.blockchainAccount) {
+          return true;
+        }
+      }
+      else {
+        //Patients can only read visits created by himself
+        var medicalRecordJSON: any = await this.blockchainService.readMedicalRecord(this.blockchainAccount);
+        var medicalVisitsIds: number[] = medicalRecordJSON.medicalVisitsIds;
+        if(medicalVisitsIds.includes(this.medicalVisitId)) {
+          return true;
+        }
+      }
     }
+    return false;
   }
 
   private async getAssignedDoctor() {
@@ -41,8 +71,8 @@ export class MedicalVisitComponent implements OnInit {
   }
 
   private async getData() {
-    //Get data
-    var medicalVisitJSON: any = await this.blockchainService.readMedicalVisit(this.medicalVisitId);;
+    var medicalVisitJSON: any = await this.blockchainService.readMedicalVisit(this.medicalVisitId);
+    this.medicalVisit.medicalVisitId = this.medicalVisitId;
     this.medicalVisit.patientId = medicalVisitJSON.patientId;
     this.medicalVisit.doctorId = medicalVisitJSON.doctorId;
     //Set date form control
