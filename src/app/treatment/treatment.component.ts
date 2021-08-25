@@ -18,8 +18,8 @@ export class TreatmentComponent implements OnInit {
   treatment: Treatment = new Treatment();
   fromDate: Date = new Date();
   toDate: Date = new Date();
-  fromDateFormControl = new FormControl();
-  toDateFormControl = new FormControl();
+  fromDateFormControl: FormControl = new FormControl();
+  toDateFormControl: FormControl = new FormControl();
   
   constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 

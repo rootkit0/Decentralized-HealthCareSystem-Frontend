@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  validatePwdStrength(): boolean {
+  private validatePwdStrength(): boolean {
     if(this.password != this.repeatPassword) {
       console.log("Passwords don't match!");
       return false;

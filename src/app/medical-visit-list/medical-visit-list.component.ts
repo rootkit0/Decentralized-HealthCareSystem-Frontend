@@ -15,16 +15,12 @@ export class MedicalVisitListComponent implements OnInit {
   medicalVisits: MedicalVisit[] = [];
   constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.paramAccount = this.activatedRoute.snapshot.params.id;
-    this.getUserRole();
-    if(this.verifyRolePermission()) {
+    this.userRole = await this.blockchainService.readUserRole();
+    if(await this.verifyRolePermission()) {
       this.getData();
     }
-  }
-
-  private async getUserRole() {
-    this.userRole = await this.blockchainService.readUserRole();
   }
 
   private async verifyRolePermission() {
@@ -32,7 +28,7 @@ export class MedicalVisitListComponent implements OnInit {
       return true;
     }
     else {
-      //Patients can only view his data
+      //Patients can only read his data
       if(this.paramAccount == await this.blockchainService.getDefaultAccount()) {
         return true;
       }

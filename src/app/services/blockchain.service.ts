@@ -136,7 +136,7 @@ export class BlockchainService {
       var defaultAccount: any = await this.getDefaultAccount();
       var res: boolean = await this.authContract.methods.updateUserRole(userId, userRole).send({from: defaultAccount, gasPrice: "0"});
       if(res) {
-        //Create user instance depending on new role
+        //Create healthcare instance depending on new role
         const userRole = await this.readUserRoleById(userId);
         if(userRole == UserRoles.PATIENT) {
           await this.createPatient(userId);
