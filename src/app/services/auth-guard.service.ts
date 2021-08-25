@@ -28,7 +28,6 @@ export class AuthGuardService implements CanActivate {
     //Check that user is authenticated
     if(!this.authService.isAuthenticated()) {
       this.authService.removeToken();
-      this.router.navigate(["/login"]);
       window.location.reload();
       return false;
     }
@@ -47,10 +46,10 @@ export class AuthGuardService implements CanActivate {
         }
       }
       catch(err) {
-        this.router.navigate(['/home']);
         console.log(err);
       }
     }
+    this.router.navigate(['/home']);
     return false;
   }
 }

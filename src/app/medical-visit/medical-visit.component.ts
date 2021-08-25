@@ -46,7 +46,7 @@ export class MedicalVisitComponent implements OnInit {
     this.medicalVisit.doctorId = patientJSON.assignedDoctorId;
   }
 
-  async getData() {
+  private async getData() {
     //Get data
     var medicalVisitJSON: any = await this.blockchainService.readMedicalVisit(this.medicalVisitId);;
     this.medicalVisit.patientId = medicalVisitJSON.patientId;
@@ -65,9 +65,5 @@ export class MedicalVisitComponent implements OnInit {
     //Datetime to number
     this.medicalVisit.dateVisit = this.medicalVisitDate.getTime();
     this.blockchainService.createMedicalVisit(this.medicalVisit.patientId, this.medicalVisit.doctorId, this.medicalVisit.dateVisit, this.medicalVisit.hourVisit, this.medicalVisit.symptoms, this.medicalVisit.urgency);
-  }
-
-  clearData() {
-    this.medicalVisit = new MedicalVisit();
   }
 }

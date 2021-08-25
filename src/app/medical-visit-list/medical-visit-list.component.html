@@ -2,7 +2,7 @@
   <h2 class="medical-visit-list-title">Medical visits</h2>
   <mat-card *ngFor="let medicalVisit of medicalVisits" class="medical-visit-list-card">
     <mat-card-title>Medical visit ID: {{ medicalVisit.medicalVisitId }}</mat-card-title>
-    <mat-card-subtitle>Date: {{ medicalVisit.dateVisit }}</mat-card-subtitle>
+    <mat-card-subtitle>Date: {{ medicalVisit.dateVisitStr }}</mat-card-subtitle>
     <mat-card-content>
       <mat-list>
         <mat-list-item>

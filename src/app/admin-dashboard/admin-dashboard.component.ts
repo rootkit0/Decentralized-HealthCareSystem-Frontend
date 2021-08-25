@@ -11,22 +11,37 @@ import { BlockchainService } from '../services/blockchain.service';
 export class AdminDashboardComponent implements OnInit {
   newRoleAddress: any;
   newRole: string = "";
-  patients: Patient[] = [];
   doctors: Doctor[] = [];
+  patients: Patient[] = [];
   
   constructor(private blockchainService: BlockchainService) {
-    this.getPatients();
-    this.getDoctors();
+    this.getData();
   }
 
   ngOnInit(): void {
   }
 
-  updateUserRole() {
-    this.blockchainService.updateUserRole(this.newRoleAddress, this.newRole);
-  }
-
-  private async getPatients() {
+  private async getData() {
+    //Get doctors
+    var doctorAddresses: any[] = await this.blockchainService.getDoctorAddresses();
+    for(var doctorAddress of doctorAddresses) {
+      //For each entry get doctor data
+      var doctorJSON: any = await this.blockchainService.readDoctor(doctorAddress);
+      //Parse obtained data to recognizable object
+      var doctor: Doctor = new Doctor();
+      doctor.doctorId = doctorAddress;
+      doctor.name = doctorJSON.name;
+      doctor.email = doctorJSON.email;
+      doctor.phone = doctorJSON.phone;
+      doctor.homeAddress = doctorJSON.homeAddress;
+      doctor.city = doctorJSON.city;
+      doctor.postalCode = doctorJSON.postalCode;
+      doctor.medicalSpeciality = doctorJSON.medicalSpeciality;
+      doctor.assignedHospital = doctorJSON.assignedHospital;
+      doctor.assignedPatientsIds = doctorJSON.assignedPatientsIds;
+      this.doctors.push(doctor);
+    }
+    //Get patients
     var patientAddresses: any[] = await this.blockchainService.getPatientAddresses();
     for(var patientAddress of patientAddresses) {
       //For each entry get patient data
@@ -46,24 +61,7 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  private async getDoctors() {
-    var doctorAddresses: any[] = await this.blockchainService.getDoctorAddresses();
-    for(var doctorAddress of doctorAddresses) {
-      //For each entry get doctor data
-      var doctorJSON: any = await this.blockchainService.readDoctor(doctorAddress);
-      //Parse obtained data to recognizable object
-      var doctor: Doctor = new Doctor();
-      doctor.doctorId = doctorAddress;
-      doctor.name = doctorJSON.name;
-      doctor.email = doctorJSON.email;
-      doctor.phone = doctorJSON.phone;
-      doctor.homeAddress = doctorJSON.homeAddress;
-      doctor.city = doctorJSON.city;
-      doctor.postalCode = doctorJSON.postalCode;
-      doctor.medicalSpeciality = doctorJSON.medicalSpeciality;
-      doctor.assignedHospital = doctorJSON.assignedHospital;
-      doctor.assignedPatientsIds = doctorJSON.assignedPatientsIds;
-      this.doctors.push(doctor);
-    }
+  updateUserRole() {
+    this.blockchainService.updateUserRole(this.newRoleAddress, this.newRole);
   }
 }

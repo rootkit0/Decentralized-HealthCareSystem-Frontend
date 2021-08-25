@@ -2,7 +2,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnDestroy } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
-import { faBars, faSignInAlt, faSignOutAlt, faUserCircle, faUserPlus, faHeart, faFileMedical, faBookMedical } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSignInAlt, faUserPlus, faSignOutAlt, faUserCircle, faUserShield, faKey, faHeart, faFileMedical, faBookMedical, faUserMd } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
 import { BlockchainService } from './services/blockchain.service';
@@ -18,13 +18,16 @@ export class AppComponent implements OnDestroy {
   userRole: any;
   //Icons
   faBars = faBars;
-  faUserCircle = faUserCircle;
-  faSignOutAlt = faSignOutAlt;
   faSignInAlt = faSignInAlt;
   faUserPlus = faUserPlus;
+  faSignOutAlt = faSignOutAlt;
+  faUserCircle = faUserCircle;
+  faUserShield = faUserShield;
+  faKey = faKey;
   faHeart = faHeart;
   faFileMedical = faFileMedical;
   faBookMedical = faBookMedical;
+  faUserMd = faUserMd;
   //Responsive stuff
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
@@ -53,7 +56,6 @@ export class AppComponent implements OnDestroy {
 
   logout(): void {
     this.authService.removeToken();
-    this.router.navigate(["/login"]);
     window.location.reload();
   }
 }

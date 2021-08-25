@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Doctor } from '../models/doctor';
 import { Patient } from '../models/patient';
+import { Doctor } from '../models/doctor';
 import { UserRoles } from '../models/user-roles';
 import { BlockchainService } from '../services/blockchain.service';
 
@@ -15,7 +15,8 @@ export class UserProfileComponent implements OnInit {
   userRole: any;
   patient: Patient = new Patient();
   doctor: Doctor = new Doctor();
-  dateOfBirth = new FormControl();
+  dateOfBirth: Date = new Date();
+  dateOfBirthFormControl: FormControl = new FormControl();
 
   constructor(private blockchainService: BlockchainService) {
     this.getData();
@@ -34,7 +35,8 @@ export class UserProfileComponent implements OnInit {
       var patientJSON: any = await this.blockchainService.readPatient(this.blockchainAccount);
       this.patient.patientId = patientJSON.patientId;
       this.patient.name = patientJSON.name;
-      this.patient.dateOfBirth = patientJSON.dateOfBirth;
+      this.dateOfBirth = new Date(patientJSON.dateOfBirth);
+      this.dateOfBirthFormControl = new FormControl(this.dateOfBirth);
       this.patient.email = patientJSON.email;
       this.patient.phone = patientJSON.phone;
       this.patient.homeAddress = patientJSON.homeAddress;
@@ -58,6 +60,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   updatePatient() {
+    this.patient.dateOfBirth = new Date(this.dateOfBirthFormControl.value).getTime();
     this.blockchainService.updatePatient(this.blockchainAccount, this.patient.name, this.patient.dateOfBirth, this.patient.email, this.patient.phone, this.patient.homeAddress, this.patient.city, this.patient.postalCode);
   }
 

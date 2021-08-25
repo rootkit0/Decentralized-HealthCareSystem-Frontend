@@ -19,9 +19,14 @@
                     <mat-list-item>
                         <p>Welcome to the healthcare app, you can access your data!</p>
                     </mat-list-item>
-                    <mat-list-item class="home-button" *ngIf="userRole == 'patient' || userRole == 'doctor'">
+                    <mat-list-item class="home-button" *ngIf="userRole == 'patient'">
                         <button mat-raised-button color="primary" routerLink="/user-profile">My profile</button>
                         <button mat-raised-button color="primary" routerLink="/medical-record/{{ blockchainAccount }}">Medical record</button>
+                        <button mat-raised-button color="primary" (click)="logout()">Log out</button>
+                    </mat-list-item>
+                    <mat-list-item class="home-button" *ngIf="userRole == 'doctor'">
+                        <button mat-raised-button color="primary" routerLink="/user-profile">My profile</button>
+                        <button mat-raised-button color="primary" routerLink="/patient-list/{{ blockchainAccount }}">My patients</button>
                         <button mat-raised-button color="primary" (click)="logout()">Log out</button>
                     </mat-list-item>
                     <mat-list-item class="home-button" *ngIf="userRole == 'admin'">

@@ -1,7 +1,7 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
   <mat-toolbar color="primary" class="example-toolbar">
     <fa-icon [icon]="faBars" (click)="snav.toggle()"></fa-icon>
-    <h1 class="example-app-name" routerLink="/">Decentralized Healthcare System</h1>
+    <h1 class="example-app-name" routerLink="/home">Decentralized Healthcare System</h1>
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
@@ -15,11 +15,20 @@
         </mat-list-item>
       </mat-nav-list>
       <mat-nav-list *ngIf="isAuthenticated">
-        <mat-list-item routerLink="/user-profile">
+        <mat-list-item *ngIf="userRole != 'admin'" routerLink="/user-profile">
           <a><fa-icon [icon]="faUserCircle"></fa-icon> My profile</a>
+        </mat-list-item>
+        <mat-list-item *ngIf="userRole == 'admin'" routerLink="/admin-dashboard">
+          <a><fa-icon [icon]="faUserShield"></fa-icon> Administrator dashboard</a>
+        </mat-list-item>
+        <mat-list-item routerLink="/change-password">
+          <a><fa-icon [icon]="faKey"></fa-icon> Change password</a>
         </mat-list-item>
         <mat-list-item *ngIf="userRole != 'admin'" routerLink="/medical-record/{{ blockchainAccount }}">
           <a><fa-icon [icon]="faHeart"></fa-icon> Medical record</a>
+        </mat-list-item>
+        <mat-list-item *ngIf="userRole == 'doctor'" routerLink="/patient-list/{{ blockchainAccount }}">
+          <a><fa-icon [icon]="faUserMd"></fa-icon> My patients</a>
         </mat-list-item>
         <mat-list-item *ngIf="userRole == 'patient'" routerLink="/medical-visit/{{ blockchainAccount }}">
           <a><fa-icon [icon]="faFileMedical"></fa-icon> Request medical visit</a>

@@ -14,29 +14,25 @@ export class HomeComponent implements OnInit {
   userRole: any;
 
   constructor(private authService: AuthService, private blockchainService: BlockchainService, private router: Router) {
-    //Get blockchain account
-    this.getBlockchainAccount();
-    //Check authentication and get user role
-    this.isAuthenticated = this.authService.isAuthenticated();
-    if(this.isAuthenticated) {
-      this.getUserRole();
-    }
+    this.getData();
   }
 
   ngOnInit(): void {
   }
 
-  private async getBlockchainAccount() {
+  private async getData() {
+    //Get blockchain account
     this.blockchainAccount = await this.blockchainService.getDefaultAccount();
-  }
-
-  private async getUserRole() {
-    this.userRole = await this.blockchainService.readUserRole();
+    //Check auth
+    this.isAuthenticated = this.authService.isAuthenticated();
+    //Get user role
+    if(this.isAuthenticated) {
+      this.userRole = await this.blockchainService.readUserRole();
+    }
   }
 
   logout(): void {
     this.authService.removeToken();
-    this.router.navigate(["/login"]);
     window.location.reload();
   }
 }

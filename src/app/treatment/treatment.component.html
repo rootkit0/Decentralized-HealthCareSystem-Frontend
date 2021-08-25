@@ -2,94 +2,89 @@
     <mat-card class="treatment-card">
         <mat-card-content *ngIf="userRole == 'patient'">
             <h2 class="treatment-title">View treatment</h2>
-            <form>
-                <mat-list class="treatment-list">
-                    <mat-list-item>
-                        <mat-form-field>
-                            <input disabled matInput placeholder="Patient ID" [(ngModel)]="treatment.patientId" [ngModelOptions]="{standalone: true}">
-                        </mat-form-field>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-form-field>
-                            <input disabled matInput placeholder="Doctor ID" [(ngModel)]="treatment.doctorId" [ngModelOptions]="{standalone: true}">
-                        </mat-form-field>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-form-field>
-                            <textarea disabled matInput placeholder="Diagnosis" [(ngModel)]="treatment.diagnosis" [ngModelOptions]="{standalone: true}"></textarea>
-                        </mat-form-field>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-form-field>
-                            <textarea disabled matInput placeholder="Medicines" [(ngModel)]="treatment.medicine" [ngModelOptions]="{standalone: true}"></textarea>
-                        </mat-form-field>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-form-field>
-                            <input disabled matInput [value]="fromDateFormControl.value" [matDatepicker]="picker" placeholder="Choose treatment start date">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-form-field>
-                            <input disabled matInput [value]="toDateFormControl.value" [matDatepicker]="picker2" placeholder="Choose treatment end date">
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                        </mat-form-field>
-                    </mat-list-item>
-                </mat-list>
-            </form>
+            <mat-list class="treatment-list">
+                <mat-list-item>
+                    <mat-form-field>
+                        <input disabled matInput placeholder="Patient ID" [(ngModel)]="treatment.patientId" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-form-field>
+                        <input disabled matInput placeholder="Doctor ID" [(ngModel)]="treatment.doctorId" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-form-field>
+                        <textarea disabled matInput placeholder="Diagnosis" [(ngModel)]="treatment.diagnosis" [ngModelOptions]="{standalone: true}"></textarea>
+                    </mat-form-field>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-form-field>
+                        <textarea disabled matInput placeholder="Medicines" [(ngModel)]="treatment.medicine" [ngModelOptions]="{standalone: true}"></textarea>
+                    </mat-form-field>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-form-field>
+                        <input disabled matInput [value]="fromDateFormControl.value" [matDatepicker]="picker" placeholder="Choose treatment start date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-form-field>
+                        <input disabled matInput [value]="toDateFormControl.value" [matDatepicker]="picker2" placeholder="Choose treatment end date">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </mat-list-item>
+            </mat-list>
         </mat-card-content>
         <mat-card-content *ngIf="userRole == 'doctor' || userRole == 'admin'">
             <h2 *ngIf="createTreatmentView" class="treatment-title">Create treatment</h2>
             <h2 *ngIf="!createTreatmentView" class="treatment-title">Edit treatment</h2>
-            <form>
-              <mat-list class="treatment-list">
-                <mat-list-item>
-                  <mat-form-field>
-                    <input matInput placeholder="Patient ID" [(ngModel)]="treatment.patientId" [ngModelOptions]="{standalone: true}">
-                  </mat-form-field>
-                </mat-list-item>
-                <mat-list-item>
-                  <mat-form-field>
-                    <input matInput placeholder="Doctor ID" [(ngModel)]="treatment.doctorId" [ngModelOptions]="{standalone: true}">
-                  </mat-form-field>
-                </mat-list-item>
-                <mat-list-item>
-                  <mat-form-field>
-                    <textarea matInput placeholder="Diagnosis" [(ngModel)]="treatment.diagnosis" [ngModelOptions]="{standalone: true}"></textarea>
-                  </mat-form-field>
-                </mat-list-item>
-                <mat-list-item>
-                  <mat-form-field>
-                    <textarea matInput placeholder="Medicines" [(ngModel)]="treatment.medicine" [ngModelOptions]="{standalone: true}"></textarea>
-                  </mat-form-field>
-                </mat-list-item>
-                <mat-list-item>
-                  <mat-form-field>
-                    <input matInput [value]="fromDateFormControl.value" [matDatepicker]="picker" placeholder="Choose treatment start date">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
-                </mat-list-item>
-                <mat-list-item>
-                  <mat-form-field>
-                    <input matInput [value]="toDateFormControl.value" [matDatepicker]="picker2" placeholder="Choose treatment end date">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                  </mat-form-field>
-                </mat-list-item>
-                <mat-list-item *ngIf="createTreatmentView" class="treatment-button">
-                  <button mat-raised-button color="primary" (click)="createTreatment()">Create treatment!</button>
-                  <button mat-raised-button color="primary" (click)="clearData()">Clear data!</button>
-                </mat-list-item>
-                <mat-list-item *ngIf="!createTreatmentView" class="treatment-button">
-                  <button mat-raised-button color="primary" (click)="updateTreatment()">Edit treatment!</button>
-                  <button mat-raised-button color="primary" (click)="clearData()">Clear data!</button>
-                </mat-list-item>
-              </mat-list>
-            </form>
+            <mat-list class="treatment-list">
+              <mat-list-item>
+                <mat-form-field>
+                  <input *ngIf="createTreatmentView" matInput placeholder="Patient ID" [(ngModel)]="treatment.patientId" [ngModelOptions]="{standalone: true}">
+                  <input *ngIf="!createTreatmentView" disabled matInput placeholder="Patient ID" [(ngModel)]="treatment.patientId" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-form-field>
+                  <input matInput placeholder="Doctor ID" [(ngModel)]="treatment.doctorId" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-form-field>
+                  <textarea matInput placeholder="Diagnosis" [(ngModel)]="treatment.diagnosis" [ngModelOptions]="{standalone: true}"></textarea>
+                </mat-form-field>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-form-field>
+                  <textarea matInput placeholder="Medicines" [(ngModel)]="treatment.medicine" [ngModelOptions]="{standalone: true}"></textarea>
+                </mat-form-field>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-form-field>
+                  <input matInput [value]="fromDateFormControl.value" [matDatepicker]="picker" placeholder="Choose treatment start date">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-form-field>
+                  <input matInput [value]="toDateFormControl.value" [matDatepicker]="picker2" placeholder="Choose treatment end date">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+              </mat-list-item>
+              <mat-list-item *ngIf="createTreatmentView" class="treatment-button">
+                <button mat-raised-button color="primary" (click)="createTreatment()">Create treatment!</button>
+              </mat-list-item>
+              <mat-list-item *ngIf="!createTreatmentView" class="treatment-button">
+                <button mat-raised-button color="primary" (click)="updateTreatment()">Edit treatment!</button>
+              </mat-list-item>
+            </mat-list>
         </mat-card-content>
     </mat-card>
 </div>

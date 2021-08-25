@@ -3,6 +3,7 @@ export class MedicalVisit {
   patientId!: string;
   doctorId!: string;
   dateVisit!: number;
+  dateVisitStr!: string;
   hourVisit!: number;
   symptoms!: string;
   urgency!: boolean;
@@ -12,6 +13,7 @@ export class MedicalVisit {
     this.patientId = "";
     this.doctorId = "";
     this.dateVisit = 0;
+    this.dateVisitStr = "";
     this.hourVisit = 0;
     this.symptoms = "";
     this.urgency = false;

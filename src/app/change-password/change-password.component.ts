@@ -9,6 +9,7 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit {
+  //State of hide/show for each field
   hide = true;
   hideRepeat = true;
   hideOldPw = true;
@@ -16,7 +17,7 @@ export class ChangePasswordComponent implements OnInit {
   oldPassword: string = "";
   newPassword: string = "";
   repeatNewPassword: string = "";
-  //Icons
+  //Icon
   faEye = faEye;
 
   constructor(private blockchainService: BlockchainService, private location: Location) { }
@@ -24,7 +25,7 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  validatePwdStrength(): boolean {
+  private validatePwdStrength(): boolean {
     if(this.newPassword != this.repeatNewPassword) {
       console.log("Passwords don't match!");
       return false;

@@ -85,8 +85,4 @@ export class TreatmentComponent implements OnInit {
     this.treatment.toDate = this.toDate.getTime();
     this.blockchainService.createTreatment(this.treatmentId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
   }
-
-  clearData() {
-    this.treatment = new Treatment();
-  }
 }
