@@ -21,24 +21,18 @@ export class MedicalVisitComponent implements OnInit {
 
   ngOnInit(): void {
     this.medicalVisitId = this.activatedRoute.snapshot.params.id;
-    if (this.verifyRolePermission()) {
-      //Given parameter is an account then activate create view
-      if (this.medicalVisitId.startsWith("0x") && this.medicalVisitId.length == 42) {
-        this.createMedicalVisitView = true;
-        //Set patient ID
-        this.medicalVisit.patientId = this.medicalVisitId;
-        //Set doctor ID
-        this.getAssignedDoctor();
-      }
-      else {
-        this.medicalVisit.medicalVisitId = this.medicalVisitId;
-        this.getData();
-      }
+    //Given parameter is an account then activate create view
+    if (this.medicalVisitId.startsWith("0x") && this.medicalVisitId.length == 42) {
+      this.createMedicalVisitView = true;
+      //Set patient ID
+      this.medicalVisit.patientId = this.medicalVisitId;
+      //Set doctor ID
+      this.getAssignedDoctor();
     }
-  }
-
-  private verifyRolePermission(): boolean {
-    return true;
+    else {
+      this.medicalVisit.medicalVisitId = this.medicalVisitId;
+      this.getData();
+    }
   }
 
   private async getAssignedDoctor() {
@@ -51,19 +45,16 @@ export class MedicalVisitComponent implements OnInit {
     var medicalVisitJSON: any = await this.blockchainService.readMedicalVisit(this.medicalVisitId);;
     this.medicalVisit.patientId = medicalVisitJSON.patientId;
     this.medicalVisit.doctorId = medicalVisitJSON.doctorId;
-    this.medicalVisit.dateVisit = medicalVisitJSON.dateVisit;
+    //Set date form control
+    this.medicalVisitDate.setTime(medicalVisitJSON.dateVisit);
+    this.medicalVisitDateFormControl.setValue(this.medicalVisitDate);
     this.medicalVisit.hourVisit = medicalVisitJSON.hourVisit;
     this.medicalVisit.symptoms = medicalVisitJSON.symptoms;
     this.medicalVisit.urgency = medicalVisitJSON.urgency;
-    //Number to datetime
-    this.medicalVisitDate.setTime(this.medicalVisit.dateVisit);
-    //Set date to formcontrol
-    this.medicalVisitDateFormControl = new FormControl(new Date(this.medicalVisitDate));
   }
 
-  async createMedicalVisit() {
-    //Datetime to number
-    this.medicalVisit.dateVisit = this.medicalVisitDate.getTime();
+  createMedicalVisit() {
+    this.medicalVisit.dateVisit = new Date(this.medicalVisitDateFormControl.value).getTime();
     this.blockchainService.createMedicalVisit(this.medicalVisit.patientId, this.medicalVisit.doctorId, this.medicalVisit.dateVisit, this.medicalVisit.hourVisit, this.medicalVisit.symptoms, this.medicalVisit.urgency);
   }
 }

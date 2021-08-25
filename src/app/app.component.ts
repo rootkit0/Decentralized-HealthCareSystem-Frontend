@@ -13,9 +13,12 @@ import { BlockchainService } from './services/blockchain.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnDestroy {
-  isAuthenticated: boolean = false;
   blockchainAccount: any;
+  isAuthenticated: boolean = false;
   userRole: any;
+  //Responsive stuff
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
   //Icons
   faBars = faBars;
   faSignInAlt = faSignInAlt;
@@ -28,18 +31,13 @@ export class AppComponent implements OnDestroy {
   faFileMedical = faFileMedical;
   faBookMedical = faBookMedical;
   faUserMd = faUserMd;
-  //Responsive stuff
-  mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private authService: AuthService, private blockchainService: BlockchainService, private router: Router) {
     //Responsive stuff
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
-    //Check authentication
-    this.isAuthenticated = this.authService.isAuthenticated();
-    //Get blockchain account
+    //Get data
     this.getData();
   }
 
@@ -50,8 +48,12 @@ export class AppComponent implements OnDestroy {
   private async getData() {
     //Get blockchain account
     this.blockchainAccount = await this.blockchainService.getDefaultAccount();
+    //Check auth
+    this.isAuthenticated = this.authService.isAuthenticated();
     //Get user role
-    this.userRole = await this.blockchainService.readUserRole();
+    if(this.isAuthenticated) {
+      this.userRole = await this.blockchainService.readUserRole();
+    }
   }
 
   logout(): void {

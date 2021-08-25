@@ -1,7 +1,9 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Treatment } from '../models/treatment';
+import { UserRoles } from '../models/user-roles';
 import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
@@ -21,23 +23,18 @@ export class TreatmentComponent implements OnInit {
   
   constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.treatmentId = this.activatedRoute.snapshot.params.id;
-    this.getUserRole();
-    if (this.verifyRolePermission()) {
-      //Given parameter is an account then activate create view
-      if (this.treatmentId.startsWith("0x") && this.treatmentId.length == 42) {
+    await this.getUserRole();
+    //Given parameter is an account then activate create view
+    if (this.treatmentId.startsWith("0x") && this.treatmentId.length == 42) {
+      if(this.userRole == UserRoles.DOCTOR || this.userRole == UserRoles.ADMIN) {
         this.createTreatmentView = true;
       }
-      else {
-        this.getData();
-      }
     }
-  }
-
-  private async verifyRolePermission() {
-    //Testing purposes
-    return true;
+    else {
+      this.getData();
+    }
   }
 
   private async getUserRole() {
@@ -54,15 +51,13 @@ export class TreatmentComponent implements OnInit {
       this.treatment.patientId = treatmentJSON.patientId;
       this.treatment.diagnosis = treatmentJSON.diagnosis;
       this.treatment.medicine = treatmentJSON.medicine;
-      this.treatment.fromDate = treatmentJSON.fromDate;
-      this.treatment.toDate = treatmentJSON.toDate;
-      this.treatment.bill = treatmentJSON.bill;
       //Set dates
-      this.fromDate.setTime(this.treatment.fromDate);
-      this.toDate.setTime(this.treatment.toDate);
-      //Set the form controls datetime
-      this.fromDateFormControl = new FormControl(this.fromDate);
-      this.toDateFormControl = new FormControl(this.toDate);
+      this.fromDate.setTime(treatmentJSON.fromDate);
+      this.toDate.setTime(treatmentJSON.toDate);
+      //Set form controls
+      this.fromDateFormControl.setValue(this.fromDate);
+      this.toDateFormControl.setValue(this.toDate);
+      this.treatment.bill = treatmentJSON.bill;
     }
     else {
       //Set patientId from param
@@ -73,16 +68,14 @@ export class TreatmentComponent implements OnInit {
   }
 
   updateTreatment() {
-    //Datetime to number
-    this.treatment.fromDate = this.fromDate.getTime();
-    this.treatment.toDate = this.toDate.getTime();
+    this.treatment.fromDate = new Date(this.fromDateFormControl.value).getTime();
+    this.treatment.toDate = new Date(this.toDateFormControl.value).getTime();
     this.blockchainService.updateTreatment(this.treatmentId, this.treatment.patientId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
   }
 
   createTreatment() {
-    //Datetime to number
-    this.treatment.fromDate = this.fromDate.getTime();
-    this.treatment.toDate = this.toDate.getTime();
+    this.treatment.fromDate = new Date(this.fromDateFormControl.value).getTime();
+    this.treatment.toDate = new Date(this.toDateFormControl.value).getTime();
     this.blockchainService.createTreatment(this.treatmentId, this.treatment.doctorId, this.treatment.diagnosis, this.treatment.medicine, this.treatment.fromDate, this.treatment.toDate, this.treatment.bill);
   }
 }

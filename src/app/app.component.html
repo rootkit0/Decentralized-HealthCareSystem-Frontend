@@ -15,7 +15,7 @@
         </mat-list-item>
       </mat-nav-list>
       <mat-nav-list *ngIf="isAuthenticated">
-        <mat-list-item *ngIf="userRole != 'admin'" routerLink="/user-profile">
+        <mat-list-item *ngIf="userRole == 'patient' || userRole == 'doctor'" routerLink="/user-profile">
           <a><fa-icon [icon]="faUserCircle"></fa-icon> My profile</a>
         </mat-list-item>
         <mat-list-item *ngIf="userRole == 'admin'" routerLink="/admin-dashboard">
@@ -24,7 +24,7 @@
         <mat-list-item routerLink="/change-password">
           <a><fa-icon [icon]="faKey"></fa-icon> Change password</a>
         </mat-list-item>
-        <mat-list-item *ngIf="userRole != 'admin'" routerLink="/medical-record/{{ blockchainAccount }}">
+        <mat-list-item *ngIf="userRole == 'patient' || userRole == 'doctor'" routerLink="/medical-record/{{ blockchainAccount }}">
           <a><fa-icon [icon]="faHeart"></fa-icon> Medical record</a>
         </mat-list-item>
         <mat-list-item *ngIf="userRole == 'doctor'" routerLink="/patient-list/{{ blockchainAccount }}">

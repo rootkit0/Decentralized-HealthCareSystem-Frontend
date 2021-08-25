@@ -19,25 +19,28 @@ export class MedicalRecordComponent implements OnInit {
   
   constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.paramAccount = this.activatedRoute.snapshot.params.id;
-    this.getUserRole();
-    if(this.verifyRolePermission()) {
+    this.userRole = await this.blockchainService.readUserRole();
+    if(await this.verifyRolePermission()) {
       this.getData();
     }
   }
 
-  private async getUserRole() {
-    this.userRole = await this.blockchainService.readUserRole();
-  }
-
   private async verifyRolePermission() {
-    //Testing purposes
-    return true;
+    if(this.userRole == UserRoles.DOCTOR || this.userRole == UserRoles.ADMIN) {
+      return true;
+    }
+    else {
+      //Patients can only read his data
+      if(this.paramAccount == await this.blockchainService.getDefaultAccount()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private async getData() {
-    //Get data
     var medicalRecordJSON: any = await this.blockchainService.readMedicalRecord(this.paramAccount);
     this.medicalRecord.medicalRecordId = this.paramAccount;
     this.medicalRecord.medications = medicalRecordJSON.medications;
@@ -47,9 +50,10 @@ export class MedicalRecordComponent implements OnInit {
     this.medicalRecord.bloodType = medicalRecordJSON.bloodType;
     this.medicalRecord.hasInsurance = medicalRecordJSON.hasInsurance;
     this.medicalRecord.treatmentsIds = medicalRecordJSON.treatmentsIds;
+    this.medicalRecord.medicalVisitsIds = medicalRecordJSON.medicalVisitsIds;
   }
 
   updateMedicalRecord() {
-    this.blockchainService.updateMedicalRecord(this.medicalRecord.medicalRecordId, this.medicalRecord.medications, this.medicalRecord.allergies, this.medicalRecord.illnesses, this.medicalRecord.immunizations, this.medicalRecord.bloodType, this.medicalRecord.hasInsurance, this.medicalRecord.treatmentsIds);
+    this.blockchainService.updateMedicalRecord(this.medicalRecord.medicalRecordId, this.medicalRecord.medications, this.medicalRecord.allergies, this.medicalRecord.illnesses, this.medicalRecord.immunizations, this.medicalRecord.bloodType, this.medicalRecord.hasInsurance, this.medicalRecord.treatmentsIds, this.medicalRecord.medicalVisitsIds);
   }
 }

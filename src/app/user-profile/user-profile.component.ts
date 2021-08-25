@@ -35,8 +35,9 @@ export class UserProfileComponent implements OnInit {
       var patientJSON: any = await this.blockchainService.readPatient(this.blockchainAccount);
       this.patient.patientId = patientJSON.patientId;
       this.patient.name = patientJSON.name;
-      this.dateOfBirth = new Date(patientJSON.dateOfBirth);
-      this.dateOfBirthFormControl = new FormControl(this.dateOfBirth);
+      //Set date form control
+      this.dateOfBirth.setTime(patientJSON.dateOfBirth);
+      this.dateOfBirthFormControl.setValue(this.dateOfBirth);
       this.patient.email = patientJSON.email;
       this.patient.phone = patientJSON.phone;
       this.patient.homeAddress = patientJSON.homeAddress;
@@ -44,7 +45,7 @@ export class UserProfileComponent implements OnInit {
       this.patient.postalCode = patientJSON.postalCode;
       this.patient.assignedDoctorId = patientJSON.assignedDoctorId;
     }
-    else if(this.userRole == UserRoles.DOCTOR) {
+    if(this.userRole == UserRoles.DOCTOR) {
       var doctorJSON: any = await this.blockchainService.readDoctor(this.blockchainAccount);
       this.doctor.doctorId = doctorJSON.doctorId;
       this.doctor.name = doctorJSON.name;

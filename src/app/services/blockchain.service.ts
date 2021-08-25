@@ -235,10 +235,11 @@ export class BlockchainService {
                                     immunizations: string,
                                     bloodType: string,
                                     hasInsurance: boolean,
-                                    treatmentsIds: number[]) {
+                                    treatmentsIds: number[],
+                                    medicalVisitsIds: number[]) {
       try {
         var defaultAccount: any = await this.getDefaultAccount();
-        await this.healthcareContract.methods.updateMedicalRecord(medicalRecordId, medications, allergies, illnesses, immunizations, bloodType, hasInsurance, treatmentsIds).send({from: defaultAccount, gasPrice: "0"});  
+        await this.healthcareContract.methods.updateMedicalRecord(medicalRecordId, medications, allergies, illnesses, immunizations, bloodType, hasInsurance, treatmentsIds, medicalVisitsIds).send({from: defaultAccount, gasPrice: "0"});  
       }
       catch(err) {
         console.log(err);

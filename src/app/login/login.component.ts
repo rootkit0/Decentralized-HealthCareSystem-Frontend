@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   //Icons
   faEye = faEye;
   
-  constructor(private authService: AuthService, private blockchainService: BlockchainService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private blockchainService: BlockchainService) {
     if(this.authService.isAuthenticated()) {
       this.router.navigate(["/home"]);
     }

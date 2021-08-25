@@ -41,7 +41,7 @@ export class AuthGuardService implements CanActivate {
         if(this.userRole == UserRoles.DOCTOR && allowedUserRole == UserRoles.DOCTOR) {
           return true;
         }
-        if(this.userRole == UserRoles.PATIENT && (allowedUserRole == UserRoles.DOCTOR || allowedUserRole == UserRoles.PATIENT)) {
+        if(this.userRole == UserRoles.PATIENT && allowedUserRole == UserRoles.PATIENT) {
           return true;
         }
       }

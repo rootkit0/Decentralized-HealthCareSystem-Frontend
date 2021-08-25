@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MedicalVisit } from '../models/medical-visit';
+import { UserRoles } from '../models/user-roles';
 import { BlockchainService } from '../services/blockchain.service';
 
 @Component({
@@ -10,18 +11,33 @@ import { BlockchainService } from '../services/blockchain.service';
 })
 export class MedicalVisitListComponent implements OnInit {
   paramAccount: any;
+  userRole: string = "";
   medicalVisits: MedicalVisit[] = [];
   constructor(private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
   ngOnInit(): void {
     this.paramAccount = this.activatedRoute.snapshot.params.id;
-    if (this.verifyRolePermission()) {
+    this.getUserRole();
+    if(this.verifyRolePermission()) {
       this.getData();
     }
   }
 
-  private verifyRolePermission(): boolean {
-    return true;
+  private async getUserRole() {
+    this.userRole = await this.blockchainService.readUserRole();
+  }
+
+  private async verifyRolePermission() {
+    if(this.userRole == UserRoles.DOCTOR || this.userRole == UserRoles.ADMIN) {
+      return true;
+    }
+    else {
+      //Patients can only view his data
+      if(this.paramAccount == await this.blockchainService.getDefaultAccount()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private async getData() {
